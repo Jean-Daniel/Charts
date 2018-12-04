@@ -85,7 +85,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataText = "No chart data available."
     
     /// Font to be used for the no data text.
-    @objc open var noDataFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
+    @objc open var noDataFont: NSUIFont! = NSUIFont.systemFont(ofSize: 12.0)
     
     /// color of the no data text
     @objc open var noDataTextColor: NSUIColor = NSUIColor.labelColor

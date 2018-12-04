@@ -21,54 +21,13 @@ open class PieChartView: PieRadarChartViewBase
 {
     /// rect object that represents the bounds of the piechart, needed for drawing the circle
     private var _circleBox = CGRect()
-    
-    /// flag indicating if entry labels should be drawn or not
-    private var _drawEntryLabelsEnabled = true
-    
+
     /// array that holds the width of each pie-slice in degrees
     private var _drawAngles = [CGFloat]()
     
     /// array that holds the absolute angle in degrees of each slice
     private var _absoluteAngles = [CGFloat]()
-    
-    /// if true, the hole inside the chart will be drawn
-    private var _drawHoleEnabled = true
-    
-    private var _holeColor: NSUIColor? = NSUIColor.white
-    
-    /// Sets the color the entry labels are drawn with.
-    private var _entryLabelColor: NSUIColor? = NSUIColor.white
-    
-    /// Sets the font the entry labels are drawn with.
-    private var _entryLabelFont: NSUIFont? = NSUIFont(name: "HelveticaNeue", size: 13.0)
-    
-    /// if true, the hole will see-through to the inner tips of the slices
-    private var _drawSlicesUnderHoleEnabled = false
-    
-    /// if true, the values inside the piechart are drawn as percent values
-    private var _usePercentValuesEnabled = false
-    
-    /// variable for the text that is drawn in the center of the pie-chart
-    private var _centerAttributedText: NSAttributedString?
-    
-    /// the offset on the x- and y-axis the center text has in dp.
-    private var _centerTextOffset: CGPoint = CGPoint()
-    
-    /// indicates the size of the hole in the center of the piechart
-    ///
-    /// **default**: `0.5`
-    private var _holeRadiusPercent = CGFloat(0.5)
-    
-    private var _transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
-    
-    /// the radius of the transparent circle next to the chart-hole in the center
-    private var _transparentCircleRadiusPercent = CGFloat(0.55)
-    
-    /// if enabled, centertext is drawn
-    private var _drawCenterTextEnabled = true
-    
-    private var _centerTextRadiusPercent: CGFloat = 1.0
-    
+
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
 
@@ -160,9 +119,9 @@ open class PieChartView: PieRadarChartViewBase
         
         var off = r / 10.0 * 3.6
         
-        if self.isDrawHoleEnabled
+        if self.drawsHole
         {
-            off = (r - (r * self.holeRadiusPercent)) / 2.0
+            off = (r - (r * self.holeRadiusRatio)) / 2.0
         }
         
         r -= off // offset to keep things inside the chart
@@ -313,62 +272,23 @@ open class PieChartView: PieRadarChartViewBase
     /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
     /// - Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-    @objc open var holeColor: NSUIColor?
+    @objc open var holeColor: NSUIColor? = NSUIColor.white
     {
-        get
-        {
-            return _holeColor
-        }
-        set
-        {
-            _holeColor = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// if true, the hole will see-through to the inner tips of the slices
     ///
     /// **default**: `false`
-    @objc open var drawSlicesUnderHoleEnabled: Bool
+    @objc open var drawsSlicesUnderHole: Bool = false
     {
-        get
-        {
-            return _drawSlicesUnderHoleEnabled
-        }
-        set
-        {
-            _drawSlicesUnderHoleEnabled = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// `true` if the inner tips of the slices are visible behind the hole, `false` if not.
-    @objc open var isDrawSlicesUnderHoleEnabled: Bool
-    {
-        return drawSlicesUnderHoleEnabled
+      didSet { setNeedsDisplay() }
     }
     
     /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
-    @objc open var drawHoleEnabled: Bool
+    @objc open var drawsHole: Bool = true
     {
-        get
-        {
-            return _drawHoleEnabled
-        }
-        set
-        {
-            _drawHoleEnabled = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
-    @objc open var isDrawHoleEnabled: Bool
-    {
-        get
-        {
-            return drawHoleEnabled
-        }
+      didSet { setNeedsDisplay() }
     }
     
     /// the text that is displayed in the center of the pie-chart
@@ -410,52 +330,19 @@ open class PieChartView: PieRadarChartViewBase
     /// the text that is displayed in the center of the pie-chart
     @objc open var centerAttributedText: NSAttributedString?
     {
-        get
-        {
-            return _centerAttributedText
-        }
-        set
-        {
-            _centerAttributedText = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// Sets the offset the center text should have from it's original position in dp. Default x = 0, y = 0
-    @objc open var centerTextOffset: CGPoint
+    @objc open var centerTextOffset: CGPoint = CGPoint.zero
     {
-        get
-        {
-            return _centerTextOffset
-        }
-        set
-        {
-            _centerTextOffset = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// `true` if drawing the center text is enabled
-    @objc open var drawCenterTextEnabled: Bool
+    @objc open var drawsCenterText: Bool = true
     {
-        get
-        {
-            return _drawCenterTextEnabled
-        }
-        set
-        {
-            _drawCenterTextEnabled = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// `true` if drawing the center text is enabled
-    @objc open var isDrawCenterTextEnabled: Bool
-    {
-        get
-        {
-            return drawCenterTextEnabled
-        }
+        didSet { setNeedsDisplay() }
     }
     
     internal override var requiredLegendOffset: CGFloat
@@ -488,133 +375,75 @@ open class PieChartView: PieRadarChartViewBase
     /// the radius of the hole in the center of the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
     /// **default**: 0.5 (50%) (half the pie)
+    var holeRadiusRatio: CGFloat = CGFloat(0.5)
+    {
+      didSet { setNeedsDisplay() }
+    }
+
     @objc open var holeRadiusPercent: CGFloat
     {
-        get
-        {
-            return _holeRadiusPercent
-        }
-        set
-        {
-            _holeRadiusPercent = newValue
-            setNeedsDisplay()
-        }
+      get { return holeRadiusRatio * 100 }
+      set { holeRadiusRatio = newValue / 100 }
     }
-    
+
     /// The color that the transparent-circle should have.
     ///
     /// **default**: `nil`
-    @objc open var transparentCircleColor: NSUIColor?
+    @objc open var transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
     {
-        get
-        {
-            return _transparentCircleColor
-        }
-        set
-        {
-            _transparentCircleColor = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// the radius of the transparent circle that is drawn next to the hole in the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
     /// **default**: 0.55 (55%) -> means 5% larger than the center-hole by default
+    var transparentCircleRadiusRatio: CGFloat = CGFloat(0.55)
+    {
+      didSet { setNeedsDisplay() }
+    }
+
     @objc open var transparentCircleRadiusPercent: CGFloat
     {
-        get
-        {
-            return _transparentCircleRadiusPercent
-        }
-        set
-        {
-            _transparentCircleRadiusPercent = newValue
-            setNeedsDisplay()
-        }
+      get { return transparentCircleRadiusRatio * 100 }
+      set { transparentCircleRadiusRatio = newValue / 100 }
     }
-        
+
     /// The color the entry labels are drawn with.
-    @objc open var entryLabelColor: NSUIColor?
+    @objc open var entryLabelColor: NSUIColor? = NSUIColor.white
     {
-        get { return _entryLabelColor }
-        set
-        {
-            _entryLabelColor = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// The font the entry labels are drawn with.
-    @objc open var entryLabelFont: NSUIFont?
+    @objc open var entryLabelFont: NSUIFont? = NSUIFont.systemFont(ofSize: 13.0)
     {
-        get { return _entryLabelFont }
-        set
-        {
-            _entryLabelFont = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// Set this to true to draw the enrty labels into the pie slices
-    @objc open var drawEntryLabelsEnabled: Bool
+    @objc open var drawsEntryLabels: Bool = true
     {
-        get
-        {
-            return _drawEntryLabelsEnabled
-        }
-        set
-        {
-            _drawEntryLabelsEnabled = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// `true` if drawing entry labels is enabled, `false` ifnot
-    @objc open var isDrawEntryLabelsEnabled: Bool
-    {
-        get
-        {
-            return drawEntryLabelsEnabled
-        }
+        didSet { setNeedsDisplay() }
     }
     
     /// If this is enabled, values inside the PieChart are drawn in percent and not with their original value. Values provided for the ValueFormatter to format are then provided in percent.
-    @objc open var usePercentValuesEnabled: Bool
+    @objc open var usesPercentValues: Bool = false
     {
-        get
-        {
-            return _usePercentValuesEnabled
-        }
-        set
-        {
-            _usePercentValuesEnabled = newValue
-            setNeedsDisplay()
-        }
+        didSet { setNeedsDisplay() }
     }
-    
-    /// `true` if drawing x-values is enabled, `false` ifnot
-    @objc open var isUsePercentValuesEnabled: Bool
-    {
-        get
-        {
-            return usePercentValuesEnabled
-        }
-    }
-    
+
     /// the rectangular radius of the bounding box for the center text, as a percentage of the pie hole
+    var centerTextRadiusRatio: CGFloat = 1.0
+    {
+      didSet { setNeedsDisplay() }
+    }
+
     @objc open var centerTextRadiusPercent: CGFloat
     {
-        get
-        {
-            return _centerTextRadiusPercent
-        }
-        set
-        {
-            _centerTextRadiusPercent = newValue
-            setNeedsDisplay()
-        }
+        get { return centerTextRadiusRatio * 100 }
+        set { centerTextRadiusRatio = newValue / 100 }
     }
-    
+
     /// The max angle that is used for calculating the pie-circle.
     /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
     /// **default**: 360.0

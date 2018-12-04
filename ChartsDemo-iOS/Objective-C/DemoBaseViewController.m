@@ -262,7 +262,7 @@
 {
     chartView.usePercentValuesEnabled = YES;
     chartView.drawSlicesUnderHoleEnabled = NO;
-    chartView.holeRadiusPercent = 0.58;
+    chartView.holeRadiusPercent = 58;
     chartView.transparentCircleRadiusPercent = 0.61;
     chartView.chartDescription.enabled = NO;
     [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];

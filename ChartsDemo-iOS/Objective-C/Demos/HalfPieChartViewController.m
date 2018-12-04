@@ -46,7 +46,7 @@
     
     _chartView.holeColor = UIColor.whiteColor;
     _chartView.transparentCircleColor = [UIColor.whiteColor colorWithAlphaComponent:0.43];
-    _chartView.holeRadiusPercent = 0.58;
+    _chartView.holeRadiusPercent = 58;
     _chartView.rotationEnabled = NO;
     _chartView.highlightPerTapEnabled = YES;
     
