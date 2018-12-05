@@ -36,14 +36,4 @@ public struct Range
             return false
         }
     }
-    
-    public func isLarger(_ value: Double) -> Bool
-    {
-        return value > to
-    }
-    
-    public func isSmaller(_ value: Double) -> Bool
-    {
-        return value < from
-    }
 }

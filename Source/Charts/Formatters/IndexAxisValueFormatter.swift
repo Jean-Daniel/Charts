@@ -12,7 +12,7 @@
 import Foundation
 
 /// This formatter is used for passing an array of x-axis labels, on whole x steps.
-open class IndexAxisValueFormatter: IAxisValueFormatter
+open class IndexAxisValueFormatter: AxisValueFormatter
 {
     private var _values: [String] = [String]()
     private var _valueCount: Int = 0
@@ -33,7 +33,7 @@ open class IndexAxisValueFormatter: IAxisValueFormatter
     public init()
     {
     }
-    
+        
     public init(values: [String])
     {
         self.values = values

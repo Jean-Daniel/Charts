@@ -31,5 +31,5 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     var scatterShapeHoleColor: NSUIColor? { get }
     
     /// The IShapeRenderer responsible for rendering this DataSet.
-    var shapeRenderer: IShapeRenderer? { get }
+    var shapeRenderer: ShapeRenderer? { get }
 }

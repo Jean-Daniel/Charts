@@ -11,9 +11,9 @@
 import Foundation
 import CoreGraphics
 
-open class CrossShapeRenderer: IShapeRenderer
+public struct CrossShapeRenderer: ShapeRenderer
 {
-    open func renderShape(
+    public func renderShape(
         context: CGContext,
         dataSet: IScatterChartDataSet,
         viewPortHandler: ViewPortHandler,

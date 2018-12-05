@@ -814,7 +814,7 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            if !self.isHighLightPerTapEnabled { return }
+            if !self.highlightsPerTap { return }
             
             let location = recognizer.location(in: self)
             

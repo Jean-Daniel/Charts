@@ -60,10 +60,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData?
-    
-    /// Flag that indicates if highlighting per tap (touch) is enabled
-    private var _highlightPerTapEnabled = true
-    
+
     /// If set to true, chart continues to scroll after touch up
     open var dragDecelerationEnabled = true
     
@@ -104,7 +101,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// object responsible for rendering the data
     open var renderer: DataRenderer?
     
-    open var highlighter: IHighlighter?
+    open var highlighter: Highlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ViewPortHandler!
@@ -120,14 +117,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
-    open var drawMarkers = true
-    
-    /// - Returns: `true` if drawing the marker is enabled when tapping on values
-    /// (use the `marker` property to specify a marker)
-    open var isDrawMarkersEnabled: Bool { return drawMarkers }
+    open var drawsMarkers = true
     
     /// The marker that is displayed when a value is clicked on the chart
-    open var marker: IMarker?
+    open var marker: Marker?
     
     private var _interceptTouchEvents = false
     
@@ -392,17 +385,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
     /// **default**: true
-    open var highlightPerTapEnabled: Bool
-    {
-        get { return _highlightPerTapEnabled }
-        set { _highlightPerTapEnabled = newValue }
-    }
-    
-    /// `true` if values can be highlighted via tap gesture, `false` ifnot.
-    open var isHighLightPerTapEnabled: Bool
-    {
-        return highlightPerTapEnabled
-    }
+    open var highlightsPerTap: Bool = true
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
     ///
@@ -578,9 +561,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         // if there is no marker view or drawing marker is disabled
         guard
-            let marker = marker
-            , isDrawMarkersEnabled &&
-                valuesToHighlight()
+            let marker = marker,
+            drawsMarkers && valuesToHighlight()
             else { return }
         
         for i in 0 ..< _indicesToHighlight.count

@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class DefaultAxisValueFormatter: IAxisValueFormatter
+open class DefaultAxisValueFormatter: AxisValueFormatter
 {
     public typealias Block = (
         _ value: Double,

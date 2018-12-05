@@ -11,9 +11,9 @@
 import Foundation
 import CoreGraphics
 
-open class SquareShapeRenderer: IShapeRenderer
+public struct SquareShapeRenderer: ShapeRenderer
 {
-    open func renderShape(
+    public func renderShape(
         context: CGContext,
         dataSet: IScatterChartDataSet,
         viewPortHandler: ViewPortHandler,

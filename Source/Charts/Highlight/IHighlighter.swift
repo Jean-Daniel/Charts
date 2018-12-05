@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public protocol IHighlighter: class
+public protocol Highlighter
 {
     /// - Parameters:
     ///   - x:

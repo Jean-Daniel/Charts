@@ -209,7 +209,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         guard
             let marker = marker, 
-            isDrawMarkersEnabled && valuesToHighlight()
+            drawsMarkers && valuesToHighlight()
             else { return }
         
         for i in 0 ..< _indicesToHighlight.count
