@@ -522,7 +522,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
     private var _decelerationLastTime: TimeInterval = 0.0
-    private var _decelerationDisplayLink: NSUIDisplayLink!
+    private var _decelerationDisplayLink: DisplayLink!
     private var _decelerationVelocity = CGPoint()
     
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
@@ -770,12 +770,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 if recognizer.state == NSUIGestureRecognizerState.ended && isDragDecelerationEnabled
                 {
                     stopDeceleration()
-                    
-                    _decelerationLastTime = CACurrentMediaTime()
+
                     _decelerationVelocity = recognizer.velocity(in: self)
                     
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+                    _decelerationDisplayLink = DisplayLink(callback: self.decelerationLoop)
+                    _decelerationLastTime = _decelerationDisplayLink.start()
                 }
                 
                 _isDragging = false
@@ -830,21 +829,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     open func stopDeceleration()
     {
-        if _decelerationDisplayLink !== nil
-        {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoop.Mode.common)
-            _decelerationDisplayLink = nil
-        }
+        _decelerationDisplayLink?.stop()
+        _decelerationDisplayLink = nil
     }
     
-    @objc private func decelerationLoop()
+    private func decelerationLoop(_ targetTime: TimeInterval)
     {
-        let currentTime = CACurrentMediaTime()
-        
         _decelerationVelocity.x *= self.dragDecelerationFrictionCoef
         _decelerationVelocity.y *= self.dragDecelerationFrictionCoef
         
-        let timeInterval = CGFloat(currentTime - _decelerationLastTime)
+        let timeInterval = CGFloat(targetTime - _decelerationLastTime)
         
         let distance = CGPoint(
             x: _decelerationVelocity.x * timeInterval,
@@ -858,7 +852,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             _decelerationVelocity.y = 0.0
         }
         
-        _decelerationLastTime = currentTime
+        _decelerationLastTime = targetTime
         
         if abs(_decelerationVelocity.x) < 0.001 && abs(_decelerationVelocity.y) < 0.001
         {

@@ -19,7 +19,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     private var _candleData: CandleChartData!
     private var _bubbleData: BubbleChartData!
 
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]? = nil)
     {
         super.init(dataSets: dataSets)
     }

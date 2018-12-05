@@ -232,14 +232,14 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     }
     
     func setup(pieChartView chartView: PieChartView) {
-        chartView.usePercentValuesEnabled = true
-        chartView.drawSlicesUnderHoleEnabled = false
+        chartView.usesPercentValues = true
+        chartView.drawsSlicesUnderHole = false
         chartView.holeRadiusPercent = 58
         chartView.transparentCircleRadiusPercent = 0.61
         chartView.chartDescription?.enabled = false
         chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
         
-        chartView.drawCenterTextEnabled = true
+        chartView.drawsCenterText = true
         
         let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.lineBreakMode = .byTruncatingTail
@@ -254,10 +254,10 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
                                   .foregroundColor : UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)], range: NSRange(location: centerText.length - 19, length: 19))
         chartView.centerAttributedText = centerText;
         
-        chartView.drawHoleEnabled = true
+        chartView.drawsHole = true
         chartView.rotationAngle = 0
         chartView.rotationEnabled = true
-        chartView.highlightPerTapEnabled = true
+        chartView.highlightsPerTap = true
         
         let l = chartView.legend
         l.horizontalAlignment = .right

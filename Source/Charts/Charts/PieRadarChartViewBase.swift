@@ -478,7 +478,7 @@ open class PieRadarChartViewBase: ChartViewBase
     private var _velocitySamples = [AngularVelocitySample]()
     
     private var _decelerationLastTime: TimeInterval = 0.0
-    private var _decelerationDisplayLink: NSUIDisplayLink!
+    private var _decelerationDisplayLink: DisplayLink!
     private var _decelerationAngularVelocity: CGFloat = 0.0
     
     internal final func processRotationGestureBegan(location: CGPoint)
@@ -530,9 +530,8 @@ open class PieRadarChartViewBase: ChartViewBase
             
             if _decelerationAngularVelocity != 0.0
             {
-                _decelerationLastTime = CACurrentMediaTime()
-                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+                _decelerationDisplayLink = DisplayLink{ self.decelerationLoop($0) }
+                _decelerationLastTime = _decelerationDisplayLink.start()
             }
         }
     }
@@ -766,24 +765,19 @@ open class PieRadarChartViewBase: ChartViewBase
     
     open func stopDeceleration()
     {
-        if _decelerationDisplayLink !== nil
-        {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoop.Mode.common)
-            _decelerationDisplayLink = nil
-        }
+        _decelerationDisplayLink?.stop()
+        _decelerationDisplayLink = nil
     }
     
-    @objc private func decelerationLoop()
+    private func decelerationLoop(_ targetTime: TimeInterval)
     {
-        let currentTime = CACurrentMediaTime()
-        
         _decelerationAngularVelocity *= self.dragDecelerationFrictionCoef
         
-        let timeInterval = CGFloat(currentTime - _decelerationLastTime)
+        let timeInterval = CGFloat(targetTime - _decelerationLastTime)
         
         self.rotationAngle += _decelerationAngularVelocity * timeInterval
         
-        _decelerationLastTime = currentTime
+        _decelerationLastTime = targetTime
         
         if(abs(_decelerationAngularVelocity) < 0.001)
         {
@@ -855,9 +849,8 @@ open class PieRadarChartViewBase: ChartViewBase
                 
                 if _decelerationAngularVelocity != 0.0
                 {
-                    _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+                    _decelerationDisplayLink = DisplayLink(callback: self.decelerationLoop)
+                    _decelerationLastTime = _decelerationDisplayLink.start()
                 }
             }
         }

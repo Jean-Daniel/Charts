@@ -40,11 +40,7 @@ class CombinedChartViewController: DemoBaseViewController {
         chartView.highlightFullBarEnabled = false
         
         
-        chartView.drawOrder = [DrawOrder.bar,
-                               DrawOrder.bubble,
-                               DrawOrder.candle,
-                               DrawOrder.line,
-                               DrawOrder.scatter]
+        chartView.drawOrder = [.bar, .bubble, .candle, .line, .scatter]
         
         let l = chartView.legend
         l.wordWrapEnabled = true

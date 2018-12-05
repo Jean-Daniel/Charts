@@ -39,7 +39,7 @@ open class Animator
     
     private var _startTimeX: TimeInterval = 0.0
     private var _startTimeY: TimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink?
+    private var _displayLink: DisplayLink?
     
     private var _durationX: TimeInterval = 0.0
     private var _durationY: TimeInterval = 0.0
@@ -67,7 +67,7 @@ open class Animator
     {
         guard _displayLink != nil else { return }
 
-        _displayLink?.remove(from: .main, forMode: RunLoop.Mode.common)
+        _displayLink?.stop()
         _displayLink = nil
 
         _enabledX = false
@@ -116,16 +116,14 @@ open class Animator
         }
     }
     
-    @objc private func animationLoop()
+  private func animationLoop(_ targetTime: TimeInterval)
     {
-        let currentTime: TimeInterval = CACurrentMediaTime()
-        
-        updateAnimationPhases(currentTime)
+        updateAnimationPhases(targetTime)
 
         delegate?.animatorUpdated(self)
         updateBlock?()
         
-        if currentTime >= _endTime
+        if targetTime >= _endTime
         {
             stop()
         }
@@ -161,8 +159,8 @@ open class Animator
         
         if _enabledX || _enabledY
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-            _displayLink?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+          _displayLink = DisplayLink(callback: self.animationLoop)
+            let _ = _displayLink?.start()
         }
     }
     
@@ -222,11 +220,10 @@ open class Animator
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
         
-        if _enabledX || _enabledY,
-            _displayLink == nil
+        if _enabledX || _enabledY, _displayLink == nil
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-            _displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
+            _displayLink = DisplayLink(callback: self.animationLoop)
+            let _ = _displayLink?.start()
         }
     }
     
@@ -263,8 +260,8 @@ open class Animator
         if _enabledX || _enabledY,
             _displayLink == nil
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-            _displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
+            _displayLink = DisplayLink(callback: self.animationLoop)
+            let _ = _displayLink?.start()
         }
     }
     

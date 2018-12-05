@@ -39,7 +39,7 @@ class HalfPieChartViewController: DemoBaseViewController {
         chartView.transparentCircleColor = NSUIColor.white.withAlphaComponent(0.43)
         chartView.holeRadiusPercent = 58
         chartView.rotationEnabled = false
-        chartView.highlightPerTapEnabled = true
+        chartView.highlightsPerTap = true
         
         chartView.maxAngle = 180 // Half chart
         chartView.rotationAngle = 180 // Rotate to make the half on the upper side
@@ -105,19 +105,19 @@ class HalfPieChartViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleXValues:
-            chartView.drawEntryLabelsEnabled = !chartView.drawEntryLabelsEnabled
+            chartView.drawsEntryLabels.toggle()
             chartView.setNeedsDisplay()
             
         case .togglePercent:
-            chartView.usePercentValuesEnabled = !chartView.usePercentValuesEnabled
+            chartView.usesPercentValues.toggle()
             chartView.setNeedsDisplay()
             
         case .toggleHole:
-            chartView.drawHoleEnabled = !chartView.drawHoleEnabled
+            chartView.drawsHole.toggle()
             chartView.setNeedsDisplay()
             
         case .drawCenter:
-            chartView.drawCenterTextEnabled = !chartView.drawCenterTextEnabled
+            chartView.drawsCenterText.toggle()
             chartView.setNeedsDisplay()
             
         case .animateX:

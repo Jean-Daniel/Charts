@@ -23,7 +23,7 @@ open class AnimatedViewPortJob: ViewPortJob
     internal var yOrigin: CGFloat = 0.0
     
     private var _startTime: TimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink!
+    private var _displayLink: DisplayLink?
     private var _duration: TimeInterval = 0.0
     private var _endTime: TimeInterval = 0.0
     
@@ -64,21 +64,19 @@ open class AnimatedViewPortJob: ViewPortJob
     
     open func start()
     {
-        _startTime = CACurrentMediaTime()
+        _displayLink = DisplayLink(callback: self.animationLoop)
+        _startTime = _displayLink!.start()
         _endTime = _startTime + _duration
         _endTime = _endTime > _endTime ? _endTime : _endTime
-        
+
         updateAnimationPhase(_startTime)
-        
-        _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-        _displayLink.add(to: .main, forMode: RunLoop.Mode.common)
     }
     
     open func stop(finish: Bool)
     {
         guard _displayLink != nil else { return }
 
-        _displayLink.remove(from: .main, forMode: RunLoop.Mode.common)
+        _displayLink?.stop()
         _displayLink = nil
 
         if finish
@@ -104,15 +102,13 @@ open class AnimatedViewPortJob: ViewPortJob
         phase = CGFloat(_easing?(elapsed, duration) ?? elapsed / duration)
     }
     
-    @objc private func animationLoop()
+    private func animationLoop(_ targetTime: TimeInterval)
     {
-        let currentTime: TimeInterval = CACurrentMediaTime()
-        
-        updateAnimationPhase(currentTime)
+        updateAnimationPhase(targetTime)
         
         animationUpdate()
         
-        if currentTime >= _endTime
+        if targetTime >= _endTime
         {
             stop(finish: true)
         }
