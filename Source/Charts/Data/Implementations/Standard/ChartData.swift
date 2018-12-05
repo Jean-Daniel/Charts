@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartData: NSObject
+open class ChartData
 {
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
     internal var _yMin: Double = Double.greatestFiniteMagnitude
@@ -24,17 +24,8 @@ open class ChartData: NSObject
     
     internal var _dataSets = [IChartDataSet]()
     
-    public override init()
+    public init(dataSets: [IChartDataSet]? = nil)
     {
-        super.init()
-        
-        _dataSets = [IChartDataSet]()
-    }
-    
-    public init(dataSets: [IChartDataSet]?)
-    {
-        super.init()
-        
         _dataSets = dataSets ?? [IChartDataSet]()
         
         self.initialize(dataSets: _dataSets)
@@ -42,7 +33,7 @@ open class ChartData: NSObject
     
     public convenience init(dataSet: IChartDataSet?)
     {
-        self.init(dataSets: dataSet === nil ? nil : [dataSet!])
+      self.init(dataSets: dataSet.map { [$0] })
     }
     
     internal func initialize(dataSets: [IChartDataSet])
@@ -777,4 +768,11 @@ open class ChartData: NSObject
     /// If the data entry value is a count, set this to true to allow plurals and other grammatical changes
     /// **default**: false
     open var accessibilityEntryLabelSuffixIsCount: Bool = false
+}
+
+extension ChartData : Equatable {
+  public static func == (lhs: ChartData, rhs: ChartData) -> Bool {
+    return lhs === rhs
+  }
+
 }

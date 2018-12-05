@@ -292,13 +292,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         
     
-        if _defaultValueFormatter is DefaultValueFormatter
+        if let defaultValueFormatter = _defaultValueFormatter as? DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
             let digits = reference.decimalPlaces
             
-            (_defaultValueFormatter as? DefaultValueFormatter)?.decimals
-             = digits
+            defaultValueFormatter.decimals = digits
         }
     }
     

@@ -168,13 +168,6 @@ open class Highlight
         self.drawX = pt.x
         self.drawY = pt.y
     }
-
-    // MARK: NSObject
-    
-//    open override var description: String
-//    {
-//        return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
-//    }
 }
 
 

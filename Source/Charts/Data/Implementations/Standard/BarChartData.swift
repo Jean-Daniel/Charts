@@ -14,12 +14,7 @@ import CoreGraphics
 
 open class BarChartData: BarLineScatterCandleBubbleChartData
 {
-    public override init()
-    {
-        super.init()
-    }
-    
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]? = nil)
     {
         super.init(dataSets: dataSets)
     }

@@ -29,12 +29,7 @@ open class RadarChartData: ChartData
         self.labels = labels
     }
     
-    public override init()
-    {
-        super.init()
-    }
-    
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]? = nil)
     {
         super.init(dataSets: dataSets)
     }

@@ -527,7 +527,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
-        if _data === nil
+        if _data == nil
         {
             return
         }
@@ -553,14 +553,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc private func doubleTapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
-        if _data === nil
+        if _data == nil
         {
             return
         }
         
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            if _data !== nil && _doubleTapToZoomEnabled && (data?.entryCount ?? 0) > 0
+            if let data = _data, _doubleTapToZoomEnabled && data.entryCount > 0
             {
                 var location = recognizer.location(in: self)
                 location.x = location.x - _viewPortHandler.offsetLeft
@@ -586,7 +586,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             stopDeceleration()
             
-            if _data !== nil &&
+            if _data != nil &&
                 (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled)
             {
                 _isScaling = true
@@ -676,7 +676,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             stopDeceleration()
             
-            if _data === nil || !self.isDragEnabled
+            if _data == nil || !self.isDragEnabled
             { // If we have no data, we have nothing to pan and no data to highlight
                 return
             }
@@ -875,7 +875,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         if gestureRecognizer == _panGestureRecognizer
         {
             let velocity = _panGestureRecognizer.velocity(in: self)
-            if _data === nil || !isDragEnabled ||
+            if _data == nil || !isDragEnabled ||
                 (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled) ||
                 (!_dragYEnabled && abs(velocity.y) > abs(velocity.x)) ||
                 (!_dragXEnabled && abs(velocity.y) < abs(velocity.x))
@@ -888,7 +888,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             #if !os(tvOS)
                 if gestureRecognizer == _pinchGestureRecognizer
                 {
-                    if _data === nil || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled)
+                    if _data == nil || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled)
                     {
                         return false
                     }
@@ -1722,7 +1722,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// The current x-scale factor
     open var scaleX: CGFloat
     {
-        if _viewPortHandler === nil
+        if _viewPortHandler == nil
         {
             return 1.0
         }
@@ -1732,7 +1732,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// The current y-scale factor
     open var scaleY: CGFloat
     {
-        if _viewPortHandler === nil
+        if _viewPortHandler == nil
         {
             return 1.0
         }
