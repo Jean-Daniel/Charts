@@ -14,9 +14,8 @@ import CoreGraphics
 
 open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
 {
-    
-    @objc(ScatterShape)
-    public enum Shape: Int
+
+    public enum Shape
     {
         case square
         case circle
@@ -40,7 +39,7 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     
     /// Sets the ScatterShape this DataSet should be drawn with.
     /// This will search for an available IShapeRenderer and set this renderer for the DataSet
-    @objc open func setScatterShape(_ shape: Shape)
+    open func setScatterShape(_ shape: Shape)
     {
         self.shapeRenderer = ScatterChartDataSet.renderer(forShape: shape)
     }
@@ -50,7 +49,7 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     /// **default**: `SquareShapeRenderer`
     open var shapeRenderer: IShapeRenderer? = SquareShapeRenderer()
     
-    @objc open class func renderer(forShape shape: Shape) -> IShapeRenderer
+    open class func renderer(forShape shape: Shape) -> IShapeRenderer
     {
         switch shape
         {
@@ -62,17 +61,5 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
         case .chevronUp: return ChevronUpShapeRenderer()
         case .chevronDown: return ChevronDownShapeRenderer()
         }
-    }
-    
-    // MARK: NSCopying
-    
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! ScatterChartDataSet
-        copy.scatterShapeSize = scatterShapeSize
-        copy.scatterShapeHoleRadius = scatterShapeHoleRadius
-        copy.scatterShapeHoleColor = scatterShapeHoleColor
-        copy.shapeRenderer = shapeRenderer
-        return copy
     }
 }

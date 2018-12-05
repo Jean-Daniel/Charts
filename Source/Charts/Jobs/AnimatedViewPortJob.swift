@@ -29,7 +29,7 @@ open class AnimatedViewPortJob: ViewPortJob
     
     private var _easing: ChartEasingFunctionBlock?
     
-    @objc public init(
+    public init(
         viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
@@ -62,7 +62,7 @@ open class AnimatedViewPortJob: ViewPortJob
         start()
     }
     
-    @objc open func start()
+    open func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -74,7 +74,7 @@ open class AnimatedViewPortJob: ViewPortJob
         _displayLink.add(to: .main, forMode: RunLoop.Mode.common)
     }
     
-    @objc open func stop(finish: Bool)
+    open func stop(finish: Bool)
     {
         guard _displayLink != nil else { return }
 

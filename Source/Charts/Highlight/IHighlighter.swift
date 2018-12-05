@@ -12,7 +12,6 @@
 import Foundation
 import CoreGraphics
 
-@objc(IChartHighlighter)
 public protocol IHighlighter: class
 {
     /// - Parameters:

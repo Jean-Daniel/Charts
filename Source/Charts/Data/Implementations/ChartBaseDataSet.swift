@@ -13,21 +13,17 @@ import Foundation
 import CoreGraphics
 
 
-open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
+open class ChartBaseDataSet: IChartDataSet
 {
-    public required override init()
+    public required init()
     {
-        super.init()
-        
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
         valueColors.append(NSUIColor.labelColor)
     }
     
-    @objc public init(label: String?)
+    public init(label: String?)
     {
-        super.init()
-        
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
         valueColors.append(NSUIColor.labelColor)
@@ -241,7 +237,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// - Parameters:
     ///   - color: the color to set
     ///   - alpha: alpha to apply to the set `color`
-    @objc open func setColor(_ color: NSUIColor, alpha: CGFloat)
+    open func setColor(_ color: NSUIColor, alpha: CGFloat)
     {
         setColor(color.withAlphaComponent(alpha))
     }
@@ -251,7 +247,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// - Parameters:
     ///   - colors: the colors to set
     ///   - alpha: alpha to apply to the set `colors`
-    @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
+    open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
         var colorsWithAlpha = colors
         
@@ -398,50 +394,5 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     open var isVisible: Bool
     {
         return visible
-    }
-    
-    // MARK: - NSObject
-    
-    open override var description: String
-    {
-        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", self.entryCount])
-    }
-    
-    open override var debugDescription: String
-    {
-        var desc = description + ":"
-        
-        for i in 0 ..< self.entryCount
-        {
-            desc += "\n" + (self.entryForIndex(i)?.description ?? "")
-        }
-        
-        return desc
-    }
-    
-    // MARK: - NSCopying
-    
-    open func copy(with zone: NSZone? = nil) -> Any 
-    {
-        let copy = type(of: self).init()
-        
-        copy.colors = colors
-        copy.valueColors = valueColors
-        copy.label = label
-        copy.axisDependency = axisDependency
-        copy.highlightEnabled = highlightEnabled
-        copy._valueFormatter = _valueFormatter
-        copy.valueFont = valueFont
-        copy.form = form
-        copy.formSize = formSize
-        copy.formLineWidth = formLineWidth
-        copy.formLineDashPhase = formLineDashPhase
-        copy.formLineDashLengths = formLineDashLengths
-        copy.drawValuesEnabled = drawValuesEnabled
-        copy.drawValuesEnabled = drawValuesEnabled
-        copy.iconsOffset = iconsOffset
-        copy.visible = visible
-        
-        return copy
     }
 }

@@ -14,8 +14,7 @@ import CoreGraphics
 
 open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
-    @objc(PieChartValuePosition)
-    public enum ValuePosition: Int
+    public enum ValuePosition
     {
         case insideSlice
         case outsideSlice
@@ -107,26 +106,4 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 
     /// the color for the highlighted sector
     open var highlightColor: NSUIColor? = nil
-
-    // MARK: - NSCopying
-
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! PieChartDataSet
-        copy._sliceSpace = _sliceSpace
-        copy.automaticallyDisableSliceSpacing = automaticallyDisableSliceSpacing
-        copy.selectionShift = selectionShift
-        copy.xValuePosition = xValuePosition
-        copy.yValuePosition = yValuePosition
-        copy.valueLineColor = valueLineColor
-        copy.valueLineWidth = valueLineWidth
-        copy.valueLinePart1OffsetPercentage = valueLinePart1OffsetPercentage
-        copy.valueLinePart1Length = valueLinePart1Length
-        copy.valueLinePart2Length = valueLinePart2Length
-        copy.valueLineVariableLength = valueLineVariableLength
-        copy.entryLabelFont = entryLabelFont
-        copy.entryLabelColor = entryLabelColor
-        copy.highlightColor = highlightColor
-        return copy
-    }
 }

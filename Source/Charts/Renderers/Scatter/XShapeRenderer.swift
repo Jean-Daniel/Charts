@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-open class XShapeRenderer : NSObject, IShapeRenderer
+open class XShapeRenderer: IShapeRenderer
 {
     open func renderShape(
         context: CGContext,

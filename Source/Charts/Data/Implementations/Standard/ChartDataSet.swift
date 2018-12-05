@@ -12,12 +12,11 @@
 import Foundation
 
 /// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-value is not found.
-@objc
-public enum ChartDataSetRounding: Int
+public enum ChartDataSetRounding
 {
-    case up = 0
-    case down = 1
-    case closest = 2
+    case up
+    case down
+    case closest
 }
 
 /// The DataSet class represents one group or type of entries (Entry) in the Chart that belong together.
@@ -38,7 +37,7 @@ open class ChartDataSet: ChartBaseDataSet
         super.init(label: label)
     }
     
-    @objc public init(values: [ChartDataEntry]?, label: String?)
+    public init(values: [ChartDataEntry]?, label: String?)
     {
         self.values = values ?? []
 
@@ -47,7 +46,7 @@ open class ChartDataSet: ChartBaseDataSet
         self.calcMinMax()
     }
     
-    @objc public convenience init(values: [ChartDataEntry]?)
+    public convenience init(values: [ChartDataEntry]?)
     {
         self.init(values: values, label: "DataSet")
     }
@@ -57,7 +56,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - Returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
-    @objc open var values: [ChartDataEntry]
+    open var values: [ChartDataEntry]
         {
         didSet
         {
@@ -113,7 +112,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    @objc open func calcMinMaxX(entry e: ChartDataEntry)
+    open func calcMinMaxX(entry e: ChartDataEntry)
     {
         if e.x < _xMin
         {
@@ -125,7 +124,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    @objc open func calcMinMaxY(entry e: ChartDataEntry)
+    open func calcMinMaxY(entry e: ChartDataEntry)
     {
         if e.y < _yMin
         {
@@ -498,22 +497,5 @@ open class ChartDataSet: ChartBaseDataSet
     open override func clear()
     {
         values.removeAll(keepingCapacity: true)
-    }
-    
-    // MARK: - Data functions and accessors
-
-    // MARK: - NSCopying
-    
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! ChartDataSet
-        
-        copy.values = values
-        copy._yMax = _yMax
-        copy._yMin = _yMin
-        copy._xMax = _xMax
-        copy._xMin = _xMin
-
-        return copy
     }
 }

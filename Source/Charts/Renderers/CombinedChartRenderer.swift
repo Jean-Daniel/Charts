@@ -14,19 +14,19 @@ import CoreGraphics
 
 open class CombinedChartRenderer: DataRenderer
 {
-    @objc open weak var chart: CombinedChartView?
+    open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    @objc open var drawValueAboveBarEnabled = true
+    open var drawValueAboveBarEnabled = true
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    @objc open var drawBarShadowEnabled = false
+    open var drawBarShadowEnabled = false
     
     internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -169,7 +169,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// - Returns: The sub-renderer object at the specified index.
-    @objc open func getSubRenderer(index: Int) -> DataRenderer?
+    open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0
         {
@@ -182,7 +182,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// All sub-renderers.
-    @objc open var subRenderers: [DataRenderer]
+    open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
         set { _renderers = newValue }
@@ -191,10 +191,10 @@ open class CombinedChartRenderer: DataRenderer
     // MARK: Accessors
     
     /// `true` if drawing values above bars is enabled, `false` ifnot
-    @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
+    open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+    open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.

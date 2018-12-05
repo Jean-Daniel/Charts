@@ -34,9 +34,9 @@ open class RadarChartRenderer: LineRadarRenderer
         return labels
     }()
 
-    @objc open weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
 
-    @objc public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -287,7 +287,7 @@ open class RadarChartRenderer: LineRadarRenderer
     
     private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawWeb(context: CGContext)
+    open func drawWeb(context: CGContext)
     {
         guard
             let chart = chart,

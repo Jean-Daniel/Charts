@@ -55,7 +55,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for stacked bar entries.
-    @objc public init(x: Double, yValues: [Double])
+    public init(x: Double, yValues: [Double])
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues))
         self._yVals = yValues
@@ -64,7 +64,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
         
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], data: AnyObject?)
+    public init(x: Double, yValues: [Double], data: AnyObject?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
         self._yVals = yValues
@@ -73,7 +73,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
+    public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon, data: data)
         self._yVals = yValues
@@ -82,7 +82,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?)
+    public init(x: Double, yValues: [Double], icon: NSUIImage?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon)
         self._yVals = yValues
@@ -90,7 +90,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcRanges()
     }
     
-    @objc open func sumBelow(stackIndex :Int) -> Double
+    open func sumBelow(stackIndex :Int) -> Double
     {
         guard let yVals = _yVals else
         {
@@ -110,18 +110,18 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// The sum of all negative values this entry (if stacked) contains. (this is a positive number)
-    @objc open var negativeSum: Double
+    open var negativeSum: Double
     {
         return _negativeSum
     }
     
     /// The sum of all positive values this entry (if stacked) contains.
-    @objc open var positiveSum: Double
+    open var positiveSum: Double
     {
         return _positiveSum
     }
 
-    @objc open func calcPosNegSum()
+    open func calcPosNegSum()
     {
         guard let _yVals = _yVals else
         {
@@ -154,7 +154,7 @@ open class BarChartDataEntry: ChartDataEntry
     /// - Parameters:
     ///   - entry:
     /// - Returns:
-    @objc open func calcRanges()
+    open func calcRanges()
     {
         let values = yValues
         if values?.isEmpty != false
@@ -196,10 +196,10 @@ open class BarChartDataEntry: ChartDataEntry
     // MARK: Accessors
     
     /// the values the stacked barchart holds
-    @objc open var isStacked: Bool { return _yVals != nil }
+    open var isStacked: Bool { return _yVals != nil }
     
     /// the values the stacked barchart holds
-    @objc open var yValues: [Double]?
+    open var yValues: [Double]?
     {
         get { return self._yVals }
         set
@@ -212,21 +212,9 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    @objc open var ranges: [Range]?
+    open var ranges: [Range]?
     {
         return _ranges
-    }
-    
-    // MARK: NSCopying
-    
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! BarChartDataEntry
-        copy._yVals = _yVals
-        copy.y = y
-        copy._negativeSum = _negativeSum
-        copy._positiveSum = _positiveSum
-        return copy
     }
     
     /// Calculates the sum across all values of the given stack.

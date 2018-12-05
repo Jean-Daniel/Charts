@@ -20,7 +20,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
     internal var _maxSize = CGFloat(0.0)
     
     open var maxSize: CGFloat { return _maxSize }
-    @objc open var normalizeSizeEnabled: Bool = true
+    open var normalizeSizeEnabled: Bool = true
     open var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
     open override func calcMinMax(entry e: ChartDataEntry)
@@ -42,17 +42,4 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
     
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
     open var highlightCircleWidth: CGFloat = 2.5
-    
-    // MARK: - NSCopying
-    
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! BubbleChartDataSet
-        copy._xMin = _xMin
-        copy._xMax = _xMax
-        copy._maxSize = _maxSize
-        copy.normalizeSizeEnabled = normalizeSizeEnabled
-        copy.highlightCircleWidth = highlightCircleWidth
-        return copy
-    }
 }

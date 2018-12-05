@@ -20,7 +20,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal weak var chart: BarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView)
+    public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         
@@ -163,7 +163,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         }
     }
     
-    @objc open func drawLabel(
+    open func drawLabel(
         context: CGContext,
         formattedLabel: String,
         x: CGFloat,

@@ -15,8 +15,7 @@ import CoreGraphics
 
 open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
 {
-    @objc(LineChartMode)
-    public enum Mode: Int
+    public enum Mode
     {
         case linear
         case stepped
@@ -149,25 +148,5 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         {
             _fillFormatter = newValue ?? DefaultFillFormatter()
         }
-    }
-    
-    // MARK: NSCopying
-    
-    open override func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = super.copy(with: zone) as! LineChartDataSet
-        copy.circleColors = circleColors
-        copy.circleHoleColor = circleHoleColor
-        copy.circleRadius = circleRadius
-        copy.circleHoleRadius = circleHoleRadius
-        copy.cubicIntensity = cubicIntensity
-        copy.lineDashPhase = lineDashPhase
-        copy.lineDashLengths = lineDashLengths
-        copy.lineCapType = lineCapType
-        copy.drawCirclesEnabled = drawCirclesEnabled
-        copy.drawCircleHoleEnabled = drawCircleHoleEnabled
-        copy.mode = mode
-        copy._fillFormatter = _fillFormatter
-        return copy
     }
 }

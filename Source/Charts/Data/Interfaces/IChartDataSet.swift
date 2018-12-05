@@ -12,8 +12,7 @@
 import Foundation
 import CoreGraphics
 
-@objc
-public protocol IChartDataSet
+public protocol IChartDataSet : AnyObject
 {
     // MARK: - Data functions and accessors
     

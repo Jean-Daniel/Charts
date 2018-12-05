@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class PieChartRenderer: DataRenderer
 {
-    @objc open weak var chart: PieChartView?
+    open weak var chart: PieChartView?
 
-    @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
 
@@ -48,7 +48,7 @@ open class PieChartRenderer: DataRenderer
         }
     }
 
-    @objc open func calculateMinimumRadiusForSpacedSlice(
+    open func calculateMinimumRadiusForSpacedSlice(
         center: CGPoint,
         radius: CGFloat,
         angle: CGFloat,
@@ -90,7 +90,7 @@ open class PieChartRenderer: DataRenderer
     }
 
     /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
-    @objc open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
+    open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
@@ -107,7 +107,7 @@ open class PieChartRenderer: DataRenderer
         return sliceSpace
     }
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
     {
         guard let chart = chart else {return }
 

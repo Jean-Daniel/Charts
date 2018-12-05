@@ -45,9 +45,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         var rects = [CGRect]()
     }
     
-    @objc open weak var dataProvider: BarChartDataProvider?
+    open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -319,7 +319,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
     private var _barShadowRectBuffer: CGRect = CGRect()
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
 
@@ -739,7 +739,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws a value at the specified x and y position.
-    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: color])
     }

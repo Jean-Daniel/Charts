@@ -12,8 +12,7 @@
 import Foundation
 
 /// An interface for providing custom axis Strings.
-@objc(IChartAxisValueFormatter)
-public protocol IAxisValueFormatter: class
+public protocol IAxisValueFormatter: AnyObject
 {
     
     /// Called when a value from an axis is formatted before being drawn.

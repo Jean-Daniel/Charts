@@ -11,24 +11,21 @@
 
 import Foundation
 
-@objc(ChartRange)
-open class Range: NSObject
+public struct Range
 {
-    @objc open var from: Double
-    @objc open var to: Double
+    public let from: Double
+    public let to: Double
     
-    @objc public init(from: Double, to: Double)
+    public init(from: Double, to: Double)
     {
         self.from = from
         self.to = to
-        
-        super.init()
     }
 
     /// - Parameters:
     ///   - value:
     /// - Returns: `true` if this range contains (if the value is in between) the given value, `false` ifnot.
-    @objc open func contains(_ value: Double) -> Bool
+    public func contains(_ value: Double) -> Bool
     {
         if value > from && value <= to
         {
@@ -40,12 +37,12 @@ open class Range: NSObject
         }
     }
     
-    @objc open func isLarger(_ value: Double) -> Bool
+    public func isLarger(_ value: Double) -> Bool
     {
         return value > to
     }
     
-    @objc open func isSmaller(_ value: Double) -> Bool
+    public func isSmaller(_ value: Double) -> Bool
     {
         return value < from
     }

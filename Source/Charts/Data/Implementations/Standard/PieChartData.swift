@@ -24,7 +24,7 @@ open class PieChartData: ChartData
     }
 
     /// All DataSet objects this ChartData object holds.
-    @objc open override var dataSets: [IChartDataSet]
+    open override var dataSets: [IChartDataSet]
     {
         get
         {
@@ -37,7 +37,7 @@ open class PieChartData: ChartData
         }
     }
 
-    @objc var dataSet: IPieChartDataSet?
+    var dataSet: IPieChartDataSet?
     {
         get
         {
@@ -114,7 +114,7 @@ open class PieChartData: ChartData
     }
     
     /// The total y-value sum across all DataSet objects the this object represents.
-    @objc open var yValueSum: Double
+    open var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }
         

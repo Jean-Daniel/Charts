@@ -25,9 +25,9 @@ open class LineChartRenderer: LineRadarRenderer
     /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver.
     private lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
 
-    @objc open weak var dataProvider: LineChartDataProvider?
+    open weak var dataProvider: LineChartDataProvider?
     
-    @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -54,7 +54,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
     }
     
-    @objc open func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
     {
         if dataSet.entryCount < 1
         {
@@ -92,7 +92,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    @objc open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -186,7 +186,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    @objc open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -292,7 +292,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let dataProvider = dataProvider else { return }
         

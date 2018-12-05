@@ -11,10 +11,10 @@
 
 import Foundation
 
-open class ChartDataEntry: ChartDataEntryBase, NSCopying
+open class ChartDataEntry: ChartDataEntryBase
 {
     /// the x value
-    @objc open var x = Double(0.0)
+    open var x = Double(0.0)
     
     public required init()
     {
@@ -26,7 +26,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     /// - Parameters:
     ///   - x: the x value
     ///   - y: the y value (the actual value of the entry)
-    @objc public init(x: Double, y: Double)
+    public init(x: Double, y: Double)
     {
         super.init(y: y)
         
@@ -40,7 +40,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - y: the y value (the actual value of the entry)
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public init(x: Double, y: Double, data: AnyObject?)
+    public init(x: Double, y: Double, data: AnyObject?)
     {
         super.init(y: y)
         
@@ -56,7 +56,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - y: the y value (the actual value of the entry)
     ///   - icon: icon image
     
-    @objc public init(x: Double, y: Double, icon: NSUIImage?)
+    public init(x: Double, y: Double, icon: NSUIImage?)
     {
         super.init(y: y, icon: icon)
         
@@ -71,7 +71,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - icon: icon image
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
+    public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
         super.init(y: y, icon: icon, data: data)
         
@@ -85,18 +85,6 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
         return "ChartDataEntry, x: \(x), y \(y)"
     }
     
-    // MARK: NSCopying
-    
-    open func copy(with zone: NSZone? = nil) -> Any
-    {
-        let copy = type(of: self).init()
-        
-        copy.x = x
-        copy.y = y
-        copy.data = data
-        
-        return copy
-    }
 }
 
 // MARK: Equatable

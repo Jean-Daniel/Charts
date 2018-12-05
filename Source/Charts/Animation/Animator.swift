@@ -16,8 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-@objc(ChartAnimatorDelegate)
-public protocol AnimatorDelegate
+public protocol AnimatorDelegate : AnyObject
 {
     /// Called when the Animator has stepped.
     func animatorUpdated(_ animator: Animator)
@@ -26,18 +25,17 @@ public protocol AnimatorDelegate
     func animatorStopped(_ animator: Animator)
 }
 
-@objc(ChartAnimator)
-open class Animator: NSObject
+open class Animator
 {
-    @objc open weak var delegate: AnimatorDelegate?
-    @objc open var updateBlock: (() -> Void)?
-    @objc open var stopBlock: (() -> Void)?
+    open weak var delegate: AnimatorDelegate?
+    open var updateBlock: (() -> Void)?
+    open var stopBlock: (() -> Void)?
     
     /// the phase that is animated and influences the drawn values on the x-axis
-    @objc open var phaseX: Double = 1.0
+    open var phaseX: Double = 1.0
     
     /// the phase that is animated and influences the drawn values on the y-axis
-    @objc open var phaseY: Double = 1.0
+    open var phaseY: Double = 1.0
     
     private var _startTimeX: TimeInterval = 0.0
     private var _startTimeY: TimeInterval = 0.0
@@ -56,9 +54,8 @@ open class Animator: NSObject
     private var _easingX: ChartEasingFunctionBlock?
     private var _easingY: ChartEasingFunctionBlock?
 
-    public override init()
+    public init()
     {
-        super.init()
     }
     
     deinit
@@ -66,7 +63,7 @@ open class Animator: NSObject
         stop()
     }
     
-    @objc open func stop()
+    open func stop()
     {
         guard _displayLink != nil else { return }
 
@@ -142,7 +139,7 @@ open class Animator: NSObject
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easingX: an easing function for the animation on the x axis
     ///   - easingY: an easing function for the animation on the y axis
-    @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
+    open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
     {
         stop()
         
@@ -177,7 +174,7 @@ open class Animator: NSObject
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easingOptionX: the easing function for the animation on the x axis
     ///   - easingOptionY: the easing function for the animation on the y axis
-    @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
+    open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
     {
         animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingFunctionFromOption(easingOptionX), easingY: easingFunctionFromOption(easingOptionY))
     }
@@ -189,7 +186,7 @@ open class Animator: NSObject
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easing: an easing function for the animation
-    @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
+    open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
         animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easing, easingY: easing)
     }
@@ -201,7 +198,7 @@ open class Animator: NSObject
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easingOption: the easing function for the animation
-    @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
+    open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
     {
         animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption))
     }
@@ -212,7 +209,7 @@ open class Animator: NSObject
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - easing: an easing function for the animation
-    @objc open func animate(xAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
+    open func animate(xAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
         _startTimeX = CACurrentMediaTime()
         _durationX = xAxisDuration
@@ -239,7 +236,7 @@ open class Animator: NSObject
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - easingOption: the easing function for the animation
-    @objc open func animate(xAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
+    open func animate(xAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
     {
         animate(xAxisDuration: xAxisDuration, easing: easingFunctionFromOption(easingOption))
     }
@@ -250,7 +247,7 @@ open class Animator: NSObject
     /// - Parameters:
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easing: an easing function for the animation
-    @objc open func animate(yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
+    open func animate(yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
         _startTimeY = CACurrentMediaTime()
         _durationY = yAxisDuration
@@ -277,7 +274,7 @@ open class Animator: NSObject
     /// - Parameters:
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easingOption: the easing function for the animation
-    @objc open func animate(yAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
+    open func animate(yAxisDuration: TimeInterval, easingOption: ChartEasingOption = .easeInOutSine)
     {
         animate(yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption))
     }
