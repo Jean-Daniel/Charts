@@ -28,7 +28,7 @@ class PieHighlighter
   /// - Returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
   func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
   {
-    guard let chart = self.chart as? PieRadarChartViewBase else { return nil }
+    guard let chart = self.chart as? PieChartView else { return nil }
     
     let touchDistanceToCenter = chart.distanceToCenter(x: x, y: y)
     
@@ -41,10 +41,7 @@ class PieHighlighter
     
     var angle = chart.angleForPoint(x: x ,y: y)
     
-    if chart is PieChartView
-    {
-      angle /= CGFloat(chart.chartAnimator.phaseY)
-    }
+    angle /= CGFloat(chart.chartAnimator.phaseY)
     
     let index = chart.indexForAngle(angle)
     

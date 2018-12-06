@@ -164,6 +164,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             self.backgroundColor = NSUIColor.clear
         #endif
 
+        highlighter = PieHighlighter(chart: self)
+
         _animator.delegate = self
 
         self.addObserver(self, forKeyPath: "bounds", options: .new, context: nil)

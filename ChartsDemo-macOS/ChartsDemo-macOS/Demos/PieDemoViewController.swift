@@ -35,7 +35,7 @@ open class PieDemoViewController: NSViewController
 //      pieChartView.holeColor = NSColor.windowBackgroundColor
 //      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
       pieChartView.usesPercentValues = true
-      pieChartView.rotationEnabled = false
+      // pieChartView.rotationEnabled = false
 
         let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.lineBreakMode = .byTruncatingTail
