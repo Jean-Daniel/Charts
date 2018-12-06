@@ -46,7 +46,6 @@ open class PieChartView: PieRadarChartViewBase
         super.initialize()
         
         renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        _xAxis = nil
         
         self.highlighter = PieHighlighter(chart: self)
     }
@@ -55,13 +54,12 @@ open class PieChartView: PieRadarChartViewBase
     {
         super.draw(rect)
         
-        if _data === nil
+        if _data == nil
         {
             return
         }
         
-        let optionalContext = NSUIGraphicsGetCurrentContext()
-        guard let context = optionalContext, let renderer = renderer else
+        guard let context = NSUIGraphicsGetCurrentContext(), let renderer = renderer else
         {
             return
         }
@@ -89,7 +87,7 @@ open class PieChartView: PieRadarChartViewBase
         super.calculateOffsets()
         
         // prevent nullpointer when no data set
-        if _data === nil
+        if _data == nil
         {
             return
         }
@@ -216,13 +214,13 @@ open class PieChartView: PieRadarChartViewBase
     {
         return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
     }
-    
+
     /// This will throw an exception, PieChart has no XAxis object.
-    open override var xAxis: XAxis
+    open override var xAxis: XAxis?
     {
-        fatalError("PieChart has no XAxis")
+        return nil
     }
-    
+
     open override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
@@ -245,7 +243,7 @@ open class PieChartView: PieRadarChartViewBase
         
         for i in 0 ..< dataSets.count
         {
-            if (dataSets[i].entryForXValue(xValue, closestToY: Double.nan) !== nil)
+            if (dataSets[i].entryForXValue(xValue, closestToY: Double.nan) != nil)
             {
                 return i
             }

@@ -92,9 +92,9 @@ open class YAxisRenderer: AxisRendererBase
         
         context.setStrokeColor(yAxis.axisLineColor.cgColor)
         context.setLineWidth(yAxis.axisLineWidth)
-        if yAxis.axisLineDashLengths != nil
+        if let axisLineDashLengths = yAxis.axisLineDashLengths
         {
-            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths)
+            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: axisLineDashLengths)
         }
         else
         {
@@ -174,9 +174,9 @@ open class YAxisRenderer: AxisRendererBase
             context.setLineWidth(yAxis.gridLineWidth)
             context.setLineCap(yAxis.gridLineCap)
             
-            if yAxis.gridLineDashLengths != nil
+            if let gridLineDashLengths = yAxis.gridLineDashLengths
             {
-                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
+                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: gridLineDashLengths)
                 
             }
             else

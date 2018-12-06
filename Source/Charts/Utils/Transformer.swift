@@ -21,7 +21,7 @@ open class Transformer
     /// matrix for handling the different offsets of the chart
     internal var _matrixOffset = CGAffineTransform.identity
 
-    internal var _viewPortHandler: ViewPortHandler
+    internal let _viewPortHandler: ViewPortHandler
 
     public init(viewPortHandler: ViewPortHandler)
     {

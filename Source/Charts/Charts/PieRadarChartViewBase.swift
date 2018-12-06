@@ -34,9 +34,9 @@ open class PieRadarChartViewBase: ChartViewBase
     /// iOS && OSX only: Enabled multi-touch rotation using two fingers.
     private var _rotationWithTwoFingers = false
     
-    private var _tapGestureRecognizer: NSUITapGestureRecognizer!
+    private let _tapGestureRecognizer = NSUITapGestureRecognizer(target: nil, action: nil)
     #if !os(tvOS)
-    private var _rotationGestureRecognizer: NSUIRotationGestureRecognizer!
+    private let _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: nil, action: nil)
     #endif
     
     public override init(frame: CGRect)
@@ -58,12 +58,12 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         super.initialize()
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
+        _tapGestureRecognizer.addTarget(self, action: #selector(tapGestureRecognized(_:)))
         
         self.addGestureRecognizer(_tapGestureRecognizer)
 
         #if !os(tvOS)
-            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
+            _rotationGestureRecognizer.addTarget(self, action: #selector(rotationGestureRecognized(_:)))
             self.addGestureRecognizer(_rotationGestureRecognizer)
             _rotationGestureRecognizer.isEnabled = rotationWithTwoFingers
         #endif
@@ -86,7 +86,7 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         calcMinMax()
         
-        if let data = _data , _legend !== nil
+        if let data = _data
         {
             legendRenderer.computeLegend(data: data)
         }
@@ -103,7 +103,7 @@ open class PieRadarChartViewBase: ChartViewBase
         var legendBottom = CGFloat(0.0)
         var legendTop = CGFloat(0.0)
 
-        if _legend != nil && _legend.enabled && !_legend.drawInside
+        if _legend.enabled && !_legend.drawInside
         {
             let fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
             
@@ -226,10 +226,8 @@ open class PieRadarChartViewBase: ChartViewBase
         
         var minOffset = self.minOffset
         
-        if self is RadarChartView
+        if let x = self.xAxis
         {
-            let x = self.xAxis
-            
             if x.isEnabled && x.drawLabelsEnabled
             {
                 minOffset = max(minOffset, x.labelRotatedWidth)

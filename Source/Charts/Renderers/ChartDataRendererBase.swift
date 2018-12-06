@@ -77,7 +77,7 @@ open class DataRenderer: Renderer
                                         andData data: ChartData,
                                         withDefaultDescription defaultDescription: String = "Chart") -> NSUIAccessibilityElement
     {
-        let chartDescriptionText = chart.chartDescription?.text ?? defaultDescription
+        let chartDescriptionText = chart.chartDescription.text ?? defaultDescription
         let dataSetDescriptions = data.dataSets.map { $0.label ?? "" }
         let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
         let dataSetCount = data.dataSets.count

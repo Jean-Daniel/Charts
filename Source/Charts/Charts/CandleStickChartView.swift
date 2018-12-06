@@ -17,10 +17,10 @@ open class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
 {
     internal override func initialize()
     {
-        super.initialize()
-        
         renderer = CandleStickChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        
+
+        super.initialize()
+
         self.xAxis.spaceMin = 0.5
         self.xAxis.spaceMax = 0.5
     }

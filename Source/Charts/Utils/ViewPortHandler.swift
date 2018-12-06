@@ -55,20 +55,20 @@ open class ViewPortHandler
     private var _transOffsetY = CGFloat(0.0)
     
     /// Constructor - don't forget calling setChartDimens(...)
-    public init(width: CGFloat, height: CGFloat)
+    public init(_ chartDimension: CGSize)
     {
-        setChartDimens(width: width, height: height)
+        setChartDimens(chartDimension)
     }
     
-    open func setChartDimens(width: CGFloat, height: CGFloat)
+    open func setChartDimens(_ size: CGSize)
     {
         let offsetLeft = self.offsetLeft
         let offsetTop = self.offsetTop
         let offsetRight = self.offsetRight
         let offsetBottom = self.offsetBottom
         
-        _chartHeight = height
-        _chartWidth = width
+        _chartHeight = size.height
+        _chartWidth = size.width
         
         restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }

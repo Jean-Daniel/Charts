@@ -23,7 +23,7 @@ open class RadarChartRenderer: LineRadarRenderer
         var labels: [String] = []
 
         guard let chart = chart else { return [] }
-        guard let formatter = chart.xAxis.valueFormatter else { return [] }
+        guard let formatter = chart.xAxis?.valueFormatter else { return [] }
 
         let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
         for i in stride(from: 0, to: maxEntryCount, by: 1)

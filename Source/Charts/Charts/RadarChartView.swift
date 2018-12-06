@@ -39,10 +39,10 @@ open class RadarChartView: PieRadarChartViewBase
     private var _skipWebLineCount = 0
     
     /// the object reprsenting the y-axis labels
-    private var _yAxis: YAxis!
+    private var _yAxis: YAxis = YAxis(position: .left)
     
-    internal var _yAxisRenderer: YAxisRendererRadarChart!
-    internal var _xAxisRenderer: XAxisRendererRadarChart!
+    internal lazy var _yAxisRenderer: YAxisRendererRadarChart = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
+    internal lazy var _xAxisRenderer: XAxisRendererRadarChart = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
     
     public override init(frame: CGRect)
     {
@@ -58,13 +58,8 @@ open class RadarChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        _yAxis = YAxis(position: .left)
-        
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        
-        _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
-        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
-        
+
         self.highlighter = RadarHighlighter(chart: self)
     }
 
@@ -82,12 +77,11 @@ open class RadarChartView: PieRadarChartViewBase
     {
         calcMinMax()
 
-        _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
-        _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+        _yAxisRenderer.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
+        _xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         
         if let data = _data,
-            let legend = _legend,
-            !legend.isLegendCustom
+            !_legend.isLegendCustom
         {
             legendRenderer?.computeLegend(data: data)
         }
@@ -111,7 +105,7 @@ open class RadarChartView: PieRadarChartViewBase
             _xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         }
         
-        _xAxisRenderer?.renderAxisLabels(context: context)
+        _xAxisRenderer.renderAxisLabels(context: context)
         
         if drawWeb
         {

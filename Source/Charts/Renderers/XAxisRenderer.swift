@@ -129,9 +129,9 @@ open class XAxisRenderer: AxisRendererBase
         
         context.setStrokeColor(xAxis.axisLineColor.cgColor)
         context.setLineWidth(xAxis.axisLineWidth)
-        if xAxis.axisLineDashLengths != nil
+        if let axisLineDashLengths = xAxis.axisLineDashLengths
         {
-            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths)
+            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: axisLineDashLengths)
         }
         else
         {
@@ -291,9 +291,9 @@ open class XAxisRenderer: AxisRendererBase
         context.setLineWidth(xAxis.gridLineWidth)
         context.setLineCap(xAxis.gridLineCap)
         
-        if xAxis.gridLineDashLengths != nil
+        if let gridLineDashLengths = xAxis.gridLineDashLengths
         {
-            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths)
+            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: gridLineDashLengths)
         }
         else
         {

@@ -16,9 +16,9 @@ open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
 {
     open override func initialize()
     {
-        super.initialize()
-        
         renderer = BubbleChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+      
+        super.initialize()
     }
     
     // MARK: - BubbleChartDataProvider

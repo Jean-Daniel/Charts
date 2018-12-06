@@ -36,8 +36,8 @@ open class HorizontalBarChartView: BarChartView
     
     internal override func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
     {
+        let legend = _legend
         guard
-            let legend = _legend,
             legend.isEnabled,
             !legend.drawInside
         else { return }
@@ -199,7 +199,7 @@ open class HorizontalBarChartView: BarChartView
 
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        if _data === nil
+        if _data == nil
         {
             Swift.print("Can't select by touch. No data set.", terminator: "\n")
             return nil

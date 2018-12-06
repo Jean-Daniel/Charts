@@ -82,7 +82,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             let xAxis = self.axis as? XAxis
             else { return }
         
-        if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled || chart?.data === nil
+        if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled || chart?.data == nil
         {
             return
         }
@@ -216,9 +216,9 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         context.setStrokeColor(xAxis.axisLineColor.cgColor)
         context.setLineWidth(xAxis.axisLineWidth)
-        if xAxis.axisLineDashLengths != nil
+        if let axisLineDashLengths = xAxis.axisLineDashLengths
         {
-            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths)
+            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: axisLineDashLengths)
         }
         else
         {

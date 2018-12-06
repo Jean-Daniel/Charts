@@ -116,9 +116,9 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         context.setStrokeColor(yAxis.axisLineColor.cgColor)
         context.setLineWidth(yAxis.axisLineWidth)
-        if yAxis.axisLineDashLengths != nil
+        if let axisLineDashLengths = yAxis.axisLineDashLengths
         {
-            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths)
+            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: axisLineDashLengths)
         }
         else
         {

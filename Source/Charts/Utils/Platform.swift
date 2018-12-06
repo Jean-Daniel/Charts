@@ -137,6 +137,19 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
         {
 			return self.layer
 		}
+
+    var enclosingScrollView : UIScrollView? {
+      var view : UIView? = superview
+      while view != nil && !(view is UIScrollView) {
+        view = view?.superview
+      }
+      // If there is two scrollview together, we pick the superview of the inner scrollview.
+      // In the case of UITableViewWrapperView, the superview will be UITableView
+      if let scrollView = view?.superview as? UIScrollView {
+        return scrollView
+      }
+      return view as! UIScrollView?
+    }
 	}
 
 	extension UIColor
@@ -237,6 +250,14 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 	public typealias NSUIPinchGestureRecognizer = NSMagnificationGestureRecognizer
 	public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
 	public typealias NSUIScreen = NSScreen
+
+  extension NSGestureRecognizer {
+    func addTarget(_ target: AnyObject, action: Selector) {
+      assert(self.target == nil)
+      self.target = target
+      self.action = action
+    }
+  }
 
 	/** The 'tap' gesture is mapped to clicks. */
 	extension NSUITapGestureRecognizer

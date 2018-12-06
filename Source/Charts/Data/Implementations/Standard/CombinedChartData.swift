@@ -13,18 +13,18 @@ import Foundation
 
 open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    private var _lineData: LineChartData!
-    private var _barData: BarChartData!
-    private var _scatterData: ScatterChartData!
-    private var _candleData: CandleChartData!
-    private var _bubbleData: BubbleChartData!
+    private var _lineData: LineChartData?
+    private var _barData: BarChartData?
+    private var _scatterData: ScatterChartData?
+    private var _candleData: CandleChartData?
+    private var _bubbleData: BubbleChartData?
 
     public override init(dataSets: [IChartDataSet]? = nil)
     {
         super.init(dataSets: dataSets)
     }
     
-    open var lineData: LineChartData!
+    open var lineData: LineChartData?
     {
         get
         {
@@ -37,7 +37,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var barData: BarChartData!
+    open var barData: BarChartData?
     {
         get
         {
@@ -50,7 +50,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var scatterData: ScatterChartData!
+    open var scatterData: ScatterChartData?
     {
         get
         {
@@ -63,7 +63,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var candleData: CandleChartData!
+    open var candleData: CandleChartData?
     {
         get
         {
@@ -76,7 +76,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var bubbleData: BubbleChartData!
+    open var bubbleData: BubbleChartData?
     {
         get
         {
@@ -165,23 +165,23 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         var data = [ChartData]()
         
-        if lineData !== nil
+        if let lineData = lineData
         {
             data.append(lineData)
         }
-        if barData !== nil
+        if let barData = barData
         {
             data.append(barData)
         }
-        if scatterData !== nil
+        if let scatterData = scatterData
         {
             data.append(scatterData)
         }
-        if candleData !== nil
+        if let candleData = candleData
         {
             data.append(candleData)
         }
-        if bubbleData !== nil
+        if let bubbleData = bubbleData
         {
             data.append(bubbleData)
         }
@@ -238,26 +238,11 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open override func notifyDataChanged()
     {
-        if _lineData !== nil
-        {
-            _lineData.notifyDataChanged()
-        }
-        if _barData !== nil
-        {
-            _barData.notifyDataChanged()
-        }
-        if _scatterData !== nil
-        {
-            _scatterData.notifyDataChanged()
-        }
-        if _candleData !== nil
-        {
-            _candleData.notifyDataChanged()
-        }
-        if _bubbleData !== nil
-        {
-            _bubbleData.notifyDataChanged()
-        }
+        _lineData?.notifyDataChanged()
+        _barData?.notifyDataChanged()
+        _scatterData?.notifyDataChanged()
+        _candleData?.notifyDataChanged()
+        _bubbleData?.notifyDataChanged()
         
         super.notifyDataChanged() // recalculate everything
     }
@@ -298,7 +283,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     /// - Parameters:
     ///   - highlight: current highlight
     /// - Returns: dataset related to highlight
-    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet?
     {  
         if highlight.dataIndex >= allData.count
         {

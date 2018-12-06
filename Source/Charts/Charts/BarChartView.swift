@@ -23,14 +23,14 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     internal override func initialize()
     {
-        super.initialize()
-        
         renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+
+        super.initialize()
         
         self.highlighter = BarHighlighter(chart: self)
         
-        self.xAxis.spaceMin = 0.5
-        self.xAxis.spaceMax = 0.5
+        _xAxis.spaceMin = 0.5
+        _xAxis.spaceMax = 0.5
     }
     
     internal override func calcMinMax()

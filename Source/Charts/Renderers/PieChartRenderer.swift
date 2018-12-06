@@ -146,7 +146,7 @@ open class PieChartRenderer: DataRenderer
         // i.e. We want to VO to say "3 Elements" even if the developer didn't specify an accessibility prefix
         // If prefix is unspecified it is safe to assume they did not want to use "Element 1", so that uses a default empty string
         let prefix: String = chart.data?.accessibilityEntryLabelPrefix ?? "Element"
-        let description = chart.chartDescription?.text ?? dataSet.label ?? chart.centerText ??  "Pie Chart"
+        let description = chart.chartDescription.text ?? dataSet.label ?? chart.centerText ??  "Pie Chart"
 
         let
         element = NSUIAccessibilityElement(accessibilityContainer: chart)

@@ -78,12 +78,11 @@ open class ChartData
         _rightAxisMin = Double.greatestFiniteMagnitude
         
         // left axis
-        let firstLeft = getFirstLeft(dataSets: dataSets)
-        
-        if firstLeft !== nil
+
+        if let firstLeft = getFirstLeft(dataSets: dataSets)
         {
-            _leftAxisMax = firstLeft!.yMax
-            _leftAxisMin = firstLeft!.yMin
+            _leftAxisMax = firstLeft.yMax
+            _leftAxisMin = firstLeft.yMin
             
             for dataSet in _dataSets
             {
@@ -103,12 +102,11 @@ open class ChartData
         }
         
         // right axis
-        let firstRight = getFirstRight(dataSets: dataSets)
-        
-        if firstRight !== nil
+
+        if let firstRight = getFirstRight(dataSets: dataSets)
         {
-            _rightAxisMax = firstRight!.yMax
-            _rightAxisMin = firstRight!.yMin
+            _rightAxisMax = firstRight.yMax
+            _rightAxisMin = firstRight.yMin
             
             for dataSet in _dataSets
             {
@@ -450,7 +448,7 @@ open class ChartData
     /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @discardableResult open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
     {
-        if dataSet === nil
+        if dataSet == nil
         {
             return false
         }
