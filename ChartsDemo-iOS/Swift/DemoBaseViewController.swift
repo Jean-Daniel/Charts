@@ -236,7 +236,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         chartView.drawsSlicesUnderHole = false
         chartView.holeRadiusPercent = 58
         chartView.transparentCircleRadiusPercent = 0.61
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
         
         chartView.drawsCenterText = true
@@ -271,11 +271,11 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     }
     
     func setup(radarChartView chartView: RadarChartView) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
     }
     
     func setup(barLineChartView chartView: BarLineChartViewBase) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
                 
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)

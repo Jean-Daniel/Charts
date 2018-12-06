@@ -809,7 +809,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         if isOpaque || !transparent
         {
             // Background color may be partially transparent, we must fill with white if we want to output an opaque image
-            context.setFillColor(NSUIColor.white.cgColor)
+            context.setFillColor(red: 1, green: 1, blue: 1, alpha: 1)
             context.fill(rect)
             
             if let backgroundColor = self.backgroundColor

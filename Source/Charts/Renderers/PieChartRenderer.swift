@@ -600,7 +600,7 @@ open class PieChartRenderer: DataRenderer
                 if holeColor != NSUIColor.clear
                 {
                     // draw the hole-circle
-                    context.setFillColor(chart.holeColor!.cgColor)
+                    context.setFillColor(holeColor.cgColor)
                     context.fillEllipse(in: CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
                 }
             }

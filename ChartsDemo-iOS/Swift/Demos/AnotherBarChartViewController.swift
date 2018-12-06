@@ -35,7 +35,7 @@ class AnotherBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.maxVisibleCount = 60
         chartView.pinchZoomEnabled = false
         chartView.drawBarShadowEnabled = false

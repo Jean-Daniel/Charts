@@ -154,6 +154,10 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 
 	extension UIColor
 	{
+    public convenience init?(named name: String, bundle: Bundle?) {
+      self.init(named: name, in: bundle, compatibleWith: nil)
+    }
+
 		static var labelColor : UIColor
 		{
 			return UIColor.black
@@ -234,7 +238,6 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 
 #if os(OSX)
 	import Cocoa
-	import Quartz
 
 	public typealias NSUIFont = NSFont
 	public typealias NSUIColor = NSColor

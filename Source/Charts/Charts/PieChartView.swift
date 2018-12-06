@@ -270,7 +270,7 @@ open class PieChartView: PieRadarChartViewBase
     /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
     /// - Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-    open var holeColor: NSUIColor? = NSUIColor.white
+    open var holeColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))
     {
         didSet { setNeedsDisplay() }
     }
@@ -316,9 +316,9 @@ open class PieChartView: PieRadarChartViewBase
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSAttributedString.Key.foregroundColor: NSUIColor.black,
-                    NSAttributedString.Key.font: NSUIFont.systemFont(ofSize: 12.0),
-                    NSAttributedString.Key.paragraphStyle: paragraphStyle
+                    .foregroundColor: NSUIColor(named: "pie_center_text", bundle: Bundle(for: PieChartView.self))!,
+                    .font: NSUIFont.systemFont(ofSize: 12.0),
+                    .paragraphStyle: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString
@@ -387,7 +387,7 @@ open class PieChartView: PieRadarChartViewBase
     /// The color that the transparent-circle should have.
     ///
     /// **default**: `nil`
-    open var transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
+    open var transparentCircleColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))?.withAlphaComponent(0.5)
     {
         didSet { setNeedsDisplay() }
     }
@@ -407,7 +407,7 @@ open class PieChartView: PieRadarChartViewBase
     }
 
     /// The color the entry labels are drawn with.
-    open var entryLabelColor: NSUIColor? = NSUIColor.white
+    open var entryLabelColor: NSUIColor? = NSUIColor(named: "pie_label", bundle: Bundle(for: PieChartView.self))
     {
         didSet { setNeedsDisplay() }
     }

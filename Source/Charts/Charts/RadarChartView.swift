@@ -185,6 +185,11 @@ open class RadarChartView: PieRadarChartViewBase
         return _yAxis
     }
 
+    open override var xAxis: XAxis
+    {
+      return _xAxis
+    }
+
     /// Sets the number of web-lines that should be skipped on chart web before the next one is drawn. This targets the lines that come from the center of the RadarChart.
     /// if count = 1 -> 1 line is skipped in between
     open var skipWebLineCount: Int

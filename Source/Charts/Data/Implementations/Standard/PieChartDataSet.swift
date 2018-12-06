@@ -22,7 +22,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 
     private func initialize()
     {
-        self.valueTextColor = NSUIColor.white
+        self.valueTextColor = NSUIColor(named: "pie_value", bundle: Bundle(for: PieChartDataSet.self))!
         self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }
 
