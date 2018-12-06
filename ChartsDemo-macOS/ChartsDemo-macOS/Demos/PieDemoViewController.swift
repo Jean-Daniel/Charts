@@ -32,8 +32,8 @@ open class PieDemoViewController: NSViewController
         
         data.addDataSet(ds1)
 
-      pieChartView.holeColor = NSColor.windowBackgroundColor
-      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
+//      pieChartView.holeColor = NSColor.windowBackgroundColor
+//      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
       pieChartView.usesPercentValues = true
       pieChartView.rotationEnabled = false
 

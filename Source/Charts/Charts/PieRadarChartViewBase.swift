@@ -224,15 +224,7 @@ open class PieRadarChartViewBase: ChartViewBase
         legendBottom += self.extraBottomOffset
         legendLeft += self.extraLeftOffset
         
-        var minOffset = self.minOffset
-        
-        if let x = self.xAxis
-        {
-            if x.isEnabled && x.drawLabelsEnabled
-            {
-                minOffset = max(minOffset, x.labelRotatedWidth)
-            }
-        }
+        let minOffset = self.minOffset
 
         let offsetLeft = max(minOffset, legendLeft)
         let offsetTop = max(minOffset, legendTop)
@@ -374,16 +366,6 @@ open class PieRadarChartViewBase: ChartViewBase
     internal var requiredBaseOffset: CGFloat
     {
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
-    }
-    
-    open override var chartYMax: Double
-    {
-        return 0.0
-    }
-    
-    open override var chartYMin: Double
-    {
-        return 0.0
     }
     
     open var isRotationEnabled: Bool { return rotationEnabled }

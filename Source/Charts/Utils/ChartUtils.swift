@@ -109,11 +109,11 @@ extension CGPoint
     }
 }
 
-open class ChartUtils
+public struct ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    public static let defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 1)
     
-    open class func drawImage(
+    public static func drawImage(
         context: CGContext,
         image: NSUIImage,
         x: CGFloat,
@@ -156,7 +156,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedString.Key : Any]?)
+    public static func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedString.Key : Any]?)
     {
         var point = point
         
@@ -176,7 +176,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, anchor: CGPoint, angleRadians: CGFloat)
+    public static func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -228,7 +228,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal static func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -276,21 +276,9 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal static func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
-    }
-
-    private class func generateDefaultValueFormatter() -> IValueFormatter
-    {
-        let formatter = DefaultValueFormatter(decimals: 1)
-        return formatter
-    }
-    
-    /// - Returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> IValueFormatter
-    {
-        return _defaultValueFormatter
     }
 }

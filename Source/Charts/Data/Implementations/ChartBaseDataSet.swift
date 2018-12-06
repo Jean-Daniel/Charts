@@ -192,7 +192,7 @@ open class ChartBaseDataSet: IChartDataSet
     open var label: String? = "DataSet"
     
     /// The axis this DataSet should be plotted against.
-    open var axisDependency = YAxis.AxisDependency.left
+    public let axisDependency = YAxis.AxisDependency.left
     
     /// - Returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
@@ -276,16 +276,16 @@ open class ChartBaseDataSet: IChartDataSet
     open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    internal var _valueFormatter: IValueFormatter?
+    internal var _valueFormatter: ValueFormatter?
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    open var valueFormatter: IValueFormatter?
+    open var valueFormatter: ValueFormatter?
     {
         get
         {
             if needsFormatter
             {
-                return ChartUtils.defaultValueFormatter()
+                return ChartUtils.defaultValueFormatter
             }
             
             return _valueFormatter

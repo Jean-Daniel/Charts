@@ -96,7 +96,7 @@ open class PieChartView: PieRadarChartViewBase
         
         let c = self.centerOffsets
         
-        let shift = (data as? PieChartData)?.dataSet?.selectionShift ?? 0.0
+        let shift = data?.dataSet?.selectionShift ?? 0.0
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
         _circleBox.origin.x = (c.x - radius) + shift
@@ -151,8 +151,6 @@ open class PieChartView: PieRadarChartViewBase
         _drawAngles.reserveCapacity(entryCount)
         _absoluteAngles.reserveCapacity(entryCount)
         
-        let yValueSum = (_data as! PieChartData).yValueSum
-        
         var dataSets = data.dataSets
 
         var cnt = 0
@@ -166,7 +164,7 @@ open class PieChartView: PieRadarChartViewBase
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
-                _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: yValueSum))
+                _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: _data?.yValueSum ?? 0))
 
                 if cnt == 0
                 {
@@ -206,19 +204,13 @@ open class PieChartView: PieRadarChartViewBase
     /// calculates the needed angle for a given value
     private func calcAngle(_ value: Double) -> CGFloat
     {
-        return calcAngle(value: value, yValueSum: (_data as! PieChartData).yValueSum)
+        return calcAngle(value: value, yValueSum: _data?.yValueSum ?? 0)
     }
     
     /// calculates the needed angle for a given value
     private func calcAngle(value: Double, yValueSum: Double) -> CGFloat
     {
         return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
-    }
-
-    /// This will throw an exception, PieChart has no XAxis object.
-    open override var xAxis: XAxis?
-    {
-        return nil
     }
 
     open override func indexForAngle(_ angle: CGFloat) -> Int

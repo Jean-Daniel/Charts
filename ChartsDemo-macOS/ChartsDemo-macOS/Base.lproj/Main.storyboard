@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -642,7 +642,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ChartsDemo_OSX" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ChartsDemo_macOS" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -651,7 +651,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -661,140 +661,17 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="MdU-M1-yR2" kind="relationship" relationship="window.shadowedContentViewController" id="HCe-s7-mZF"/>
+                        <segue destination="KI5-K5-PrY" kind="relationship" relationship="window.shadowedContentViewController" id="5pD-Wd-y7d"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Tab View Controller-->
-        <scene sceneID="D8r-LN-ETo">
-            <objects>
-                <tabViewController selectedTabViewItemIndex="3" id="MdU-M1-yR2" sceneMemberID="viewController">
-                    <tabViewItems>
-                        <tabViewItem label="Bar" identifier="" id="75m-u6-Lg4"/>
-                        <tabViewItem identifier="" id="Yby-Hr-Gbs"/>
-                        <tabViewItem id="1nR-kL-Mxb"/>
-                        <tabViewItem id="WOB-FI-izp"/>
-                    </tabViewItems>
-                    <tabView key="tabView" type="noTabsNoBorder" id="4aI-t7-jgI">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="message"/>
-                        <connections>
-                            <outlet property="delegate" destination="MdU-M1-yR2" id="s53-W6-MQq"/>
-                        </connections>
-                    </tabView>
-                    <connections>
-                        <outlet property="tabView" destination="4aI-t7-jgI" id="H36-1r-bl2"/>
-                        <segue destination="4fu-uG-om0" kind="relationship" relationship="tabItems" id="LFV-tq-WGj"/>
-                        <segue destination="vkP-1b-D8k" kind="relationship" relationship="tabItems" id="gGD-RY-5OB"/>
-                        <segue destination="CQR-9h-gXY" kind="relationship" relationship="tabItems" id="rqo-tR-9a7"/>
-                        <segue destination="KI5-K5-PrY" kind="relationship" relationship="tabItems" id="pWA-3O-1hN"/>
-                    </connections>
-                </tabViewController>
-                <customObject id="VRA-wT-PQh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="726" y="432"/>
-        </scene>
-        <!--Bar Demo View Controller-->
-        <scene sceneID="A6I-3s-knM">
-            <objects>
-                <viewController title="Bar Demo View Controller" id="4fu-uG-om0" customClass="BarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="U2J-4p-9ti">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="ElM-1T-Mza" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="31" width="440" height="264"/>
-                            </customView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zeP-Mj-hKG">
-                                <rect key="frame" x="-1" y="-2" width="118" height="32"/>
-                                <buttonCell key="cell" type="push" title="Save as PNG" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4id-uC-82a">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="save:" target="4fu-uG-om0" id="JFi-f7-B43"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="ElM-1T-Mza" firstAttribute="leading" secondItem="U2J-4p-9ti" secondAttribute="leading" constant="5" id="KwD-j8-5I4"/>
-                            <constraint firstItem="zeP-Mj-hKG" firstAttribute="top" secondItem="ElM-1T-Mza" secondAttribute="bottom" constant="5" id="LX8-qy-0Z5"/>
-                            <constraint firstAttribute="trailing" secondItem="ElM-1T-Mza" secondAttribute="trailing" constant="5" id="Z91-lG-orc"/>
-                            <constraint firstItem="zeP-Mj-hKG" firstAttribute="leading" secondItem="U2J-4p-9ti" secondAttribute="leading" constant="5" id="hww-5P-BKM"/>
-                            <constraint firstItem="ElM-1T-Mza" firstAttribute="top" secondItem="U2J-4p-9ti" secondAttribute="top" constant="5" id="sRD-ZS-Eoa"/>
-                            <constraint firstAttribute="bottom" secondItem="zeP-Mj-hKG" secondAttribute="bottom" constant="5" id="x9Q-cI-FVn"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="barChartView" destination="ElM-1T-Mza" id="cPE-0H-sHY"/>
-                    </connections>
-                </viewController>
-                <customObject id="DVo-MQ-urk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1321" y="328"/>
-        </scene>
-        <!--Line-->
-        <scene sceneID="IGh-XR-taX">
-            <objects>
-                <viewController title="Line" id="vkP-1b-D8k" customClass="LineDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="bwI-de-txf">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="UZ4-Tp-UjR" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="UZ4-Tp-UjR" firstAttribute="leading" secondItem="bwI-de-txf" secondAttribute="leading" constant="5" id="1VX-dH-Bv5"/>
-                            <constraint firstItem="UZ4-Tp-UjR" firstAttribute="top" secondItem="bwI-de-txf" secondAttribute="top" constant="5" id="7K4-G5-Yzx"/>
-                            <constraint firstAttribute="bottom" secondItem="UZ4-Tp-UjR" secondAttribute="bottom" constant="5" id="DIe-5j-9Zl"/>
-                            <constraint firstAttribute="trailing" secondItem="UZ4-Tp-UjR" secondAttribute="trailing" constant="5" id="ERZ-9q-ctd"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="lineChartView" destination="UZ4-Tp-UjR" id="Q0o-Eh-qLo"/>
-                    </connections>
-                </viewController>
-                <customObject id="wYh-tX-8oy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1321" y="689"/>
-        </scene>
-        <!--Radar-->
-        <scene sceneID="jjT-Es-ofe">
-            <objects>
-                <viewController title="Radar" id="CQR-9h-gXY" customClass="RadarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="fep-JV-rhs">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="2xv-mz-JjT" customClass="RadarChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="2xv-mz-JjT" secondAttribute="bottom" constant="5" id="Fg2-2H-qXW"/>
-                            <constraint firstAttribute="trailing" secondItem="2xv-mz-JjT" secondAttribute="trailing" constant="5" id="QMy-3f-Jf7"/>
-                            <constraint firstItem="2xv-mz-JjT" firstAttribute="leading" secondItem="fep-JV-rhs" secondAttribute="leading" constant="5" id="ZBq-zW-lNc"/>
-                            <constraint firstItem="2xv-mz-JjT" firstAttribute="top" secondItem="fep-JV-rhs" secondAttribute="top" constant="5" id="xHE-MZ-dCA"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="radarChartView" destination="2xv-mz-JjT" id="3Ca-Mv-lyt"/>
-                    </connections>
-                </viewController>
-                <customObject id="cEj-Lv-uAd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="571" y="1068"/>
-        </scene>
         <!--Pie-->
         <scene sceneID="zCq-mS-JMX">
             <objects>
-                <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="6Bd-GB-Gqp">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -816,7 +693,7 @@
                 </viewController>
                 <customObject id="nwz-zo-FQ4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="1088"/>
+            <point key="canvasLocation" x="745" y="243"/>
         </scene>
     </scenes>
 </document>

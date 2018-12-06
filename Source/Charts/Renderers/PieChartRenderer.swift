@@ -94,7 +94,7 @@ open class PieChartRenderer: DataRenderer
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
-            let data = chart?.data as? PieChartData
+            let data = chart?.data
             else { return dataSet.sliceSpace }
 
         let spaceSizeRatio = dataSet.sliceSpace / min(viewPortHandler.contentWidth, viewPortHandler.contentHeight)
@@ -314,7 +314,7 @@ open class PieChartRenderer: DataRenderer
 
         var dataSets = data.dataSets
 
-        let yValueSum = (data as! PieChartData).yValueSum
+        let yValueSum = data.yValueSum
 
         let drawEntryLabels = chart.drawsEntryLabels
         let usePercentValuesEnabled = chart.usesPercentValues
@@ -891,7 +891,7 @@ open class PieChartRenderer: DataRenderer
 
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let formatter = dataSet.valueFormatter else { return element }
-        guard let data = container.data as? PieChartData else { return element }
+        guard let data = container.data else { return element }
 
         var elementValueText = formatter.stringForValue(
             e.y,

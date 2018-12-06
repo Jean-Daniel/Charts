@@ -46,20 +46,11 @@ extension ChartViewDelegate {
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
-    
-    /// - Returns: The object representing all x-labels, this method can be used to
-    /// acquire the XAxis object and modify it (e.g. change the position of the
-    /// labels)
-    open var xAxis: XAxis?
-    {
-        return _xAxis
-    }
-    
-    /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    internal var _defaultValueFormatter: IValueFormatter? = DefaultValueFormatter(decimals: 0)
+    /// The default ValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
+    internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
-    internal var _data: ChartData?
+    internal var _data: PieChartData?
 
     /// If set to true, chart continues to scroll after touch up
     open var dragDecelerationEnabled = true
@@ -70,9 +61,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
-    
-    /// The object representing the labels on the x-axis
-    internal let _xAxis : XAxis = XAxis()
     
     /// The `Description` object of the chart.
     /// This should have been called just "description", but
@@ -99,9 +87,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal let _legendRenderer: LegendRenderer
     
     /// object responsible for rendering the data
-    open var renderer: DataRenderer!
+    var renderer: PieChartRenderer!
     
-    open var highlighter: Highlighter?
+    var highlighter: PieHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ViewPortHandler
@@ -185,7 +173,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - ChartViewBase
     
     /// The data for the chart
-    open var data: ChartData?
+    open var data: PieChartData?
     {
         get
         {
@@ -730,33 +718,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - Accessors
 
-    /// The current y-max value across all DataSets
-    open var chartYMax: Double
-    {
-        return _data?.yMax ?? 0.0
-    }
-
-    /// The current y-min value across all DataSets
-    open var chartYMin: Double
-    {
-        return _data?.yMin ?? 0.0
-    }
-    
-    open var chartXMax: Double
-    {
-        return _xAxis._axisMaximum
-    }
-    
-    open var chartXMin: Double
-    {
-        return _xAxis._axisMinimum
-    }
-    
-    open var xRange: Double
-    {
-        return _xAxis.axisRange
-    }
-    
     /// - Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
     /// The center point of the chart (the whole View) in pixels.
     open var midPoint: CGPoint
@@ -868,9 +829,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         return true
     }
-    
-    internal var _viewportJobs = [ViewPortJob]()
-    
+
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
         if keyPath == "bounds" || keyPath == "frame"
@@ -885,39 +844,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 // This may cause the chart view to mutate properties affecting the view port -- lets do this
                 // before we try to run any pending jobs on the view port itself
                 notifyDataSetChanged()
-
-                // Finish any pending viewport changes
-                while (!_viewportJobs.isEmpty)
-                {
-                    let job = _viewportJobs.remove(at: 0)
-                    job.doJob()
-                }
             }
-        }
-    }
-    
-    open func removeViewportJob(_ job: ViewPortJob)
-    {
-        if let index = _viewportJobs.index(where: { $0 === job })
-        {
-            _viewportJobs.remove(at: index)
-        }
-    }
-    
-    open func clearAllViewportJobs()
-    {
-        _viewportJobs.removeAll(keepingCapacity: false)
-    }
-    
-    open func addViewportJob(_ job: ViewPortJob)
-    {
-        if _viewPortHandler.hasChartDimens
-        {
-            job.doJob()
-        }
-        else
-        {
-            _viewportJobs.append(job)
         }
     }
     

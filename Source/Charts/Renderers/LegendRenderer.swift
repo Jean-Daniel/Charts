@@ -46,57 +46,9 @@ open class LegendRenderer: Renderer
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
-                if dataSet is IBarChartDataSet &&
-                    (dataSet as! IBarChartDataSet).isStacked
-                {
-                    let bds = dataSet as! IBarChartDataSet
-                    var sLabels = bds.stackLabels
-                    let minEntries = min(clrs.count, bds.stackSize)
 
-                    for j in 0..<minEntries
-                    {
-                        let label: String?
-                        if (sLabels.count > 0 && minEntries > 0) {
-                            let labelIndex = j % minEntries
-                            label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
-                        } else {
-                            label = nil
-                        }
-
-                        entries.append(
-                            LegendEntry(
-                                label: label,
-                                form: dataSet.form,
-                                formSize: dataSet.formSize,
-                                formLineWidth: dataSet.formLineWidth,
-                                formLineDashPhase: dataSet.formLineDashPhase,
-                                formLineDashLengths: dataSet.formLineDashLengths,
-                                formColor: clrs[j]
-                            )
-                        )
-                    }
-                    
-                    if dataSet.label != nil
-                    {
-                        // add the legend description label
-                        
-                        entries.append(
-                            LegendEntry(
-                                label: dataSet.label,
-                                form: .none,
-                                formSize: CGFloat.nan,
-                                formLineWidth: CGFloat.nan,
-                                formLineDashPhase: 0.0,
-                                formLineDashLengths: nil,
-                                formColor: nil
-                            )
-                        )
-                    }
-                }
-                else if dataSet is IPieChartDataSet
+                if let pds = dataSet as? IPieChartDataSet
                 {
-                    let pds = dataSet as! IPieChartDataSet
-                    
                     for j in 0..<min(clrs.count, entryCount)
                     {
                         entries.append(
@@ -128,35 +80,6 @@ open class LegendRenderer: Renderer
                             )
                         )
                     }
-                }
-                else if dataSet is ICandleChartDataSet &&
-                    (dataSet as! ICandleChartDataSet).decreasingColor != nil
-                {
-                    let candleDataSet = dataSet as! ICandleChartDataSet
-                    
-                    entries.append(
-                        LegendEntry(
-                            label: nil,
-                            form: dataSet.form,
-                            formSize: dataSet.formSize,
-                            formLineWidth: dataSet.formLineWidth,
-                            formLineDashPhase: dataSet.formLineDashPhase,
-                            formLineDashLengths: dataSet.formLineDashLengths,
-                            formColor: candleDataSet.decreasingColor
-                        )
-                    )
-                    
-                    entries.append(
-                        LegendEntry(
-                            label: dataSet.label,
-                            form: dataSet.form,
-                            formSize: dataSet.formSize,
-                            formLineWidth: dataSet.formLineWidth,
-                            formLineDashPhase: dataSet.formLineDashPhase,
-                            formLineDashLengths: dataSet.formLineDashLengths,
-                            formColor: candleDataSet.increasingColor
-                        )
-                    )
                 }
                 else
                 { // all others
