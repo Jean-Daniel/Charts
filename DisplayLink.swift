@@ -20,8 +20,9 @@ class DisplayLink {
       CVDisplayLinkSetOutputHandler(displayLink!, { (displayLink, inNow, inOutputTime, flagsIn, flagsOut) -> CVReturn in
 
         // It should probably be better to use .sync, but we can't as it cause deadlock when stop is called
+        let targetTime : Double = Double(inOutputTime.pointee.hostTime) / CVGetHostClockFrequency()
         DispatchQueue.main.async {
-          self._callback(CACurrentMediaTime())
+          self._callback(targetTime)
         }
 
         return kCVReturnSuccess
@@ -31,7 +32,7 @@ class DisplayLink {
     {
       timer = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
       timer?.setEventHandler {
-        self._callback(CFAbsoluteTimeGetCurrent())
+        self._callback(CACurrentMediaTime())
       }
       timer?.schedule(deadline: DispatchTime.now(), repeating: 1.0 / 60)
     }
@@ -53,6 +54,7 @@ class DisplayLink {
 
   func stop() {
     if let displayLink = displayLink {
+      // Avoid dead lock
       CVDisplayLinkStop(displayLink)
     } else if let timer = timer {
       timer.cancel()
