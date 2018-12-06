@@ -20,7 +20,7 @@ open class MarkerView: NSUIView, Marker
 {
     open var offset: CGPoint = CGPoint()
     
-    open weak var chartView: ChartViewBase?
+    open weak var chartView: NSUIView?
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {

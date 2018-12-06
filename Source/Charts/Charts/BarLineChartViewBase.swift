@@ -658,9 +658,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     
                     _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
                     
-                    if delegate !== nil
+                    if let delegate = delegate
                     {
-                        delegate?.chartScaled(self, scaleX: scaleX, scaleY: scaleY)
+                        delegate.chartScaled(self, scaleX: scaleX, scaleY: scaleY)
                     }
                 }
                 
@@ -811,9 +811,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
         
-        if delegate !== nil
+        if let delegate = delegate
         {
-            delegate?.chartTranslated(self, dX: translation.x, dY: translation.y)
+            delegate.chartTranslated(self, dX: translation.x, dY: translation.y)
         }
         
         // Did we managed to actually drag or did we reach the edge?

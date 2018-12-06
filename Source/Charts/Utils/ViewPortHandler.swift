@@ -242,7 +242,7 @@ open class ViewPortHandler
     /// Centers the viewport around the specified position (x-index and y-value) in the chart.
     /// Centering the viewport outside the bounds of the chart is not possible.
     /// Makes most sense in combination with the setScaleMinima(...) method.
-    open func centerViewPort(pt: CGPoint, chart: ChartViewBase)
+    open func centerViewPort(pt: CGPoint, chart: NSUIView)
     {
         let translateX = pt.x - offsetLeft
         let translateY = pt.y - offsetTop
@@ -252,7 +252,7 @@ open class ViewPortHandler
     }
     
     /// call this method to refresh the graph with a given matrix
-    @discardableResult open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
+    @discardableResult open func refresh(newMatrix: CGAffineTransform, chart: NSUIView, invalidate: Bool) -> CGAffineTransform
     {
         _touchMatrix = newMatrix
         

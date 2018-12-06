@@ -20,14 +20,14 @@ open class ViewPortJob
     internal var xValue: Double = 0.0
     internal var yValue: Double = 0.0
     internal weak var transformer: Transformer?
-    internal weak var view: ChartViewBase?
+    internal weak var view: NSUIView?
     
     public init(
         viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
         transformer: Transformer,
-        view: ChartViewBase)
+        view: NSUIView)
     {
         self.viewPortHandler = viewPortHandler
         self.xValue = xValue

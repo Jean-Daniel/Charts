@@ -25,13 +25,13 @@ public protocol ChartViewDelegate : AnyObject
     ///   - entry: The selected Entry.
     ///   - highlight: The corresponding highlight object that contains information about the highlighted position such as dataSetIndex etc.
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight)
-    
+
     // Called when nothing has been selected or an "un-select" has been made.
     func chartValueNothingSelected(_ chartView: ChartViewBase)
-    
+
     // Callbacks when the chart is scaled / zoomed via pinch zoom gesture.
     func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat)
-    
+
     // Callbacks when the chart is moved / translated via drag gesture.
     func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
@@ -211,7 +211,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             
             for set in _data.dataSets
             {
-                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
+                if set.needsFormatter || set.valueFormatter == nil
                 {
                     set.valueFormatter = _defaultValueFormatter
                 }
@@ -531,7 +531,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 delegate.chartValueNothingSelected(self)
             }
         }
-        
+
         // redraw the chart
         setNeedsDisplay()
     }

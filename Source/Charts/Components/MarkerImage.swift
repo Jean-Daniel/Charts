@@ -23,7 +23,7 @@ open class MarkerImage: Marker
     
     open var offset: CGPoint = CGPoint()
     
-    open weak var chartView: ChartViewBase?
+    open weak var chartView: NSUIView?
     
     /// As long as size is 0.0/0.0 - it will default to the image's size
     open var size: CGSize = CGSize()
