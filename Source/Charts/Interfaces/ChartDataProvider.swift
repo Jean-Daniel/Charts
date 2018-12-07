@@ -14,7 +14,7 @@ import CoreGraphics
 
 public protocol ChartDataProvider : AnyObject
 {   
-  var data: PieChartData? { get }
+  var data: ChartData? { get }
 
   var maxVisibleCount: Int { get }
 }

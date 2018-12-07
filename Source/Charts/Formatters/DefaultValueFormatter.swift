@@ -16,7 +16,6 @@ public class DefaultValueFormatter: ValueFormatter
     public typealias Block = (
         _ value: Double,
         _ entry: ChartDataEntry,
-        _ dataSetIndex: Int,
         _ viewPortHandler: ViewPortHandler?) -> String
     
     public var block: Block?
@@ -82,11 +81,10 @@ public class DefaultValueFormatter: ValueFormatter
     
     public func stringForValue(_ value: Double,
                              entry: ChartDataEntry,
-                             dataSetIndex: Int,
                              viewPortHandler: ViewPortHandler?) -> String
     {
         if let block = block {
-            return block(value, entry, dataSetIndex, viewPortHandler)
+            return block(value, entry, viewPortHandler)
         } else {
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }

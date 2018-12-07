@@ -22,8 +22,6 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
     public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
 #endif
     public typealias NSUIScreen = UIScreen
-
-	public typealias NSUIDisplayLink = CADisplayLink
     
     extension NSUITapGestureRecognizer
     {

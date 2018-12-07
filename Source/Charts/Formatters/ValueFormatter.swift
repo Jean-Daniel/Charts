@@ -30,6 +30,5 @@ public protocol ValueFormatter
     /// - Returns:                   The formatted label ready to be drawn
     func stringForValue(_ value: Double,
                         entry: ChartDataEntry,
-                        dataSetIndex: Int,
                         viewPortHandler: ViewPortHandler?) -> String
 }

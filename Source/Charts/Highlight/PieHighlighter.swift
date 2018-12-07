@@ -15,9 +15,9 @@ import CoreGraphics
 class PieHighlighter
 {
 
-  public weak var chart: ChartDataProvider?
+  public weak var chart: PieChartView?
 
-  public init(chart: ChartDataProvider)
+  public init(chart: PieChartView)
   {
     self.chart = chart
   }
@@ -28,7 +28,7 @@ class PieHighlighter
   /// - Returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
   func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
   {
-    guard let chart = self.chart as? PieChartView else { return nil }
+    guard let chart = self.chart else { return nil }
     
     let touchDistanceToCenter = chart.distanceToCenter(x: x, y: y)
     
@@ -46,24 +46,15 @@ class PieHighlighter
     let index = chart.indexForAngle(angle)
     
     // check if the index could be found
-    if index < 0 || index >= chart.data?.maxEntryCountSet?.entryCount ?? 0
+    if index < 0 || index >= chart.data?.entryCount ?? 0
     {
       return nil
     }
     else
     {
-      return closestHighlight(index: index, x: x, y: y)
+      return Highlight(value: index)
     }
     
   }
   
-  private func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
-  {
-    guard
-      let set = chart?.data?.dataSets[0],
-      let entry = set.entryForIndex(index)
-      else { return nil }
-    
-    return Highlight(x: Double(index), y: entry.value, xPx: x, yPx: y, dataSetIndex: 0)
-  }
 }

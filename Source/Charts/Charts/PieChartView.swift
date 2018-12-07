@@ -71,7 +71,8 @@ public class PieChartView: ChartViewBase
     super.initialize()
 
     renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
-
+    highlighter = PieHighlighter(chart: self)
+    
     _tapGestureRecognizer.addTarget(self, action: #selector(tapGestureRecognized(_:)))
 
     self.addGestureRecognizer(_tapGestureRecognizer)
@@ -94,39 +95,31 @@ public class PieChartView: ChartViewBase
     _drawAngles = [CGFloat]()
     _absoluteAngles = [CGFloat]()
 
-    guard let data = _data else { return }
+    guard let dataSet = _data?.dataSet else { return }
 
-    let entryCount = data.entryCount
+    let entryCount = dataSet.entryCount
 
     _drawAngles.reserveCapacity(entryCount)
     _absoluteAngles.reserveCapacity(entryCount)
 
-    var dataSets = data.dataSets
-
     var cnt = 0
 
-    for i in 0 ..< data.dataSetCount
+    for j in 0 ..< entryCount
     {
-      let set = dataSets[i]
-      let entryCount = set.entryCount
+      guard let e = dataSet.entryForIndex(j) else { continue }
 
-      for j in 0 ..< entryCount
+      _drawAngles.append(calcAngle(value: abs(e.value), yValueSum: _data?.yValueSum ?? 0))
+
+      if cnt == 0
       {
-        guard let e = set.entryForIndex(j) else { continue }
-
-        _drawAngles.append(calcAngle(value: abs(e.value), yValueSum: _data?.yValueSum ?? 0))
-
-        if cnt == 0
-        {
-          _absoluteAngles.append(_drawAngles[cnt])
-        }
-        else
-        {
-          _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
-        }
-
-        cnt += 1
+        _absoluteAngles.append(_drawAngles[cnt])
       }
+      else
+      {
+        _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
+      }
+
+      cnt += 1
     }
   }
 
@@ -206,7 +199,7 @@ public class PieChartView: ChartViewBase
     for i in 0 ..< _indicesToHighlight.count
     {
       // check if the xvalue for the given dataset needs highlight
-      if Int(_indicesToHighlight[i].x) == index
+      if _indicesToHighlight[i].value == index
       {
         return true
       }
@@ -977,22 +970,6 @@ public class PieChartView: ChartViewBase
 
   // MARK: -
   // MARK: Pie Chart Specific
-
-  /// - Returns: The index of the DataSet this x-index belongs to.
-  public func dataSetIndexForIndex(_ xValue: Double) -> Int
-  {
-    var dataSets = _data?.dataSets ?? []
-
-    for i in 0 ..< dataSets.count
-    {
-      if (dataSets[i].entryForXValue(xValue, closestToY: Double.nan) != nil)
-      {
-        return i
-      }
-    }
-
-    return -1
-  }
 
   /// - Returns: An integer array of all the different angles the chart slices
   /// have the angles in the returned array determine how much space (of 360°)

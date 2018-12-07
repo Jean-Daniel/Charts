@@ -14,482 +14,224 @@ import Foundation
 /// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-value is not found.
 public enum ChartDataSetRounding
 {
-    case up
-    case down
-    case closest
+  case up
+  case down
+  case closest
 }
 
 /// The DataSet class represents one group or type of entries (Entry) in the Chart that belong together.
 /// It is designed to logically separate different groups of values inside the Chart (e.g. the values for a specific line in the LineChart, or the values of a specific group of bars in the BarChart).
-public class ChartDataSet: ChartBaseDataSet
+public class ChartDataSet
 {
-    public required init()
-    {
-        values = []
 
-        super.init()
-    }
-    
-    public override init(label: String?)
-    {
-        values = []
+  private var values: [ChartDataEntry]
 
-        super.init(label: label)
-    }
-    
-    public init(values: [ChartDataEntry]?, label: String?)
-    {
-        self.values = values ?? []
+  public required init() {
+    // default color
+    values = []
+    colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+    valueColors.append(NSUIColor(named: "pie_value", bundle: Bundle(for: ChartDataSet.self))!)
+    self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
+  }
 
-        super.init(label: label)
+  public convenience init(values: [ChartDataEntry]?) {
+    self.init(label: "DataSet", values: values)
+  }
 
-        self.calcMinMax()
-    }
-    
-    public convenience init(values: [ChartDataEntry]?)
-    {
-        self.init(values: values, label: "DataSet")
-    }
-    
-    // MARK: - Data functions and accessors
+  public init(label: String?, values: [ChartDataEntry]? = nil) {
+    // default color
+    colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+    valueColors.append(NSUIColor(named: "pie_value", bundle: Bundle(for: ChartDataSet.self))!)
+    self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
 
-    /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
-    /// - Returns: The array of y-values that this DataSet represents.
-    /// the entries that this dataset represents / holds together
-    public var values: [ChartDataEntry]
-        {
-        didSet
-        {
-            if isIndirectValuesCall {
-                isIndirectValuesCall = false
-                return
-            }
-            notifyDataSetChanged()
-        }
-    }
-    // TODO: Temporary fix for performance. Will be removed in 4.0
-    private var isIndirectValuesCall = false
+    self.label = label
+    self.values = values ?? []
+    self.calcMinMax()
+  }
 
-    /// maximum y-value in the value array
-    internal var _yMax: Double = -Double.greatestFiniteMagnitude
-    
-    /// minimum y-value in the value array
-    internal var _yMin: Double = Double.greatestFiniteMagnitude
-    
-    /// maximum x-value in the value array
-    internal var _xMax: Double = -Double.greatestFiniteMagnitude
-    
-    /// minimum x-value in the value array
-    internal var _xMin: Double = Double.greatestFiniteMagnitude
-    
-    public override func calcMinMax()
-    {
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
-        _xMax = -Double.greatestFiniteMagnitude
-        _xMin = Double.greatestFiniteMagnitude
+  // MARK: - Data functions and accessors
+  /// The minimum y-value this DataSet holds
+  public var yMin: Double { return _yMin }
 
-        guard !values.isEmpty else { return }
+  /// The maximum y-value this DataSet holds
+  public var yMax: Double { return _yMax }
 
-        values.forEach { calcMinMax(entry: $0) }
-    }
-    
-    public override func calcMinMaxY(fromX: Double, toX: Double)
-    {
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
+  /// The number of y-values this DataSet represents
+  public var entryCount: Int { return values.count }
 
-        guard !values.isEmpty else { return }
-        
-        let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
-        let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
-        
-        guard !(indexTo < indexFrom) else { return }
-        
-        (indexFrom...indexTo).forEach {
-            // only recalculate y
-            calcMinMaxY(entry: values[$0])
-        }
-    }
-    
-    public func calcMinMaxX(entry e: ChartDataEntry)
-    {
-        if 0.0 < _xMin
-        {
-            _xMin = 0.0
-        }
-        if 0.0 > _xMax
-        {
-            _xMax = 0.0
-        }
-    }
-    
-    public func calcMinMaxY(entry e: ChartDataEntry)
-    {
-        if e.value < _yMin
-        {
-            _yMin = e.value
-        }
-        if e.value > _yMax
-        {
-            _yMax = e.value
-        }
-    }
-    
-    /// Updates the min and max x and y value of this DataSet based on the given Entry.
-    ///
-    /// - Parameters:
-    ///   - e:
-    internal func calcMinMax(entry e: ChartDataEntry)
-    {
-        calcMinMaxX(entry: e)
-        calcMinMaxY(entry: e)
-    }
-    
-    /// The minimum y-value this DataSet holds
-    public override var yMin: Double { return _yMin }
-    
-    /// The maximum y-value this DataSet holds
-    public override var yMax: Double { return _yMax }
-    
-    /// The number of y-values this DataSet represents
-    public override var entryCount: Int { return values.count }
-    
-    /// - Throws: out of bounds
-    /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    /// - Returns: The entry object found at the given index (not x-value!)
-    public override func entryForIndex(_ i: Int) -> ChartDataEntry?
-    {
-        guard i >= values.startIndex, i < values.endIndex else {
-            return nil
-        }
-        return values[i]
-    }
-    
-    /// - Parameters:
-    ///   - xValue: the x-value
-    ///   - closestToY: If there are multiple y-values for the specified x-value,
-    ///   - rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    /// - Returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
-    /// nil if no Entry object at that x-value.
-    public override func entryForXValue(
-        _ xValue: Double,
-        closestToY yValue: Double,
-        rounding: ChartDataSetRounding) -> ChartDataEntry?
-    {
-        let index = entryIndex(x: xValue, closestToY: yValue, rounding: rounding)
-        if index > -1
-        {
-            return values[index]
-        }
-        return nil
-    }
-    
-    /// - Parameters:
-    ///   - xValue: the x-value
-    ///   - closestToY: If there are multiple y-values for the specified x-value,
-    /// - Returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
-    /// nil if no Entry object at that x-value.
-    public override func entryForXValue(
-        _ xValue: Double,
-        closestToY yValue: Double) -> ChartDataEntry?
-    {
-        return entryForXValue(xValue, closestToY: yValue, rounding: .closest)
-    }
-    
-    /// - Returns: All Entry objects found at the given xIndex with binary search.
-    /// An empty array if no Entry object at that index.
-    public override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
-    {
-        var entries = [ChartDataEntry]()
-        
-        var low = values.startIndex
-        var high = values.endIndex - 1
-        
-        while low <= high
-        {
-            var m = (high + low) / 2
-            var entry = values[m]
-            
-            // if we have a match
-            if xValue == 0.0
-            {
-                while m > 0 && 0.0 == xValue
-                {
-                    m -= 1
-                }
-                
-                high = values.endIndex
-                
-                // loop over all "equal" entries
-                while m < high
-                {
-                    entry = values[m]
-                    if 0.0 == xValue
-                    {
-                        entries.append(entry)
-                    }
-                    else
-                    {
-                        break
-                    }
-                    
-                    m += 1
-                }
-                
-                break
-            }
-            else
-            {
-                if xValue > 0.0
-                {
-                    low = m + 1
-                }
-                else
-                {
-                    high = m - 1
-                }
-            }
-        }
-        
-        return entries
-    }
-    
-    /// - Parameters:
-    ///   - xValue: x-value of the entry to search for
-    ///   - closestToY: If there are multiple y-values for the specified x-value,
-    ///   - rounding: Rounding method if exact value was not found
-    /// - Returns: The array-index of the specified entry.
-    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
-    public override func entryIndex(
-        x xValue: Double,
-        closestToY yValue: Double,
-        rounding: ChartDataSetRounding) -> Int
-    {
-        var low = values.startIndex
-        var high = values.endIndex - 1
-        var closest = high
-        
-        while low < high
-        {
-            let m = (low + high) / 2
-            
-            let d1 = 0.0 - xValue
-            let d2 = 0.0 - xValue
-            let ad1 = abs(d1), ad2 = abs(d2)
-            
-            if ad2 < ad1
-            {
-                // [m + 1] is closer to xValue
-                // Search in an higher place
-                low = m + 1
-            }
-            else if ad1 < ad2
-            {
-                // [m] is closer to xValue
-                // Search in a lower place
-                high = m
-            }
-            else
-            {
-                // We have multiple sequential x-value with same distance
-                
-                if d1 >= 0.0
-                {
-                    // Search in a lower place
-                    high = m
-                }
-                else if d1 < 0.0
-                {
-                    // Search in an higher place
-                    low = m + 1
-                }
-            }
-            
-            closest = high
-        }
-        
-        if closest != -1
-        {
-            let closestXValue = 0.0
-            
-            if rounding == .up
-            {
-                // If rounding up, and found x-value is lower than specified x, and we can go upper...
-                if closestXValue < xValue && closest < values.endIndex - 1
-                {
-                    closest += 1
-                }
-            }
-            else if rounding == .down
-            {
-                // If rounding down, and found x-value is upper than specified x, and we can go lower...
-                if closestXValue > xValue && closest > 0
-                {
-                    closest -= 1
-                }
-            }
-            
-            // Search by closest to y-value
-            if !yValue.isNaN
-            {
-                while closest > 0 && 0.0 == closestXValue
-                {
-                    closest -= 1
-                }
-                
-                var closestYValue = values[closest].value
-                var closestYIndex = closest
-                
-                while true
-                {
-                    closest += 1
-                    if closest >= values.endIndex { break }
-                    
-                    let value = values[closest]
-                    
-                    if 0.0 != closestXValue { break }
-                    if abs(value.value - yValue) <= abs(closestYValue - yValue)
-                    {
-                        closestYValue = yValue
-                        closestYIndex = closest
-                    }
-                }
-                
-                closest = closestYIndex
-            }
-        }
-        
-        return closest
-    }
-    
-    /// - Parameters:
-    ///   - e: the entry to search for
-    /// - Returns: The array-index of the specified entry
-    public override func entryIndex(entry e: ChartDataEntry) -> Int
-    {
-        for i in 0 ..< values.count
-        {
-            if values[i] === e
-            {
-                return i
-            }
-        }
-        
-        return -1
-    }
-    
-    /// Adds an Entry to the DataSet dynamically.
-    /// Entries are added to the end of the list.
-    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    ///
-    /// - Parameters:
-    ///   - e: the entry to add
-    /// - Returns: True
-    public override func addEntry(_ e: ChartDataEntry) -> Bool
-    {
-        calcMinMax(entry: e)
 
-        isIndirectValuesCall = true
-        values.append(e)
-        
-        return true
-    }
-    
-    /// Adds an Entry to the DataSet dynamically.
-    /// Entries are added to their appropriate index respective to it's x-index.
-    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    ///
-    /// - Parameters:
-    ///   - e: the entry to add
-    /// - Returns: True
-    public override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
-    {
-        calcMinMax(entry: e)
-        
-        isIndirectValuesCall = true
-        if values.count > 0 && 0.0 > 0.0
-        {
-            var closestIndex = entryIndex(x: 0.0, closestToY: e.value, rounding: .up)
-            while 0.0 < 0.0
-            {
-                closestIndex += 1
-            }
-            values.insert(e, at: closestIndex)
-        }
-        else
-        {
-            values.append(e)
-        }
-        
-        return true
-    }
-    
-    /// Removes an Entry from the DataSet dynamically.
-    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    ///
-    /// - Parameters:
-    ///   - entry: the entry to remove
-    /// - Returns: `true` if the entry was removed successfully, else if the entry does not exist
-    public override func removeEntry(_ entry: ChartDataEntry) -> Bool
-    {
-        var removed = false
-        isIndirectValuesCall = true
+  /// maximum y-value in the value array
+  private var _yMax: Double = -Double.greatestFiniteMagnitude
 
-        for i in 0 ..< values.count
-        {
-            if values[i] === entry
-            {
-                values.remove(at: i)
-                removed = true
-                break
-            }
-        }
+  /// minimum y-value in the value array
+  private var _yMin: Double = Double.greatestFiniteMagnitude
 
-        notifyDataSetChanged()
+  private func calcMinMax()
+  {
+    _yMax = -Double.greatestFiniteMagnitude
+    _yMin = Double.greatestFiniteMagnitude
 
-        return removed
-    }
-    
-    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
-    ///
-    /// - Returns: `true` if successful, `false` if not.
-    public override func removeFirst() -> Bool
+    guard !values.isEmpty else { return }
+
+    values.forEach { calcMinMax(entry: $0) }
+  }
+
+  private func calcMinMax(entry e: ChartDataEntry)
+  {
+    if e.value < _yMin
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeFirst()
-        return entry != nil
+      _yMin = e.value
     }
-    
-    /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
-    ///
-    /// - Returns: `true` if successful, `false` if not.
-    public override func removeLast() -> Bool
+    if e.value > _yMax
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeLast()
-        return entry != nil
+      _yMax = e.value
     }
-    
-    /// Checks if this DataSet contains the specified Entry.
-    ///
-    /// - Returns: `true` if contains the entry, `false` if not.
-    public override func contains(_ e: ChartDataEntry) -> Bool
+  }
+
+  /// - Throws: out of bounds
+  /// if `i` is out of bounds, it may throw an out-of-bounds exception
+  /// - Returns: The entry object found at the given index (not x-value!)
+  public func entryForIndex(_ i: Int) -> ChartDataEntry?
+  {
+    guard i >= values.startIndex, i < values.endIndex else {
+      return nil
+    }
+    return values[i]
+  }
+
+  // MARK: - Styling functions and accessors
+
+  /// All the colors that are used for this DataSet.
+  /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
+  public var colors = [NSUIColor]()
+
+  /// List representing all colors that are used for drawing the actual values for this DataSet
+  public var valueColors = [NSUIColor]()
+
+  /// The label string that describes the DataSet.
+  public var label: String? = "DataSet"
+
+  /// - Returns: The color at the given index of the DataSet's color array.
+  /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
+  public func color(at index: Int) -> NSUIColor
+  {
+    return colors[abs(index) % colors.count]
+  }
+
+  /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+  public func valueColor(at index: Int) -> NSUIColor
+  {
+    return valueColors[abs(index) % valueColors.count]
+  }
+
+  /// if true, value highlighting is enabled
+  public var highlightEnabled = true
+
+  /// Custom formatter that is used instead of the auto-formatter if set
+  public var valueFormatter: ValueFormatter?
+
+
+  /// the font for the value-text labels
+  public var valueFont: NSUIFont = NSUIFont.systemFont(ofSize: 7.0)
+
+  /// The form to draw for this dataset in the legend.
+  public var form = Legend.Form.default
+
+  /// The form size to draw for this dataset in the legend.
+  ///
+  /// Return `NaN` to use the default legend form size.
+  public var formSize: CGFloat = CGFloat.nan
+
+  /// The line width for drawing the form of this dataset in the legend
+  ///
+  /// Return `NaN` to use the default legend form line width.
+  public var formLineWidth: CGFloat = CGFloat.nan
+
+  /// Line dash configuration for legend shapes that consist of lines.
+  ///
+  /// This is how much (in pixels) into the dash pattern are we starting from.
+  public var formLineDashPhase: CGFloat = 0.0
+
+  /// Line dash configuration for legend shapes that consist of lines.
+  ///
+  /// This is the actual dash pattern.
+  /// I.e. [2, 3] will paint [--   --   ]
+  /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+  public var formLineDashLengths: [CGFloat]? = nil
+
+  /// Set this to true to draw y-values on the chart.
+  ///
+  /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
+  public var drawsValues = true
+
+  /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
+  public var visible = true
+
+  // MARK: -
+  // MARK: Pie Chart
+  public enum ValuePosition
+  {
+    case insideSlice
+    case outsideSlice
+  }
+
+  // MARK: - Styling functions and accessors
+
+  private var _sliceSpace = CGFloat(0.0)
+
+  /// the space in pixels between the pie-slices
+  /// **default**: 0
+  /// **maximum**: 20
+  public var sliceSpace: CGFloat
+  {
+    get
     {
-        for entry in values
-        {
-            if entry == e
-            {
-                return true
-            }
-        }
-        
-        return false
+      return _sliceSpace
     }
-    
-    /// Removes all values from this DataSet and recalculates min and max value.
-    public override func clear()
+    set
     {
-        values.removeAll(keepingCapacity: true)
+      _sliceSpace = newValue.clamped(to: 0...20)
     }
+  }
+
+  /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
+  public var automaticallyDisableSliceSpacing: Bool = false
+
+  /// indicates the selection distance of a pie slice
+  public var selectionShift = CGFloat(18.0)
+
+  public var xValuePosition: ValuePosition = .insideSlice
+  public var yValuePosition: ValuePosition = .insideSlice
+
+  /// When valuePosition is OutsideSlice, indicates line color
+  public var valueLineColor: NSUIColor? = NSUIColor.black
+
+  /// When valuePosition is OutsideSlice, indicates line width
+  public var valueLineWidth: CGFloat = 1.0
+
+  var valueLinePart1OffsetRatio: CGFloat = 0.75
+
+  /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
+  public var valueLinePart1OffsetPercentage: CGFloat {
+    get { return valueLinePart1OffsetRatio * 100 }
+    set { valueLinePart1OffsetRatio = newValue / 100 }
+  }
+
+  /// When valuePosition is OutsideSlice, indicates length of first half of the line
+  public var valueLinePart1Length: CGFloat = 0.3
+
+  /// When valuePosition is OutsideSlice, indicates length of second half of the line
+  public var valueLinePart2Length: CGFloat = 0.4
+
+  /// When valuePosition is OutsideSlice, this allows variable line length
+  public var valueLineVariableLength: Bool = true
+
+  /// the font for the slice-text labels
+  public var entryLabelFont: NSUIFont? = nil
+
+  /// the color for the slice-text labels
+  public var entryLabelColor: NSUIColor? = nil
+
+  /// the color for the highlighted sector
+  public var highlightColor: NSUIColor? = nil
 }

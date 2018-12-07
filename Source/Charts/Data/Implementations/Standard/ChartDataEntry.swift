@@ -11,13 +11,10 @@
 
 import Foundation
 
-public class ChartDataEntry
+open class ChartDataEntry
 {
   /// the y value
   public var value = Double(0.0)
-
-  /// optional spot for additional data this Entry represents
-  public var data: AnyObject?
 
   public var label: String?
 
@@ -25,7 +22,6 @@ public class ChartDataEntry
     self.value = value
     self.label = label
   }
-
 }
 
 // MARK: Equatable
@@ -36,6 +32,6 @@ extension ChartDataEntry: Equatable {
       return true
     }
 
-    return lhs.value == rhs.value && (lhs.data === rhs.data || lhs.data?.isEqual(rhs.data) ?? false)
+    return lhs.value == rhs.value
   }
 }

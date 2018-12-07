@@ -50,7 +50,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
 
   /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
-  internal var _data: PieChartData?
+  internal var _data: ChartData?
 
   /// If set to true, chart continues to scroll after touch up
   public var dragDecelerationEnabled = true
@@ -157,8 +157,6 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     self.backgroundColor = NSUIColor.clear
     #endif
 
-    highlighter = PieHighlighter(chart: self)
-
     _animator.delegate = self
 
     self.addObserver(self, forKeyPath: "bounds", options: .new, context: nil)
@@ -168,7 +166,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   // MARK: - ChartViewBase
 
   /// The data for the chart
-  public var data: PieChartData?
+  public var data: ChartData?
   {
     get
     {
@@ -186,13 +184,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
       }
 
       // calculate how many digits are needed
-      setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
+      setupDefaultFormatter(min: _data.yMin, max: _data.yMax)
 
-      for set in _data.dataSets
+      if let dataSet = _data.dataSet
       {
-        if set.needsFormatter || set.valueFormatter == nil
+        if dataSet.valueFormatter == nil
         {
-          set.valueFormatter = _defaultValueFormatter
+          dataSet.valueFormatter = _defaultValueFormatter
         }
       }
 
@@ -215,7 +213,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   /// Removes all DataSets (and thereby Entries) from the chart. Does not set the data object to nil. Also refreshes the chart by calling setNeedsDisplay().
   public func clearValues()
   {
-    _data?.clearValues()
+    _data?.dataSet = nil
     setNeedsDisplay()
   }
 
@@ -401,36 +399,9 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   ///   - x: The x-value to highlight
   ///   - dataSetIndex: The dataset index to search in
   ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-  public func highlightValue(x: Double, dataSetIndex: Int, dataIndex: Int = -1)
+  public func highlightValue(x: Int, dataIndex: Int = -1)
   {
-    highlightValue(x: x, dataSetIndex: dataSetIndex, dataIndex: dataIndex, callDelegate: true)
-  }
-
-  /// Highlights the value at the given x-value and y-value in the given DataSet.
-  /// Provide -1 as the dataSetIndex to undo all highlighting.
-  /// This method will call the delegate.
-  ///
-  /// - Parameters:
-  ///   - x: The x-value to highlight
-  ///   - y: The y-value to highlight. Supply `NaN` for "any"
-  ///   - dataSetIndex: The dataset index to search in
-  ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-  public func highlightValue(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
-  {
-    highlightValue(x: x, y: y, dataSetIndex: dataSetIndex, dataIndex: dataIndex, callDelegate: true)
-  }
-
-  /// Highlights any y-value at the given x-value in the given DataSet.
-  /// Provide -1 as the dataSetIndex to undo all highlighting.
-  ///
-  /// - Parameters:
-  ///   - x: The x-value to highlight
-  ///   - dataSetIndex: The dataset index to search in
-  ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-  ///   - callDelegate: Should the delegate be called for this change
-  public func highlightValue(x: Double, dataSetIndex: Int, dataIndex: Int = -1, callDelegate: Bool)
-  {
-    highlightValue(x: x, y: .nan, dataSetIndex: dataSetIndex, dataIndex: dataIndex, callDelegate: callDelegate)
+    highlightValue(x: x, dataIndex: dataIndex, callDelegate: true)
   }
 
   /// Highlights the value at the given x-value and y-value in the given DataSet.
@@ -442,22 +413,15 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   ///   - dataSetIndex: The dataset index to search in
   ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
   ///   - callDelegate: Should the delegate be called for this change
-  public func highlightValue(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1, callDelegate: Bool)
+  public func highlightValue(x: Int, dataIndex: Int = -1, callDelegate: Bool)
   {
-    guard let data = _data else
+    guard _data != nil else
     {
       Swift.print("Value not highlighted because data is nil")
       return
     }
 
-    if dataSetIndex < 0 || dataSetIndex >= data.dataSetCount
-    {
-      highlightValue(nil, callDelegate: callDelegate)
-    }
-    else
-    {
-      highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
-    }
+    highlightValue(Highlight(value: x), callDelegate: callDelegate)
   }
 
   /// Highlights the values represented by the provided Highlight object
