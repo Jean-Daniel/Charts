@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-open class Description: ComponentBase
+public class Description: ComponentBase
 {
     public override init()
     {
@@ -33,17 +33,17 @@ open class Description: ComponentBase
     }
     
     /// The text to be shown as the description.
-    open var text: String?
+    public var text: String?
     
     /// Custom position for the description text in pixels on the screen.
-    open var position: CGPoint? = nil
+    public var position: CGPoint? = nil
     
     /// The text alignment of the description text. Default RIGHT.
-    open var textAlign: NSTextAlignment = NSTextAlignment.right
+    public var textAlign: NSTextAlignment = NSTextAlignment.right
     
     /// Font object used for drawing the description text.
-    open var font: NSUIFont
+    public var font: NSUIFont
     
     /// Text color used for drawing the description text
-    open var textColor = NSUIColor.labelColor
+    public var textColor = NSUIColor.labelColor
 }

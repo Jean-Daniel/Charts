@@ -16,10 +16,10 @@ import CoreGraphics
     import UIKit
 #endif
 
-open class LegendRenderer: Renderer
+public class LegendRenderer: Renderer
 {
     /// the legend object this renderer renders
-    open var legend: Legend?
+    public var legend: Legend?
 
     public init(viewPortHandler: ViewPortHandler, legend: Legend?)
     {
@@ -29,7 +29,7 @@ open class LegendRenderer: Renderer
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    open func computeLegend(data: ChartData)
+    public func computeLegend(data: ChartData)
     {
         guard let legend = legend else { return }
         
@@ -53,7 +53,7 @@ open class LegendRenderer: Renderer
                     {
                         entries.append(
                             LegendEntry(
-                                label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label,
+                                label: pds.entryForIndex(j)?.label,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
@@ -120,7 +120,7 @@ open class LegendRenderer: Renderer
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    open func renderLegend(context: CGContext)
+    public func renderLegend(context: CGContext)
     {
         guard let legend = legend else { return }
         
@@ -422,7 +422,7 @@ open class LegendRenderer: Renderer
     private var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    open func drawForm(
+    public func drawForm(
         context: CGContext,
         x: CGFloat,
         y: CGFloat,
@@ -494,7 +494,7 @@ open class LegendRenderer: Renderer
     }
 
     /// Draws the provided label at the given position.
-    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    public func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: textColor])
     }

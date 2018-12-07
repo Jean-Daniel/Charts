@@ -91,7 +91,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
     }
 #endif
 
-	open class NSUIView: UIView
+	public class NSUIView: UIView
     {
 		public final override func touchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
@@ -113,22 +113,22 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 			self.nsuiTouchesCancelled(touches, withEvent: event)
 		}
 
-		open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesBegan(touches, with: event!)
 		}
 
-		open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesMoved(touches, with: event!)
 		}
 
-		open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesEnded(touches, with: event!)
 		}
 
-		open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
 			super.touchesCancelled(touches!, with: event!)
 		}
@@ -350,7 +350,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
         }
     }
     
-	open class NSUIView: NSView
+	public class NSUIView: NSView
     {
         /// A private constant to set the accessibility role during initialization.
         /// It ensures parity with the iOS element ordering as well as numbered counts of chart components.
@@ -394,32 +394,32 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 			self.nsuiTouchesMoved(event.touches(matching: .any, in: self), withEvent: event)
 		}
 
-		open override func touchesCancelled(with event: NSEvent)
+		public override func touchesCancelled(with event: NSEvent)
         {
 			self.nsuiTouchesCancelled(event.touches(matching: .any, in: self), withEvent: event)
 		}
 
-		open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesBegan(with: event!)
 		}
 
-		open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesMoved(with: event!)
 		}
 
-		open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesEnded(with: event!)
 		}
 
-		open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
 			super.touchesCancelled(with: event!)
         }
         
-		open var backgroundColor: NSUIColor?
+		public var backgroundColor: NSUIColor?
         {
             get
             {

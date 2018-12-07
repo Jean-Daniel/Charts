@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class DataRenderer: Renderer
+public class DataRenderer: Renderer
 {
     /// An array of accessibility elements that are presented to the ChartViewBase accessibility methods.
     ///
@@ -32,17 +32,17 @@ open class DataRenderer: Renderer
         super.init(viewPortHandler: viewPortHandler)
     }
 
-    open func drawData(context: CGContext)
+    public func drawData(context: CGContext)
     {
         fatalError("drawData() cannot be called on DataRenderer")
     }
     
-    open func drawValues(context: CGContext)
+    public func drawValues(context: CGContext)
     {
         fatalError("drawValues() cannot be called on DataRenderer")
     }
     
-    open func drawExtras(context: CGContext)
+    public func drawExtras(context: CGContext)
     {
         fatalError("drawExtras() cannot be called on DataRenderer")
     }
@@ -51,16 +51,16 @@ open class DataRenderer: Renderer
     ///
     /// - Parameters:
     ///   - indices: the highlighted values
-    open func drawHighlighted(context: CGContext, indices: [Highlight])
+    public func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         fatalError("drawHighlighted() cannot be called on DataRenderer")
     }
     
     /// An opportunity for initializing internal buffers used for rendering with a new size.
     /// Since this might do memory allocations, it should only be called if necessary.
-    open func initBuffers() { }
+    public func initBuffers() { }
     
-    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
         guard let data = dataProvider?.data else { return false }
         return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)

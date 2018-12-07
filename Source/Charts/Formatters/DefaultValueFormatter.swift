@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class DefaultValueFormatter: ValueFormatter
+public class DefaultValueFormatter: ValueFormatter
 {
     public typealias Block = (
         _ value: Double,
@@ -19,12 +19,12 @@ open class DefaultValueFormatter: ValueFormatter
         _ dataSetIndex: Int,
         _ viewPortHandler: ViewPortHandler?) -> String
     
-    open var block: Block?
+    public var block: Block?
     
-    open var hasAutoDecimals: Bool = false
+    public var hasAutoDecimals: Bool = false
     
     private var _formatter: NumberFormatter?
-    open var formatter: NumberFormatter?
+    public var formatter: NumberFormatter?
     {
         get { return _formatter }
         set
@@ -35,7 +35,7 @@ open class DefaultValueFormatter: ValueFormatter
     }
     
     private var _decimals: Int?
-    open var decimals: Int?
+    public var decimals: Int?
     {
         get { return _decimals }
         set
@@ -80,7 +80,7 @@ open class DefaultValueFormatter: ValueFormatter
         return DefaultValueFormatter(block: block)
     }
     
-    open func stringForValue(_ value: Double,
+    public func stringForValue(_ value: Double,
                              entry: ChartDataEntry,
                              dataSetIndex: Int,
                              viewPortHandler: ViewPortHandler?) -> String

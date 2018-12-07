@@ -32,12 +32,6 @@ public protocol IChartDataSet : AnyObject
     /// The maximum y-value this DataSet holds
     var yMax: Double { get }
     
-    /// The minimum x-value this DataSet holds
-    var xMin: Double { get }
-    
-    /// The maximum x-value this DataSet holds
-    var xMax: Double { get }
-    
     /// The number of y-values this DataSet represents
     var entryCount: Int { get }
     
@@ -168,9 +162,6 @@ public protocol IChartDataSet : AnyObject
     /// The label string that describes the DataSet.
     var label: String? { get }
     
-    /// The axis this DataSet should be plotted against.
-    var axisDependency: YAxis.AxisDependency { get }
-    
     /// List representing all colors that are used for drawing the actual values for this DataSet
     var valueColors: [NSUIColor] { get }
     
@@ -245,21 +236,6 @@ public protocol IChartDataSet : AnyObject
     
     /// `true` if y-value drawing is enabled, `false` ifnot
     var isDrawValuesEnabled: Bool { get }
-    
-    /// Set this to true to draw y-icons on the chart
-    ///
-    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
-    var drawIconsEnabled: Bool { get set }
-    
-    /// Returns true if y-icon drawing is enabled, false if not
-    var isDrawIconsEnabled: Bool { get }
-    
-    /// Offset of icons drawn on the chart.
-    ///
-    /// For all charts except Pie and Radar it will be ordinary (x offset, y offset).
-    ///
-    /// For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase X component of CGPoint, and if you want icon to be rendered closet to center, you should decrease height component of CGPoint.
-    var iconsOffset: CGPoint { get set }
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }

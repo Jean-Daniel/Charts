@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class PieChartDataSet: ChartDataSet, IPieChartDataSet
+public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
     public enum ValuePosition
     {
@@ -50,7 +50,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     /// the space in pixels between the pie-slices
     /// **default**: 0
     /// **maximum**: 20
-    open var sliceSpace: CGFloat
+    public var sliceSpace: CGFloat
     {
         get
         {
@@ -72,38 +72,38 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     }
 
     /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
-    open var automaticallyDisableSliceSpacing: Bool = false
+    public var automaticallyDisableSliceSpacing: Bool = false
 
     /// indicates the selection distance of a pie slice
-    open var selectionShift = CGFloat(18.0)
+    public var selectionShift = CGFloat(18.0)
 
-    open var xValuePosition: ValuePosition = .insideSlice
-    open var yValuePosition: ValuePosition = .insideSlice
+    public var xValuePosition: ValuePosition = .insideSlice
+    public var yValuePosition: ValuePosition = .insideSlice
 
     /// When valuePosition is OutsideSlice, indicates line color
-    open var valueLineColor: NSUIColor? = NSUIColor.black
+    public var valueLineColor: NSUIColor? = NSUIColor.black
 
     /// When valuePosition is OutsideSlice, indicates line width
-    open var valueLineWidth: CGFloat = 1.0
+    public var valueLineWidth: CGFloat = 1.0
 
     /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
-    open var valueLinePart1OffsetPercentage: CGFloat = 0.75
+    public var valueLinePart1OffsetPercentage: CGFloat = 0.75
 
     /// When valuePosition is OutsideSlice, indicates length of first half of the line
-    open var valueLinePart1Length: CGFloat = 0.3
+    public var valueLinePart1Length: CGFloat = 0.3
 
     /// When valuePosition is OutsideSlice, indicates length of second half of the line
-    open var valueLinePart2Length: CGFloat = 0.4
+    public var valueLinePart2Length: CGFloat = 0.4
 
     /// When valuePosition is OutsideSlice, this allows variable line length
-    open var valueLineVariableLength: Bool = true
+    public var valueLineVariableLength: Bool = true
 
     /// the font for the slice-text labels
-    open var entryLabelFont: NSUIFont? = nil
+    public var entryLabelFont: NSUIFont? = nil
 
     /// the color for the slice-text labels
-    open var entryLabelColor: NSUIColor? = nil
+    public var entryLabelColor: NSUIColor? = nil
 
     /// the color for the highlighted sector
-    open var highlightColor: NSUIColor? = nil
+    public var highlightColor: NSUIColor? = nil
 }

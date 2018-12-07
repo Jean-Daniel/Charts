@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class Renderer
+public class Renderer
 {
     /// the component that handles the drawing area of the chart and it's offsets
     public let viewPortHandler: ViewPortHandler

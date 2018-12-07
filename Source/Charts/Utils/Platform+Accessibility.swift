@@ -13,7 +13,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
 }
 
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
-open class NSUIAccessibilityElement: UIAccessibilityElement
+public class NSUIAccessibilityElement: UIAccessibilityElement
 {
     private weak var containerView: UIView?
 
@@ -40,7 +40,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
         super.init(accessibilityContainer: container)
     }
 
-    override open var accessibilityFrame: CGRect
+    override public var accessibilityFrame: CGRect
     {
         get
         {
@@ -59,7 +59,7 @@ extension NSUIView
 {
     /// An array of accessibilityElements that is used to implement UIAccessibilityContainer internally.
     /// Subclasses **MUST** override this with an array of such elements.
-    @objc open func accessibilityChildren() -> [Any]?
+    @objc public func accessibilityChildren() -> [Any]?
     {
         return nil
     }
@@ -70,17 +70,17 @@ extension NSUIView
         set { }
     }
 
-    open override func accessibilityElementCount() -> Int
+    public override func accessibilityElementCount() -> Int
     {
         return accessibilityChildren()?.count ?? 0
     }
 
-    open override func accessibilityElement(at index: Int) -> Any?
+    public override func accessibilityElement(at index: Int) -> Any?
     {
         return accessibilityChildren()?[index]
     }
 
-    open override func index(ofAccessibilityElement element: Any) -> Int
+    public override func index(ofAccessibilityElement element: Any) -> Int
     {
         guard let axElement = element as? NSUIAccessibilityElement else { return NSNotFound }
         return (accessibilityChildren() as? [NSUIAccessibilityElement])?.index(of: axElement) ?? NSNotFound
@@ -103,7 +103,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
 }
 
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
-open class NSUIAccessibilityElement: NSAccessibilityElement
+public class NSUIAccessibilityElement: NSAccessibilityElement
 {
     private weak var containerView: NSView?
 
@@ -123,7 +123,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         }
     }
 
-    open var accessibilityLabel: String
+    public var accessibilityLabel: String
     {
         get
         {
@@ -136,7 +136,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         }
     }
 
-    open var accessibilityFrame: NSRect
+    public var accessibilityFrame: NSRect
     {
         get
         {
@@ -182,12 +182,12 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 /// - Note: setAccessibilityRole(.list) is called at init. See Platform.swift.
 extension NSUIView: NSAccessibilityGroup
 {
-    open override func accessibilityLabel() -> String?
+    public override func accessibilityLabel() -> String?
     {
         return "Chart View"
     }
 
-    open override func accessibilityRows() -> [Any]?
+    public override func accessibilityRows() -> [Any]?
     {
         return accessibilityChildren()
     }

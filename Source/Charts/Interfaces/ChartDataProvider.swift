@@ -14,11 +14,7 @@ import CoreGraphics
 
 public protocol ChartDataProvider : AnyObject
 {   
-    var maxHighlightDistance: CGFloat { get }
-    
-    var centerOffsets: CGPoint { get }
-    
-    var data: PieChartData? { get }
-    
-    var maxVisibleCount: Int { get }
+  var data: PieChartData? { get }
+
+  var maxVisibleCount: Int { get }
 }

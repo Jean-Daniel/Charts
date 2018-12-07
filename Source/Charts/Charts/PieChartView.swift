@@ -17,7 +17,7 @@ import UIKit
 #endif
 
 /// Base class of PieChartView and RadarChartView.
-open class PieChartView: ChartViewBase
+public class PieChartView: ChartViewBase
 {
   /// holds the normalized version of the current rotation angle of the chart
   private var _rotationAngle = CGFloat(270.0)
@@ -26,10 +26,10 @@ open class PieChartView: ChartViewBase
   private var _rawRotationAngle = CGFloat(270.0)
 
   /// flag that indicates if rotation is enabled or not
-  open var rotationEnabled = true
+  public var rotationEnabled = true
 
   /// Sets the minimum offset (padding) around the chart, defaults to 0.0
-  open var minOffset = CGFloat(0.0)
+  public var minOffset = CGFloat(0.0)
 
   /// rect object that represents the bounds of the piechart, needed for drawing the circle
   private var _circleBox = CGRect()
@@ -114,7 +114,7 @@ open class PieChartView: ChartViewBase
       {
         guard let e = set.entryForIndex(j) else { continue }
 
-        _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: _data?.yValueSum ?? 0))
+        _drawAngles.append(calcAngle(value: abs(e.value), yValueSum: _data?.yValueSum ?? 0))
 
         if cnt == 0
         {
@@ -142,15 +142,15 @@ open class PieChartView: ChartViewBase
     return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
   }
   
-  open override var maxVisibleCount: Int
-    {
+  public override var maxVisibleCount: Int
+  {
     get
     {
       return data?.entryCount ?? 0
     }
   }
 
-  open override func notifyDataSetChanged()
+  public override func notifyDataSetChanged()
   {
     calcMinMax()
 
@@ -164,7 +164,7 @@ open class PieChartView: ChartViewBase
     setNeedsDisplay()
   }
 
-  open override func draw(_ rect: CGRect)
+  public override func draw(_ rect: CGRect)
   {
     super.draw(rect)
 
@@ -192,12 +192,10 @@ open class PieChartView: ChartViewBase
     legendRenderer.renderLegend(context: context)
 
     drawDescription(context: context)
-
-    drawMarkers(context: context)
   }
 
   /// Checks if the given index is set to be highlighted.
-  open func needsHighlight(index: Int) -> Bool
+  public func needsHighlight(index: Int) -> Bool
   {
     // no highlight
     if !valuesToHighlight()
@@ -234,8 +232,7 @@ open class PieChartView: ChartViewBase
 
         var xLegendOffset: CGFloat = 0.0
 
-        if _legend.horizontalAlignment == .left
-          || _legend.horizontalAlignment == .right
+        if _legend.horizontalAlignment == .left || _legend.horizontalAlignment == .right
         {
           if _legend.verticalAlignment == .center
           {
@@ -367,38 +364,10 @@ open class PieChartView: ChartViewBase
     _circleBox.size.width = diameter - shift * 2.0
     _circleBox.size.height = diameter - shift * 2.0
   }
-
-  open override func getMarkerPosition(highlight: Highlight) -> CGPoint
-  {
-    let center = self.centerCircleBox
-    var r = self.radius
-
-    var off = r / 10.0 * 3.6
-
-    if self.drawsHole
-    {
-      off = (r - (r * self.holeRadiusRatio)) / 2.0
-    }
-
-    r -= off // offset to keep things inside the chart
-
-    let rotationAngle = self.rotationAngle
-
-    let entryIndex = Int(highlight.x)
-
-    // offset needed to center the drawn text in the slice
-    let offset = drawAngles[entryIndex] / 2.0
-
-    // calculate the text position
-    let x: CGFloat = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)).DEG2RAD) + center.x)
-    let y: CGFloat = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)).DEG2RAD) + center.y)
-
-    return CGPoint(x: x, y: y)
-  }
   
   /// - Returns: The angle relative to the chart center for the given point on the chart in degrees.
   /// The angle is always between 0 and 360°, 0° is NORTH, 90° is EAST, ...
-  open func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
+  public func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
   {
     let c = centerOffsets
 
@@ -428,14 +397,14 @@ open class PieChartView: ChartViewBase
 
   /// Calculates the position around a center point, depending on the distance
   /// from the center, and the angle of the position around the center.
-  open func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
+  public func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
   {
     return CGPoint(x: center.x + dist * cos(angle.DEG2RAD),
                    y: center.y + dist * sin(angle.DEG2RAD))
   }
 
   /// - Returns: The distance of a certain point on the chart to the center of the chart.
-  open func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
+  public func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
   {
     let c = self.centerOffsets
 
@@ -470,7 +439,7 @@ open class PieChartView: ChartViewBase
 
   /// - Returns: The xIndex for the given angle around the center of the chart.
   /// -1 if not found / outofbounds.
-  open func indexForAngle(_ angle: CGFloat) -> Int
+  public func indexForAngle(_ angle: CGFloat) -> Int
   {
     // take the current angle of the chart into consideration
     let a = (angle - self.rotationAngle).normalizedAngle
@@ -489,8 +458,8 @@ open class PieChartView: ChartViewBase
   ///
   /// **default**: 270 --> top (NORTH)
   /// Will always return a normalized value, which will be between 0.0 < 360.0
-  open var rotationAngle: CGFloat
-    {
+  public var rotationAngle: CGFloat
+  {
     get
     {
       return _rotationAngle
@@ -505,13 +474,13 @@ open class PieChartView: ChartViewBase
 
   /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees.
   /// this is used when working with rotation direction, mainly by gestures and animations.
-  open var rawRotationAngle: CGFloat
+  public var rawRotationAngle: CGFloat
   {
     return _rawRotationAngle
   }
 
   /// The diameter of the pie- or radar-chart
-  open var diameter: CGFloat
+  public var diameter: CGFloat
   {
     var content = _viewPortHandler.contentRect
     content.origin.x += extraLeftOffset
@@ -522,7 +491,7 @@ open class PieChartView: ChartViewBase
   }
 
   /// The radius of the chart in pixels.
-  open var radius: CGFloat
+  public var radius: CGFloat
   {
     return _circleBox.width / 2.0
   }
@@ -540,7 +509,7 @@ open class PieChartView: ChartViewBase
     return 0.0
   }
 
-  open var isRotationEnabled: Bool { return rotationEnabled }
+  public var isRotationEnabled: Bool { return rotationEnabled }
 
   /// flag that indicates if rotation is done with two fingers or one.
   /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
@@ -549,8 +518,8 @@ open class PieChartView: ChartViewBase
   /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
   ///
   /// **default**: false
-  open var rotationWithTwoFingers: Bool
-    {
+  public var rotationWithTwoFingers: Bool
+  {
     get
     {
       return _rotationWithTwoFingers
@@ -571,7 +540,7 @@ open class PieChartView: ChartViewBase
   /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
   ///
   /// **default**: false
-  open var isRotationWithTwoFingers: Bool
+  public var isRotationWithTwoFingers: Bool
   {
     return _rotationWithTwoFingers
   }
@@ -581,7 +550,7 @@ open class PieChartView: ChartViewBase
   private var _spinAnimator: Animator!
 
   /// Applys a spin animation to the Chart.
-  open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
+  public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
   {
     if _spinAnimator != nil
     {
@@ -597,17 +566,17 @@ open class PieChartView: ChartViewBase
     _spinAnimator.animate(xAxisDuration: duration, easing: easing)
   }
 
-  open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
+  public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
   {
     spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: easingFunctionFromOption(easingOption))
   }
 
-  open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
+  public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
   {
     spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: nil)
   }
 
-  open func stopSpinAnimation()
+  public func stopSpinAnimation()
   {
     if _spinAnimator != nil
     {
@@ -697,7 +666,7 @@ open class PieChartView: ChartViewBase
   }
 
   #if !os(OSX)
-  open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
   {
     // if rotation by touch is enabled
     if rotationEnabled
@@ -716,7 +685,7 @@ open class PieChartView: ChartViewBase
     }
   }
 
-  open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
   {
     if rotationEnabled && !rotationWithTwoFingers, let touch = touches.first
     {
@@ -730,7 +699,7 @@ open class PieChartView: ChartViewBase
     }
   }
 
-  open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
   {
     if !_isRotating
     {
@@ -749,7 +718,7 @@ open class PieChartView: ChartViewBase
     }
   }
 
-  open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
   {
     super.nsuiTouchesCancelled(touches, withEvent: event)
 
@@ -758,7 +727,7 @@ open class PieChartView: ChartViewBase
   #endif
 
   #if os(OSX)
-  open override func mouseDown(with theEvent: NSEvent)
+  public override func mouseDown(with theEvent: NSEvent)
   {
     // if rotation by touch is enabled
     if rotationEnabled
@@ -776,7 +745,7 @@ open class PieChartView: ChartViewBase
     }
   }
 
-  open override func mouseDragged(with theEvent: NSEvent)
+  public override func mouseDragged(with theEvent: NSEvent)
   {
     if rotationEnabled
     {
@@ -791,7 +760,7 @@ open class PieChartView: ChartViewBase
     }
   }
 
-  open override func mouseUp(with theEvent: NSEvent)
+  public override func mouseUp(with theEvent: NSEvent)
   {
     if !_isRotating
     {
@@ -915,7 +884,7 @@ open class PieChartView: ChartViewBase
     self.rotationAngle = angleForPoint(x: x, y: y) - _startAngle
   }
 
-  open func stopDeceleration()
+  public func stopDeceleration()
   {
     _decelerationDisplayLink?.stop()
     _decelerationDisplayLink = nil
@@ -953,12 +922,9 @@ open class PieChartView: ChartViewBase
     return sqrt(dx * dx + dy * dy)
   }
 
-  /// reference to the last highlighted object
-  private var _lastHighlight: Highlight!
-
   @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
   {
-    if recognizer.state == NSUIGestureRecognizerState.ended
+    if recognizer.state == .ended
     {
       if !self.highlightsPerTap { return }
 
@@ -972,21 +938,21 @@ open class PieChartView: ChartViewBase
   #if !os(tvOS)
   @objc private func rotationGestureRecognized(_ recognizer: NSUIRotationGestureRecognizer)
   {
-    if recognizer.state == NSUIGestureRecognizerState.began
+    if recognizer.state == .began
     {
       stopDeceleration()
 
       _startAngle = self.rawRotationAngle
     }
 
-    if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
+    if recognizer.state == .began || recognizer.state == .changed
     {
       let angle = recognizer.nsuiRotation.RAD2DEG
 
       self.rotationAngle = _startAngle + angle
       setNeedsDisplay()
     }
-    else if recognizer.state == NSUIGestureRecognizerState.ended
+    else if recognizer.state == .ended
     {
       let angle = recognizer.nsuiRotation.RAD2DEG
 
@@ -1013,7 +979,7 @@ open class PieChartView: ChartViewBase
   // MARK: Pie Chart Specific
 
   /// - Returns: The index of the DataSet this x-index belongs to.
-  open func dataSetIndexForIndex(_ xValue: Double) -> Int
+  public func dataSetIndexForIndex(_ xValue: Double) -> Int
   {
     var dataSets = _data?.dataSets ?? []
 
@@ -1031,14 +997,14 @@ open class PieChartView: ChartViewBase
   /// - Returns: An integer array of all the different angles the chart slices
   /// have the angles in the returned array determine how much space (of 360°)
   /// each slice takes
-  open var drawAngles: [CGFloat]
+  public var drawAngles: [CGFloat]
   {
     return _drawAngles
   }
 
   /// - Returns: The absolute angles of the different chart slices (where the
   /// slices end)
-  open var absoluteAngles: [CGFloat]
+  public var absoluteAngles: [CGFloat]
   {
     return _absoluteAngles
   }
@@ -1046,28 +1012,28 @@ open class PieChartView: ChartViewBase
   /// The color for the hole that is drawn in the center of the PieChart (if enabled).
   ///
   /// - Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-  open var holeColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))
-    {
+  public var holeColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// if true, the hole will see-through to the inner tips of the slices
   ///
   /// **default**: `false`
-  open var drawsSlicesUnderHole: Bool = false
-    {
+  public var drawsSlicesUnderHole: Bool = false
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
-  open var drawsHole: Bool = true
-    {
+  public var drawsHole: Bool = true
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// the text that is displayed in the center of the pie-chart
-  open var centerText: String?
-    {
+  public var centerText: String?
+  {
     get
     {
       return self.centerAttributedText?.string
@@ -1081,13 +1047,8 @@ open class PieChartView: ChartViewBase
       }
       else
       {
-        #if os(OSX)
         let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-        #else
-        let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-        #endif
         paragraphStyle.alignment = .center
 
         attrString = NSMutableAttributedString(string: newValue!)
@@ -1102,31 +1063,31 @@ open class PieChartView: ChartViewBase
   }
 
   /// the text that is displayed in the center of the pie-chart
-  open var centerAttributedText: NSAttributedString?
-    {
+  public var centerAttributedText: NSAttributedString?
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// Sets the offset the center text should have from it's original position in dp. Default x = 0, y = 0
-  open var centerTextOffset: CGPoint = CGPoint.zero
-    {
+  public var centerTextOffset: CGPoint = CGPoint.zero
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// `true` if drawing the center text is enabled
-  open var drawsCenterText: Bool = true
-    {
+  public var drawsCenterText: Bool = true
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// The circlebox, the boundingbox of the pie-chart slices
-  open var circleBox: CGRect
+  public var circleBox: CGRect
   {
     return _circleBox
   }
 
   /// The center of the circlebox
-  open var centerCircleBox: CGPoint
+  public var centerCircleBox: CGPoint
   {
     return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
   }
@@ -1139,8 +1100,8 @@ open class PieChartView: ChartViewBase
     didSet { setNeedsDisplay() }
   }
 
-  open var holeRadiusPercent: CGFloat
-    {
+  public var holeRadiusPercent: CGFloat
+  {
     get { return holeRadiusRatio * 100 }
     set { holeRadiusRatio = newValue / 100 }
   }
@@ -1148,8 +1109,8 @@ open class PieChartView: ChartViewBase
   /// The color that the transparent-circle should have.
   ///
   /// **default**: `nil`
-  open var transparentCircleColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))?.withAlphaComponent(0.5)
-    {
+  public var transparentCircleColor: NSUIColor? = NSUIColor(named: "pie_hole", bundle: Bundle(for: PieChartView.self))?.withAlphaComponent(0.5)
+  {
     didSet { setNeedsDisplay() }
   }
 
@@ -1161,33 +1122,33 @@ open class PieChartView: ChartViewBase
     didSet { setNeedsDisplay() }
   }
 
-  open var transparentCircleRadiusPercent: CGFloat
-    {
+  public var transparentCircleRadiusPercent: CGFloat
+  {
     get { return transparentCircleRadiusRatio * 100 }
     set { transparentCircleRadiusRatio = newValue / 100 }
   }
 
   /// The color the entry labels are drawn with.
-  open var entryLabelColor: NSUIColor? = NSUIColor(named: "pie_label", bundle: Bundle(for: PieChartView.self))
-    {
+  public var entryLabelColor: NSUIColor? = NSUIColor(named: "pie_label", bundle: Bundle(for: PieChartView.self))
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// The font the entry labels are drawn with.
-  open var entryLabelFont: NSUIFont? = NSUIFont.systemFont(ofSize: 13.0)
-    {
+  public var entryLabelFont: NSUIFont? = NSUIFont.systemFont(ofSize: 13.0)
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// Set this to true to draw the enrty labels into the pie slices
-  open var drawsEntryLabels: Bool = true
-    {
+  public var drawsEntryLabels: Bool = true
+  {
     didSet { setNeedsDisplay() }
   }
 
   /// If this is enabled, values inside the PieChart are drawn in percent and not with their original value. Values provided for the ValueFormatter to format are then provided in percent.
-  open var usesPercentValues: Bool = false
-    {
+  public var usesPercentValues: Bool = false
+  {
     didSet { setNeedsDisplay() }
   }
 
@@ -1197,8 +1158,8 @@ open class PieChartView: ChartViewBase
     didSet { setNeedsDisplay() }
   }
 
-  open var centerTextRadiusPercent: CGFloat
-    {
+  public var centerTextRadiusPercent: CGFloat
+  {
     get { return centerTextRadiusRatio * 100 }
     set { centerTextRadiusRatio = newValue / 100 }
   }
@@ -1206,8 +1167,8 @@ open class PieChartView: ChartViewBase
   /// The max angle that is used for calculating the pie-circle.
   /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
   /// **default**: 360.0
-  open var maxAngle: CGFloat
-    {
+  public var maxAngle: CGFloat
+  {
     get
     {
       return _maxAngle

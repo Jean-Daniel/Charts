@@ -23,7 +23,7 @@ open class PieDemoViewController: NSViewController
         // Do any additional setup after loading the view.
         let ys1 = Array(1..<10).map { x in return sin(Double(x) / 2.0 / 3.141 * 1.5) * 100.0 }
         
-        let yse1 = ys1.enumerated().map { x, y in return PieChartDataEntry(value: y, label: String(x)) }
+        let yse1 = ys1.enumerated().map { (x, y) in return ChartDataEntry(value: y, label: String(x)) }
         
         let data = PieChartData()
         let ds1 = PieChartDataSet(values: yse1, label: "Hello")
@@ -35,6 +35,7 @@ open class PieDemoViewController: NSViewController
 //      pieChartView.holeColor = NSColor.windowBackgroundColor
 //      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
       pieChartView.usesPercentValues = true
+      pieChartView.drawsHole = false
       // pieChartView.rotationEnabled = false
 
         let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle

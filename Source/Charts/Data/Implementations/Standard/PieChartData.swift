@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class PieChartData: ChartData
+public class PieChartData: ChartData
 {
     public override init(dataSets: [IChartDataSet]? = nil)
     {
@@ -19,7 +19,7 @@ open class PieChartData: ChartData
     }
 
     /// All DataSet objects this ChartData object holds.
-    open override var dataSets: [IChartDataSet]
+    public override var dataSets: [IChartDataSet]
     {
         get
         {
@@ -51,7 +51,7 @@ open class PieChartData: ChartData
         }
     }
     
-    open override func getDataSetByIndex(_ index: Int) -> IChartDataSet?
+    public override func getDataSetByIndex(_ index: Int) -> IChartDataSet?
     {
         if index != 0
         {
@@ -60,7 +60,7 @@ open class PieChartData: ChartData
         return super.getDataSetByIndex(index)
     }
     
-    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
+    public override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {
         if dataSets.count == 0 || dataSets[0].label == nil
         {
@@ -84,12 +84,12 @@ open class PieChartData: ChartData
         return nil
     }
     
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+    public override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
     }
     
-    open override func addDataSet(_ d: IChartDataSet!)
+    public override func addDataSet(_ d: IChartDataSet!)
     {   
         super.addDataSet(d)
     }
@@ -98,7 +98,7 @@ open class PieChartData: ChartData
     /// Also recalculates all minimum and maximum values.
     ///
     /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    open override func removeDataSetByIndex(_ index: Int) -> Bool
+    public override func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
         {
@@ -109,7 +109,7 @@ open class PieChartData: ChartData
     }
     
     /// The total y-value sum across all DataSet objects the this object represents.
-    open var yValueSum: Double
+    public var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }
         
@@ -117,7 +117,7 @@ open class PieChartData: ChartData
         
         for i in 0..<dataSet.entryCount
         {
-            yValueSum += dataSet.entryForIndex(i)?.y ?? 0.0
+            yValueSum += dataSet.entryForIndex(i)?.value ?? 0.0
         }
         
         return yValueSum
