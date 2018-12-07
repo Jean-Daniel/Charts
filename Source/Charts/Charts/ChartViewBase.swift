@@ -671,7 +671,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   /// - Returns: The bitmap that represents the chart.
   public func getChartImage(transparent: Bool) -> NSUIImage?
   {
-    NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
+    NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.scale ?? 1.0)
 
     guard let context = NSUIGraphicsGetCurrentContext() else { return nil }
 
@@ -699,10 +699,59 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     return image
   }
 
+  public func getChartPDFData(transparent: Bool) -> Data?
+  {
+    guard
+      let data = CFDataCreateMutable(nil, 0),
+      let consumer = CGDataConsumer(data: data),
+      let context = CGContext(consumer: consumer, mediaBox: &bounds, nil)
+      else { return nil }
+
+    context.beginPDFPage(nil)
+
+    // PDF match quartz
+    #if os(macOS)
+    if isFlipped {
+      context.translateBy(x: 0, y: bounds.size.height)
+      context.scaleBy(x: 1, y: -1)
+    }
+    #endif
+    let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: bounds.size)
+
+    if isOpaque || !transparent
+    {
+      // Background color may be partially transparent, we must fill with white if we want to output an opaque image
+      context.setFillColor(red: 1, green: 1, blue: 1, alpha: 1)
+      context.fill(rect)
+
+      if let backgroundColor = self.backgroundColor
+      {
+        context.setFillColor(backgroundColor.cgColor)
+        context.fill(rect)
+      }
+    }
+
+    nsuiLayer?.render(in: context)
+
+    context.endPDFPage()
+    context.closePDF()
+    return data as Data
+  }
+
   public enum ImageFormat
   {
-    case jpeg
+    case jpeg(quality: Double)
     case png
+    case pdf
+
+    var hasAlpha : Bool {
+      switch self {
+      case .png, .pdf:
+        return true
+      case .jpeg:
+        return false
+      }
+    }
   }
 
   /// Saves the current chart state with the given name to the given path on
@@ -715,22 +764,31 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
   ///   - format: the format to save
   ///   - compressionQuality: compression quality for lossless formats (JPEG)
   /// - Returns: `true` if the image was saved successfully
-  public func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
+  public func save(to url: URL, format: ImageFormat) -> Bool
   {
-    guard let image = getChartImage(transparent: format != .jpeg) else { return false }
-
     let imageData: Data?
     switch (format)
     {
-    case .png: imageData = NSUIImagePNGRepresentation(image)
-    case .jpeg: imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
+    case .png:
+      if let image = getChartImage(transparent: format.hasAlpha) {
+        imageData = NSUIImagePNGRepresentation(image)
+      } else {
+        imageData = nil
+      }
+    case .pdf: imageData = getChartPDFData(transparent: format.hasAlpha)
+    case let .jpeg(quality):
+      if let image = getChartImage(transparent: format.hasAlpha) {
+        imageData = NSUIImageJPEGRepresentation(image, quality)
+      } else {
+        imageData = nil
+      }
     }
 
     guard let data = imageData else { return false }
 
     do
     {
-      try data.write(to: URL(fileURLWithPath: path), options: .atomic)
+      try data.write(to: url, options: .atomic)
     }
     catch
     {

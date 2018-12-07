@@ -179,14 +179,6 @@ extension UIScrollView
   }
 }
 
-extension UIScreen
-{
-  final var nsuiScale: CGFloat
-  {
-    return self.scale
-  }
-}
-
 func NSUIGraphicsGetCurrentContext() -> CGContext?
 {
   return UIGraphicsGetCurrentContext()
@@ -217,9 +209,9 @@ func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
   return image.pngData()
 }
 
-func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
+func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: Double = 0.8) -> Data?
 {
-  return image.jpegData(compressionQuality: quality)
+  return image.jpegData(compressionQuality: CGFloat(quality))
 }
 
 func NSUIMainScreen() -> NSUIScreen?
@@ -449,7 +441,7 @@ extension NSFont
 
 extension NSScreen
 {
-  final var nsuiScale: CGFloat
+  final var scale: CGFloat
   {
     return self.backingScaleFactor
   }
@@ -522,7 +514,7 @@ func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
   return NSUIImageRepresentation(image, type: kUTTypePNG)
 }
 
-func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
+func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: Double = 0.9) -> Data?
 {
   return NSUIImageRepresentation(image, type: kUTTypeJPEG, options: [
     kCGImageDestinationLossyCompressionQuality: quality as NSNumber
