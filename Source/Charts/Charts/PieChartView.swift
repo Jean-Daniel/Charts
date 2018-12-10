@@ -218,7 +218,7 @@ public class PieChartView: ChartViewBase
 
     var angle = angleForPoint(x: x ,y: y)
 
-    angle /= CGFloat(chartAnimator.phaseY)
+    angle /= CGFloat(chartAnimator.phase)
 
     let index = indexForAngle(angle)
 
@@ -555,11 +555,11 @@ public class PieChartView: ChartViewBase
 
     _spinAnimator = Animator()
     _spinAnimator.updateBlock = {
-      self.rotationAngle = (toAngle - fromAngle) * CGFloat(self._spinAnimator.phaseX) + fromAngle
+      self.rotationAngle = (toAngle - fromAngle) * CGFloat(self._spinAnimator.phase) + fromAngle
     }
     _spinAnimator.stopBlock = { self._spinAnimator = nil }
 
-    _spinAnimator.animate(xAxisDuration: duration, easing: easing)
+    _spinAnimator.animate(duration: duration, easing: easing)
   }
 
   public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)

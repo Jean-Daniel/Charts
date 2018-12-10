@@ -416,12 +416,12 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
   ///   - easingY: an easing function for the animation on the y axis
   public func animate(duration: TimeInterval, easing: ChartEasingFunctionBlock? = nil)
   {
-    _animator.animate(xAxisDuration: 0.0, yAxisDuration: duration, easingX: nil, easingY: easing)
+    _animator.animate(duration: duration, easing: easing)
   }
 
   public func animate(duration: TimeInterval, easing: ChartEasingOption = .easeInOutSine)
   {
-    _animator.animate(yAxisDuration: duration, easingOption: easing)
+    _animator.animate(duration: duration, easing: easing)
   }
 
   // MARK: - Accessors

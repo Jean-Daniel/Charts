@@ -140,8 +140,7 @@ public class PieChartRenderer
     var angle: CGFloat = 0.0
     let rotationAngle = chart.rotationAngle
 
-    let phaseX = animator.phaseX
-    let phaseY = animator.phaseY
+    let phaseY = animator.phase
 
     let entryCount = data.count
     var drawAngles = chart.drawAngles
@@ -296,7 +295,7 @@ public class PieChartRenderer
         accessibleChartElements.append(axElement)
       }
 
-      angle += sliceAngle * CGFloat(phaseX)
+      angle += sliceAngle
     }
 
     // Post this notification to let VoiceOver account for the redrawn frames
@@ -320,8 +319,7 @@ public class PieChartRenderer
     var drawAngles = chart.drawAngles
     var absoluteAngles = chart.absoluteAngles
 
-    let phaseX = animator.phaseX
-    let phaseY = animator.phaseY
+    let phaseY = animator.phase
 
     var labelRadiusOffset = radius / 10.0 * 3.0
 
@@ -369,7 +367,7 @@ public class PieChartRenderer
       }
       else
       {
-        angle = absoluteAngles[xIndex - 1] * CGFloat(phaseX)
+        angle = absoluteAngles[xIndex - 1]
       }
 
       let sliceAngle = drawAngles[xIndex]
@@ -605,7 +603,7 @@ public class PieChartRenderer
         if transparentCircleColor != NSUIColor.clear &&
           chart.transparentCircleRadiusRatio > chart.holeRadiusRatio
         {
-          let alpha = animator.phaseX * animator.phaseY
+          let alpha = animator.phase
           let secondHoleRadius = radius * chart.transparentCircleRadiusRatio
 
           // make transparent
@@ -692,8 +690,7 @@ public class PieChartRenderer
 
     context.saveGState()
 
-    let phaseX = animator.phaseX
-    let phaseY = animator.phaseY
+    let phaseY = animator.phase
 
     var angle: CGFloat = 0.0
     let rotationAngle = chart.rotationAngle
@@ -734,7 +731,7 @@ public class PieChartRenderer
       }
       else
       {
-        angle = absoluteAngles[index - 1] * CGFloat(phaseX)
+        angle = absoluteAngles[index - 1]
       }
 
       let sliceSpace = visibleAngleCount <= 1 ? 0.0 : data.sliceSpace
