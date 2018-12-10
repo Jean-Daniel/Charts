@@ -43,7 +43,7 @@ extension ChartViewDelegate {
   func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {}
 }
 
-public class ChartViewBase: NSUIView, AnimatorDelegate
+public class ChartViewBase: NSUIView
 {
   // MARK: - Properties
   /// The default ValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
@@ -135,7 +135,11 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
     self.backgroundColor = NSUIColor.clear
     #endif
 
-    _animator.delegate = self
+    _animator.progressBlock = { [ weak self ] in
+      if let self = self, $0 != nil {
+        self.setNeedsDisplay()
+      }
+    }
 
     self.addObserver(self, forKeyPath: "bounds", options: .new, context: nil)
     self.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
@@ -637,18 +641,6 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
   public var maxVisibleCount: Int
   {
     return Int(INT_MAX)
-  }
-
-  // MARK: - AnimatorDelegate
-
-  public func animatorUpdated(_ chartAnimator: Animator)
-  {
-    setNeedsDisplay()
-  }
-
-  public func animatorStopped(_ chartAnimator: Animator)
-  {
-
   }
 
   // MARK: - Touches

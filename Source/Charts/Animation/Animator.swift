@@ -16,20 +16,9 @@ import CoreGraphics
     import UIKit
 #endif
 
-public protocol AnimatorDelegate : AnyObject
-{
-    /// Called when the Animator has stepped.
-    func animatorUpdated(_ animator: Animator)
-    
-    /// Called when the Animator has stopped.
-    func animatorStopped(_ animator: Animator)
-}
-
 public class Animator
 {
-    public weak var delegate: AnimatorDelegate?
-    public var updateBlock: ((Double) -> Void)?
-    public var stopBlock: (() -> Void)?
+    public var progressBlock: ((Double?) -> Void)?
 
     /// the phase that is animated and influences the drawn values on the y-axis
     public var phase: Double = 1.0
@@ -68,12 +57,10 @@ public class Animator
         {
             phase = 1.0
 
-            delegate?.animatorUpdated(self)
-            updateBlock?(phase)
+            progressBlock?(1.0)
         }
 
-        delegate?.animatorStopped(self)
-        stopBlock?()
+        progressBlock?(nil)
     }
     
     private func updateAnimationPhases(_ currentTime: TimeInterval)
@@ -96,8 +83,7 @@ public class Animator
     {
         updateAnimationPhases(targetTime)
 
-        delegate?.animatorUpdated(self)
-        updateBlock?(phase)
+        progressBlock?(phase)
         
         if targetTime >= _endTime
         {

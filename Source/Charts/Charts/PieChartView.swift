@@ -518,13 +518,18 @@ public class PieChartView: ChartViewBase
   /// Applys a spin animation to the Chart.
   public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
   {
+    _spinAnimator?.progressBlock = nil
     _spinAnimator?.stop()
 
+
     _spinAnimator = Animator()
-    _spinAnimator!.updateBlock = {
-      self.rotationAngle = (toAngle - fromAngle) * CGFloat($0) + fromAngle
+    _spinAnimator!.progressBlock = {
+      if let phase = $0 {
+        self.rotationAngle = (toAngle - fromAngle) * CGFloat(phase) + fromAngle
+      } else {
+        self._spinAnimator = nil
+      }
     }
-    _spinAnimator!.stopBlock = { self._spinAnimator = nil }
 
     _spinAnimator!.animate(duration: duration, easing: easing)
   }
@@ -820,11 +825,12 @@ public class PieChartView: ChartViewBase
         os_log(.debug, "start deceleration (velocity: %f, duration: %fs, angle: %f°)", velocity, duration, rotation)
 
         _decelerationAnimator = Animator()
-        _decelerationAnimator!.updateBlock = {
-          self.rotationAngle = startAngle + rotation * CGFloat($0)
-        }
-        _decelerationAnimator!.stopBlock = {
-          self._decelerationAnimator = nil
+        _decelerationAnimator!.progressBlock = {
+          if let phase = $0 {
+            self.rotationAngle = startAngle + rotation * CGFloat(phase)
+          } else {
+            self._decelerationAnimator = nil
+          }
         }
         _decelerationAnimator!.animate(duration: duration, easing: .easeOutExpo)
       }
@@ -846,9 +852,9 @@ public class PieChartView: ChartViewBase
       let location = recognizer.location(in: self)
 
       if let high = self.getHighlight(at: location) {
-        self.highlightValue(high, callDelegate: true)
-      }
+      self.highlightValue(high, callDelegate: true)
     }
+  }
   }
 
   #if !os(tvOS)
@@ -1061,7 +1067,7 @@ public class PieChartView: ChartViewBase
       return _maxAngle
     }
     set
-    {
+      {
       _maxAngle = newValue.clamped(to: 90...360)
     }
   }
