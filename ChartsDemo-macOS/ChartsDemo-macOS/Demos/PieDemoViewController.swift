@@ -30,6 +30,7 @@ open class PieDemoViewController: NSViewController
         data.colors = ChartColorTemplates.vordiplom() + ChartColorTemplates.liberty()
 //      pieChartView.holeColor = NSColor.windowBackgroundColor
 //      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
+      pieChartView.rotationWithTwoFingers = true
       pieChartView.usesPercentValues = true
       pieChartView.drawsHole = false
       // pieChartView.rotationEnabled = false

@@ -662,7 +662,7 @@ public class PieChartView: ChartViewBase
   }
 
   #if !os(OSX)
-  public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     // if rotation by touch is enabled
     if rotationEnabled
@@ -681,7 +681,7 @@ public class PieChartView: ChartViewBase
     }
   }
 
-  public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if rotationEnabled && !rotationWithTwoFingers, let touch = touches.first
     {
@@ -695,7 +695,7 @@ public class PieChartView: ChartViewBase
     }
   }
 
-  public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if !_isRotating
     {
@@ -714,7 +714,7 @@ public class PieChartView: ChartViewBase
     }
   }
 
-  public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     super.nsuiTouchesCancelled(touches, withEvent: event)
 

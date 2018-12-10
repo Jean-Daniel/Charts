@@ -9,6 +9,7 @@ import UIKit
 public typealias NSUIFont = UIFont
 public typealias NSUIColor = UIColor
 public typealias NSUIEvent = UIEvent
+public typealias NSUITouchEvent = UIEvent?
 public typealias NSUITouch = UITouch
 public typealias NSUIImage = UIImage
 public typealias NSUIScrollView = UIScrollView
@@ -91,44 +92,44 @@ extension NSUIPinchGestureRecognizer
 
 public class NSUIView: UIView
 {
-  public final override func touchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+  public final override func touchesBegan(_ touches: Set<NSUITouch>, with event: UIEvent?)
   {
     self.nsuiTouchesBegan(touches, withEvent: event)
   }
 
-  public final override func touchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+  public final override func touchesMoved(_ touches: Set<NSUITouch>, with event: UIEvent?)
   {
     self.nsuiTouchesMoved(touches, withEvent: event)
   }
 
-  public final override func touchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+  public final override func touchesEnded(_ touches: Set<NSUITouch>, with event: UIEvent?)
   {
     self.nsuiTouchesEnded(touches, withEvent: event)
   }
 
-  public final override func touchesCancelled(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+  public final override func touchesCancelled(_ touches: Set<NSUITouch>, with event: UIEvent?)
   {
     self.nsuiTouchesCancelled(touches, withEvent: event)
   }
 
-  public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesBegan(touches, with: event!)
+    super.touchesBegan(touches, with: event)
   }
 
-  public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesMoved(touches, with: event!)
+    super.touchesMoved(touches, with: event)
   }
 
-  public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesEnded(touches, with: event!)
+    super.touchesEnded(touches, with: event)
   }
 
-  public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+  public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesCancelled(touches!, with: event!)
+    super.touchesCancelled(touches, with: event)
   }
 
   var nsuiLayer: CALayer?
@@ -232,6 +233,7 @@ import Cocoa
 public typealias NSUIFont = NSFont
 public typealias NSUIColor = NSColor
 public typealias NSUIEvent = NSEvent
+public typealias NSUITouchEvent = NSEvent
 public typealias NSUITouch = NSTouch
 public typealias NSUIImage = NSImage
 public typealias NSUIScrollView = NSScrollView
@@ -389,24 +391,24 @@ public class NSUIView: NSView
     self.nsuiTouchesCancelled(event.touches(matching: .any, in: self), withEvent: event)
   }
 
-  public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesBegan(with: event!)
+    super.touchesBegan(with: event)
   }
 
-  public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesMoved(with: event!)
+    super.touchesMoved(with: event)
   }
 
-  public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesEnded(with: event!)
+    super.touchesEnded(with: event)
   }
 
-  public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+  public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
-    super.touchesCancelled(with: event!)
+    super.touchesCancelled(with: event)
   }
 
   public var backgroundColor: NSUIColor?

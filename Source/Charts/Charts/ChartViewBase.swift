@@ -662,7 +662,7 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
 
   // MARK: - Touches
 
-  public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if !_interceptTouchEvents
     {
@@ -670,7 +670,7 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
     }
   }
 
-  public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if !_interceptTouchEvents
     {
@@ -678,7 +678,7 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
     }
   }
 
-  public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if !_interceptTouchEvents
     {
@@ -686,7 +686,7 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
     }
   }
 
-  public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+  public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>, withEvent event: NSUITouchEvent)
   {
     if !_interceptTouchEvents
     {
