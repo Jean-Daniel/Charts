@@ -103,26 +103,6 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
 
   private var _interceptTouchEvents = false
 
-  /// An extra offset to be appended to the viewport's top
-  public var extraTopOffset: CGFloat = 0.0
-
-  /// An extra offset to be appended to the viewport's right
-  public var extraRightOffset: CGFloat = 0.0
-
-  /// An extra offset to be appended to the viewport's bottom
-  public var extraBottomOffset: CGFloat = 0.0
-
-  /// An extra offset to be appended to the viewport's left
-  public var extraLeftOffset: CGFloat = 0.0
-
-  public func setExtraOffsets(left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
-  {
-    extraLeftOffset = left
-    extraTopOffset = top
-    extraRightOffset = right
-    extraBottomOffset = bottom
-  }
-
   // MARK: - Initializers
 
   public override init(frame: CGRect)
@@ -338,92 +318,26 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
 
   // MARK: - Highlighting
 
-  /// The array of currently highlighted values. This might an empty if nothing is highlighted.
-  public var highlighted: [Highlight]
-  {
-    return _indicesToHighlight
-  }
-
   /// Set this to false to prevent values from being highlighted by tap gesture.
   /// Values can still be highlighted via drag or programmatically.
   /// **default**: true
   public var highlightsPerTap: Bool = true
 
+  /// The array of currently highlighted values. This might an empty if nothing is highlighted.
+  public var highlighted: [Highlight] {
+    return _indicesToHighlight
+  }
+
   /// Checks if the highlight array is null, has a length of zero or if the first object is null.
   ///
   /// - Returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
-  public func valuesToHighlight() -> Bool
+  public var isHighlighted : Bool
   {
-    return _indicesToHighlight.count > 0
-  }
-
-  /// Highlights the values at the given indices in the given DataSets. Provide
-  /// null or an empty array to undo all highlighting.
-  /// This should be used to programmatically highlight values.
-  /// This method *will not* call the delegate.
-  public func highlightValues(_ highs: [Highlight]?)
-  {
-    // set the indices to highlight
-    _indicesToHighlight = highs ?? [Highlight]()
-
-    if _indicesToHighlight.isEmpty
-    {
-      self.lastHighlighted = nil
-    }
-    else
-    {
-      self.lastHighlighted = _indicesToHighlight[0]
-    }
-
-    // redraw the chart
-    setNeedsDisplay()
-  }
-
-  /// Highlights any y-value at the given x-value in the given DataSet.
-  /// Provide -1 as the dataSetIndex to undo all highlighting.
-  /// This method will call the delegate.
-  ///
-  /// - Parameters:
-  ///   - x: The x-value to highlight
-  ///   - dataSetIndex: The dataset index to search in
-  ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-  public func highlightValue(x: Int, dataIndex: Int = -1)
-  {
-    highlightValue(x: x, dataIndex: dataIndex, callDelegate: true)
-  }
-
-  /// Highlights the value at the given x-value and y-value in the given DataSet.
-  /// Provide -1 as the dataSetIndex to undo all highlighting.
-  ///
-  /// - Parameters:
-  ///   - x: The x-value to highlight
-  ///   - y: The y-value to highlight. Supply `NaN` for "any"
-  ///   - dataSetIndex: The dataset index to search in
-  ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
-  ///   - callDelegate: Should the delegate be called for this change
-  public func highlightValue(x: Int, dataIndex: Int = -1, callDelegate: Bool)
-  {
-    guard _data != nil else
-    {
-      Swift.print("Value not highlighted because data is nil")
-      return
-    }
-
-    highlightValue(Highlight(value: x), callDelegate: callDelegate)
-  }
-
-  /// Highlights the values represented by the provided Highlight object
-  /// This method *will not* call the delegate.
-  ///
-  /// - Parameters:
-  ///   - highlight: contains information about which entry should be highlighted
-  public func highlightValue(_ highlight: Highlight?)
-  {
-    highlightValue(highlight, callDelegate: false)
+    return !_indicesToHighlight.isEmpty
   }
 
   /// Highlights the value selected by touch gesture.
-  public func highlightValue(_ highlight: Highlight?, callDelegate: Bool)
+  func highlightValue(_ highlight: Highlight?, callDelegate: Bool = false)
   {
     var entry: ChartDataEntry?
     var h = highlight
@@ -500,121 +414,14 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
   ///   - yAxisDuration: duration for animating the y axis
   ///   - easingX: an easing function for the animation on the x axis
   ///   - easingY: an easing function for the animation on the y axis
-  public func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
+  public func animate(duration: TimeInterval, easing: ChartEasingFunctionBlock? = nil)
   {
-    _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingX, easingY: easingY)
+    _animator.animate(xAxisDuration: 0.0, yAxisDuration: duration, easingX: nil, easingY: easing)
   }
 
-  /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - yAxisDuration: duration for animating the y axis
-  ///   - easingOptionX: the easing function for the animation on the x axis
-  ///   - easingOptionY: the easing function for the animation on the y axis
-  public func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
+  public func animate(duration: TimeInterval, easing: ChartEasingOption = .easeInOutSine)
   {
-    _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOptionX: easingOptionX, easingOptionY: easingOptionY)
-  }
-
-  /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - yAxisDuration: duration for animating the y axis
-  ///   - easing: an easing function for the animation
-  public func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easing)
-  }
-
-  /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - yAxisDuration: duration for animating the y axis
-  ///   - easingOption: the easing function for the animation
-  public func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOption: ChartEasingOption)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: easingOption)
-  }
-
-  /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - yAxisDuration: duration for animating the y axis
-  public func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration)
-  }
-
-  /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - easing: an easing function for the animation
-  public func animate(xAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration, easing: easing)
-  }
-
-  /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  ///   - easingOption: the easing function for the animation
-  public func animate(xAxisDuration: TimeInterval, easingOption: ChartEasingOption)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration, easingOption: easingOption)
-  }
-
-  /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - xAxisDuration: duration for animating the x axis
-  public func animate(xAxisDuration: TimeInterval)
-  {
-    _animator.animate(xAxisDuration: xAxisDuration)
-  }
-
-  /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - yAxisDuration: duration for animating the y axis
-  ///   - easing: an easing function for the animation
-  public func animate(yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
-  {
-    _animator.animate(yAxisDuration: yAxisDuration, easing: easing)
-  }
-
-  /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - yAxisDuration: duration for animating the y axis
-  ///   - easingOption: the easing function for the animation
-  public func animate(yAxisDuration: TimeInterval, easingOption: ChartEasingOption)
-  {
-    _animator.animate(yAxisDuration: yAxisDuration, easingOption: easingOption)
-  }
-
-  /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-  /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
-  ///
-  /// - Parameters:
-  ///   - yAxisDuration: duration for animating the y axis
-  public func animate(yAxisDuration: TimeInterval)
-  {
-    _animator.animate(yAxisDuration: yAxisDuration)
+    _animator.animate(yAxisDuration: duration, easingOption: easing)
   }
 
   // MARK: - Accessors
@@ -803,13 +610,6 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
         notifyDataSetChanged()
       }
     }
-  }
-
-  /// **default**: true
-  /// `true` if chart continues to scroll after touch up, `false` ifnot.
-  public var isDragDecelerationEnabled: Bool
-  {
-    return dragDecelerationEnabled
   }
 
   /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.

@@ -83,13 +83,8 @@ public class PieChartView: ChartViewBase
     #endif
   }
 
-  internal override func calcMinMax()
-  {
-    calcAngles()
-  }
-
   /// calculates the needed angles for the chart slices
-  private func calcAngles()
+  internal override func calcMinMax()
   {
     _drawAngles = [CGFloat]()
     _absoluteAngles = [CGFloat]()
@@ -172,7 +167,7 @@ public class PieChartView: ChartViewBase
 
     renderer.drawData(context: context)
 
-    if (valuesToHighlight())
+    if (isHighlighted)
     {
       renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
     }
@@ -187,11 +182,10 @@ public class PieChartView: ChartViewBase
   }
 
   /// Checks if the given index is set to be highlighted.
-  public func needsHighlight(index: Int) -> Bool
+  public func isHighlighted(at index: Int) -> Bool
   {
     // no highlight
-    if !valuesToHighlight()
-    {
+    guard isHighlighted else {
       return false
     }
 
@@ -362,11 +356,6 @@ public class PieChartView: ChartViewBase
       legendBottom += self.requiredBaseOffset
     }
 
-    legendTop += self.extraTopOffset
-    legendRight += self.extraRightOffset
-    legendBottom += self.extraBottomOffset
-    legendLeft += self.extraLeftOffset
-
     let minOffset = self.minOffset
 
     let offsetLeft = max(minOffset, legendLeft)
@@ -507,11 +496,7 @@ public class PieChartView: ChartViewBase
   /// The diameter of the pie- or radar-chart
   public var diameter: CGFloat
   {
-    var content = _viewPortHandler.contentRect
-    content.origin.x += extraLeftOffset
-    content.origin.y += extraTopOffset
-    content.size.width -= extraLeftOffset + extraRightOffset
-    content.size.height -= extraTopOffset + extraBottomOffset
+    let content = _viewPortHandler.contentRect
     return min(content.width, content.height)
   }
 
@@ -534,8 +519,6 @@ public class PieChartView: ChartViewBase
     return 0.0
   }
 
-  public var isRotationEnabled: Bool { return rotationEnabled }
-
   /// flag that indicates if rotation is done with two fingers or one.
   /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
   ///
@@ -556,18 +539,6 @@ public class PieChartView: ChartViewBase
       _rotationGestureRecognizer.isEnabled = _rotationWithTwoFingers
       #endif
     }
-  }
-
-  /// flag that indicates if rotation is done with two fingers or one.
-  /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
-  ///
-  /// On iOS this will disable one-finger rotation.
-  /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
-  ///
-  /// **default**: false
-  public var isRotationWithTwoFingers: Bool
-  {
-    return _rotationWithTwoFingers
   }
 
   // MARK: - Animation
@@ -643,7 +614,7 @@ public class PieChartView: ChartViewBase
 
   internal final func processRotationGestureMoved(location: CGPoint)
   {
-    if isDragDecelerationEnabled
+    if dragDecelerationEnabled
     {
       sampleVelocity(touchLocation: location)
     }
@@ -666,7 +637,7 @@ public class PieChartView: ChartViewBase
 
   internal final func processRotationGestureEnded(location: CGPoint)
   {
-    if isDragDecelerationEnabled
+    if dragDecelerationEnabled
     {
       stopDeceleration()
 
@@ -984,7 +955,7 @@ public class PieChartView: ChartViewBase
       self.rotationAngle = _startAngle + angle
       setNeedsDisplay()
 
-      if isDragDecelerationEnabled
+      if dragDecelerationEnabled
       {
         stopDeceleration()
 

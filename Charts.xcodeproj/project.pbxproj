@@ -118,13 +118,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		033FD152BB2F906750106A85 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		098621EDFBF928494B94BEA1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,15 +156,6 @@
 		20C350D33133A4D89BB365B1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				E9F158C8C566B26AFD775911 /* Supporting Files */,
-				2647844720BC6574A544A337 /* Charts */,
-			);
-			name = Source;
-			sourceTree = "<group>";
-		};
-		2647844720BC6574A544A337 /* Charts */ = {
-			isa = PBXGroup;
-			children = (
 				A49C1F0F9CCD6E5C143C29F4 /* Animation */,
 				8C531E3F3C3DE5843C93C3DA /* Charts */,
 				51EF1986C9884C25EED1C2CB /* Components */,
@@ -179,9 +163,9 @@
 				74A391010038924F637D6752 /* Formatters */,
 				E7589D3E7C2BD2449960AD59 /* Renderers */,
 				D047819AB7170595896D6FE8 /* Utils */,
-				1BC67A1321B9639A00345CAC /* Colors.xcassets */,
+				E9F158C8C566B26AFD775911 /* Supporting Files */,
 			);
-			name = Charts;
+			name = Source;
 			sourceTree = "<group>";
 		};
 		51EF1986C9884C25EED1C2CB /* Components */ = {
@@ -207,7 +191,6 @@
 		865A1CF149F52850CAB7F177 = {
 			isa = PBXGroup;
 			children = (
-				033FD152BB2F906750106A85 /* Frameworks */,
 				20C350D33133A4D89BB365B1 /* Source */,
 				D2C26AC015E753014C7571E4 /* Tests */,
 				AB2D554102718F209377399E /* Products */,
@@ -269,6 +252,7 @@
 		D047819AB7170595896D6FE8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1BC67A1321B9639A00345CAC /* Colors.xcassets */,
 				F6227A646166E248F90F86AD /* ChartColorTemplates.swift */,
 				3FDA09EF973925A110506799 /* ChartUtils.swift */,
 				3ED23C354AFE81818D78E645 /* Platform.swift */,

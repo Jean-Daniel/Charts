@@ -52,6 +52,6 @@ open class PieDemoViewController: NSViewController
     
     override open func viewWillAppear()
     {
-        self.pieChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
+      self.pieChartView.animate(duration: 1.0, easing: .easeOutSine)
     }
 }
