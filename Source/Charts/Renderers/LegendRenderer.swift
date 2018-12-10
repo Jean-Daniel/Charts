@@ -16,48 +16,49 @@ import CoreGraphics
 import UIKit
 #endif
 
-public class LegendRenderer: Renderer
+public class LegendRenderer
 {
   /// the legend object this renderer renders
   public var legend: Legend?
 
+  private let viewPortHandler: ViewPortHandler
+  
   public init(viewPortHandler: ViewPortHandler, legend: Legend?)
   {
-    super.init(viewPortHandler: viewPortHandler)
-
+    self.viewPortHandler = viewPortHandler
     self.legend = legend
   }
 
   /// Prepares the legend and calculates all needed forms, labels and colors.
   public func computeLegend(data: ChartData)
   {
-    guard let legend = legend, let dataSet = data.dataSet else { return }
+    guard let legend = legend else { return }
 
     if !legend.isLegendCustom
     {
       var entries: [LegendEntry] = []
 
       // loop for building up the colors and labels used in the legend
-      var clrs: [NSUIColor] = dataSet.colors
-      let entryCount = dataSet.entryCount
+      var clrs: [NSUIColor] = data.colors
+      let entryCount = data.count
 
       // if we have a barchart with stacked bars
       for j in 0..<min(clrs.count, entryCount)
       {
         entries.append(
           LegendEntry(
-            label: dataSet.entryForIndex(j)?.label,
-            form: dataSet.form,
-            formSize: dataSet.formSize,
-            formLineWidth: dataSet.formLineWidth,
-            formLineDashPhase: dataSet.formLineDashPhase,
-            formLineDashLengths: dataSet.formLineDashLengths,
+            label: data[j]?.label,
+            form: data.form,
+            formSize: data.formSize,
+            formLineWidth: data.formLineWidth,
+            formLineDashPhase: data.formLineDashPhase,
+            formLineDashLengths: data.formLineDashLengths,
             formColor: clrs[j]
           )
         )
       }
 
-      if let label = dataSet.label
+      if let label = data.label
       {
         // add the legend description label
         entries.append(
@@ -456,6 +457,6 @@ public class LegendRenderer: Renderer
   /// Draws the provided label at the given position.
   public func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
   {
-    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: textColor])
+    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [.font: font, .foregroundColor: textColor])
   }
 }

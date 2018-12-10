@@ -70,8 +70,7 @@ public class PieChartView: ChartViewBase
   {
     super.initialize()
 
-    renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
-    highlighter = PieHighlighter(chart: self)
+    renderer = PieChartRenderer(chart: self, animator: _animator)
     
     _tapGestureRecognizer.addTarget(self, action: #selector(tapGestureRecognized(_:)))
 
@@ -95,9 +94,9 @@ public class PieChartView: ChartViewBase
     _drawAngles = [CGFloat]()
     _absoluteAngles = [CGFloat]()
 
-    guard let dataSet = _data?.dataSet else { return }
+    guard let data = _data else { return }
 
-    let entryCount = dataSet.entryCount
+    let entryCount = data.count
 
     _drawAngles.reserveCapacity(entryCount)
     _absoluteAngles.reserveCapacity(entryCount)
@@ -106,7 +105,7 @@ public class PieChartView: ChartViewBase
 
     for j in 0 ..< entryCount
     {
-      guard let e = dataSet.entryForIndex(j) else { continue }
+      guard let e = data[j] else { continue }
 
       _drawAngles.append(calcAngle(value: abs(e.value), yValueSum: _data?.yValueSum ?? 0))
 
@@ -139,7 +138,7 @@ public class PieChartView: ChartViewBase
   {
     get
     {
-      return data?.entryCount ?? 0
+      return data?.count ?? 0
     }
   }
 
@@ -207,7 +206,40 @@ public class PieChartView: ChartViewBase
 
     return false
   }
-  
+
+  /// - Parameters:
+  ///   - x:
+  ///   - y:
+  /// - Returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
+  public override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
+  {
+    let touchDistanceToCenter = distanceToCenter(x: x, y: y)
+
+    // check if a slice was touched
+    guard touchDistanceToCenter <= radius else
+    {
+      // if no slice was touched, highlight nothing
+      return nil
+    }
+
+    var angle = angleForPoint(x: x ,y: y)
+
+    angle /= CGFloat(chartAnimator.phaseY)
+
+    let index = indexForAngle(angle)
+
+    // check if the index could be found
+    if index < 0 || index >= data?.count ?? 0
+    {
+      return nil
+    }
+    else
+    {
+      return Highlight(value: index)
+    }
+
+  }
+
   internal override func calculateOffsets()
   {
     var legendLeft = CGFloat(0.0)
@@ -349,7 +381,7 @@ public class PieChartView: ChartViewBase
 
     let c = self.centerOffsets
 
-    let shift = data?.dataSet?.selectionShift ?? 0.0
+    let shift = data?.selectionShift ?? 0.0
 
     // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
     _circleBox.origin.x = (c.x - radius) + shift

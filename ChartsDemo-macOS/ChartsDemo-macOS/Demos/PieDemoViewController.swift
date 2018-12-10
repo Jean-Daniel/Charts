@@ -25,11 +25,9 @@ open class PieDemoViewController: NSViewController
         
         let yse1 = ys1.enumerated().map { (x, y) in return ChartDataEntry(value: y, label: String(x)) }
         
-        let ds1 = ChartDataSet(label: "Hello", values: yse1)
+        let data = ChartData(label: "Hello", values: yse1)
         
-        ds1.colors = ChartColorTemplates.vordiplom()
-        let data = ChartData(dataSet: ds1)
-
+        data.colors = ChartColorTemplates.vordiplom() + ChartColorTemplates.liberty()
 //      pieChartView.holeColor = NSColor.windowBackgroundColor
 //      pieChartView.transparentCircleColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5)
       pieChartView.usesPercentValues = true

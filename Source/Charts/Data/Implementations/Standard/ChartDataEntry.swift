@@ -23,15 +23,3 @@ open class ChartDataEntry
     self.label = label
   }
 }
-
-// MARK: Equatable
-extension ChartDataEntry: Equatable {
-  public static func == (lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool {
-    if lhs === rhs
-    {
-      return true
-    }
-
-    return lhs.value == rhs.value
-  }
-}

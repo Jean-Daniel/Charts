@@ -43,7 +43,7 @@ extension ChartViewDelegate {
   func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {}
 }
 
-public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
+public class ChartViewBase: NSUIView, AnimatorDelegate
 {
   // MARK: - Properties
   /// The default ValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
@@ -88,8 +88,6 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
   /// object responsible for rendering the data
   var renderer: PieChartRenderer!
-
-  var highlighter: PieHighlighter?
 
   /// object that manages the bounds and drawing constraints of the chart
   internal var _viewPortHandler: ViewPortHandler
@@ -177,21 +175,18 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
       _data = newValue
       _offsetsCalculated = false
 
-      guard let _data = _data else
+      guard let data = _data else
       {
         setNeedsDisplay()
         return
       }
 
       // calculate how many digits are needed
-      setupDefaultFormatter(min: _data.yMin, max: _data.yMax)
+      setupDefaultFormatter(min: data.yMin, max: data.yMax)
 
-      if let dataSet = _data.dataSet
+      if data.valueFormatter == nil
       {
-        if dataSet.valueFormatter == nil
-        {
-          dataSet.valueFormatter = _defaultValueFormatter
-        }
+        data.valueFormatter = _defaultValueFormatter
       }
 
       // let the chart know there is new data
@@ -210,19 +205,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     setNeedsDisplay()
   }
 
-  /// Removes all DataSets (and thereby Entries) from the chart. Does not set the data object to nil. Also refreshes the chart by calling setNeedsDisplay().
-  public func clearValues()
-  {
-    _data?.dataSet = nil
-    setNeedsDisplay()
-  }
-
   /// - Returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
   public func isEmpty() -> Bool
   {
     guard let data = _data else { return true }
 
-    if data.entryCount <= 0
+    if data.count <= 0
     {
       return true
     }
@@ -257,7 +245,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // check if a custom formatter is set or not
     var reference = Double(0.0)
 
-    if let data = _data , data.entryCount >= 2
+    if let data = _data , data.count >= 2
     {
       reference = fabs(max - min)
     }
@@ -331,8 +319,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
     var attrs = [NSAttributedString.Key : Any]()
 
-    attrs[NSAttributedString.Key.font] = chartDescription.font
-    attrs[NSAttributedString.Key.foregroundColor] = chartDescription.textColor
+    attrs[.font] = chartDescription.font
+    attrs[.foregroundColor] = chartDescription.textColor
 
     ChartUtils.drawText(
       context: context,
@@ -448,7 +436,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     else
     {
       // set the indices to highlight
-      entry = _data?.entryForHighlight(h!)
+      entry = _data?.entry(for: h!)
       if entry == nil
       {
         h = nil
@@ -488,8 +476,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
       return nil
     }
 
-    return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+    return getHighlight(x: pt.x, y: pt.y)
   }
+
+  public func getHighlight(x: CGFloat, y: CGFloat) -> Highlight? { return nil }
 
   /// The last value that was highlighted via touch.
   public var lastHighlighted: Highlight?
