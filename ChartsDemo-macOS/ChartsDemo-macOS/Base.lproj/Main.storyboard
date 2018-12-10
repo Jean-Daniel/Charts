@@ -654,7 +654,7 @@
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="502" height="281"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="y92-Vh-2JJ"/>
@@ -666,18 +666,18 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="86" y="255.5"/>
         </scene>
         <!--Pie-->
         <scene sceneID="zCq-mS-JMX">
             <objects>
                 <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="6Bd-GB-Gqp">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="869" height="668"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="HL0-pV-46O" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
+                                <rect key="frame" x="5" y="5" width="859" height="658"/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -693,7 +693,7 @@
                 </viewController>
                 <customObject id="nwz-zo-FQ4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="745" y="243"/>
+            <point key="canvasLocation" x="954.5" y="427"/>
         </scene>
     </scenes>
 </document>
