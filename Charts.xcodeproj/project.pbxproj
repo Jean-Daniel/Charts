@@ -24,7 +24,6 @@
 		1B4254A121B9858F00A7DECA /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137428B41C143D5115726C4 /* Description.swift */; };
 		1B4254A821B9867B00A7DECA /* PieChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D8013D44629521B1746364 /* PieChartRenderer.swift */; };
 		1B4254AA21B986CC00A7DECA /* ChartColorTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6227A646166E248F90F86AD /* ChartColorTemplates.swift */; };
-		1B4EF7D021B801ED00F0FB7C /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4EF7CF21B801ED00F0FB7C /* DisplayLink.swift */; };
 		1BC67A1421B9639A00345CAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BC67A1321B9639A00345CAC /* Colors.xcassets */; };
 		224EFF991FBAAC4700CF9B3B /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224EFF981FBAAC4700CF9B3B /* EquatableTests.swift */; };
 		2BF85BEA981B359A65E9BF67 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E1819D72CD7B6C4A4E8048 /* LineChartTests.swift */; };
@@ -56,7 +55,6 @@
 		107D8F8163EE54D6D9E916B0 /* DefaultValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DefaultValueFormatter.swift; path = Source/Charts/Formatters/DefaultValueFormatter.swift; sourceTree = "<group>"; };
 		12409C3EA15787C11AF0D2BC /* ChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataEntry.swift; sourceTree = "<group>"; };
 		135F11CD20425AF600D655A3 /* PieChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PieChartTests.swift; path = Tests/Charts/PieChartTests.swift; sourceTree = "<group>"; };
-		1B4EF7CF21B801ED00F0FB7C /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
 		1B5B2FFF21BA9E7200FFBE5D /* extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = extension.xcconfig; sourceTree = "<group>"; };
 		1B5B300021BA9E7200FFBE5D /* application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = application.xcconfig; sourceTree = "<group>"; };
 		1B5B300121BA9E7200FFBE5D /* executable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = executable.xcconfig; sourceTree = "<group>"; };
@@ -258,7 +256,6 @@
 				3ED23C354AFE81818D78E645 /* Platform.swift */,
 				97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */,
 				72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */,
-				1B4EF7CF21B801ED00F0FB7C /* DisplayLink.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -410,7 +407,6 @@
 				F5A209116FAC68F5903D0B46 /* ChartAnimationEasing.swift in Sources */,
 				1B42548421B9834100A7DECA /* ValueFormatter.swift in Sources */,
 				1B42548B21B983C900A7DECA /* Highlight.swift in Sources */,
-				1B4EF7D021B801ED00F0FB7C /* DisplayLink.swift in Sources */,
 				1B42549021B9840000A7DECA /* ComponentBase.swift in Sources */,
 				1B4254AA21B986CC00A7DECA /* ChartColorTemplates.swift in Sources */,
 				1B42549521B9845000A7DECA /* Legend.swift in Sources */,

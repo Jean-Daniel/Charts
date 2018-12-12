@@ -27,10 +27,7 @@ class PieChartViewController: DemoBaseViewController {
                         .toggleXValues,
                         .togglePercent, 
                         .toggleHole,
-                        .toggleIcons,
-                        .animateX,
-                        .animateY,
-                        .animateXY,
+                        .animate,
                         .spin,
                         .drawCenter,
                         .saveToGallery,
@@ -57,7 +54,7 @@ class PieChartViewController: DemoBaseViewController {
         sliderY.value = 100
         self.slidersValueChanged(nil)
         
-        chartView.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        chartView.animate(duration: 1.4, easing: .easeOutBack)
     }
     
     override func updateChartData() {
@@ -70,39 +67,33 @@ class PieChartViewController: DemoBaseViewController {
     }
     
     func setDataCount(_ count: Int, range: UInt32) {
-        let entries = (0..<count).map { (i) -> PieChartDataEntry in
+        let entries = (0..<count).map { (i) -> ChartDataEntry in
             // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-            return PieChartDataEntry(value: Double(arc4random_uniform(range) + range / 5),
-                                     label: parties[i % parties.count],
-                                     icon: #imageLiteral(resourceName: "icon"))
+            return ChartDataEntry(value: Double(arc4random_uniform(range) + range / 5), label: parties[i % parties.count])
         }
         
-        let set = PieChartDataSet(values: entries, label: "Election Results")
-        set.drawIconsEnabled = false
-        set.sliceSpace = 2
+        let data = ChartData(label: "Election Results", values: entries)
+        data.sliceSpace = 2
         
-        
-        set.colors = ChartColorTemplates.vordiplom()
+        data.colors = ChartColorTemplates.vordiplom()
             + ChartColorTemplates.joyful()
             + ChartColorTemplates.colorful()
             + ChartColorTemplates.liberty()
             + ChartColorTemplates.pastel()
             + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
-        
-        let data = PieChartData(dataSet: set)
-        
+
         let pFormatter = NumberFormatter()
         pFormatter.numberStyle = .percent
         pFormatter.maximumFractionDigits = 1
         pFormatter.multiplier = 1
         pFormatter.percentSymbol = " %"
-        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        data.valueFormatter = DefaultValueFormatter(formatter: pFormatter)
         
-        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.white)
+        data.valueFont = .systemFont(ofSize: 11, weight: .light)
+        data.valueColors = [.white]
         
         chartView.data = data
-        chartView.highlightValues(nil)
+        chartView.highlightValue(nil)
     }
     
     override func optionTapped(_ option: Option) {
@@ -123,15 +114,9 @@ class PieChartViewController: DemoBaseViewController {
             chartView.drawsCenterText.toggle()
             chartView.setNeedsDisplay()
             
-        case .animateX:
-            chartView.animate(xAxisDuration: 1.4)
-            
-        case .animateY:
-            chartView.animate(yAxisDuration: 1.4)
-            
-        case .animateXY:
-            chartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4)
-            
+        case .animate:
+            chartView.animate(duration: 1.4)
+
         case .spin:
             chartView.spin(duration: 2,
                            fromAngle: chartView.rotationAngle,
