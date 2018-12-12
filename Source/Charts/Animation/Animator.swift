@@ -28,7 +28,7 @@ public protocol AnimatorDelegate : AnyObject
 public class Animator
 {
     public weak var delegate: AnimatorDelegate?
-    public var updateBlock: (() -> Void)?
+    public var updateBlock: ((Double) -> Void)?
     public var stopBlock: (() -> Void)?
 
     /// the phase that is animated and influences the drawn values on the y-axis
@@ -69,7 +69,7 @@ public class Animator
             phase = 1.0
 
             delegate?.animatorUpdated(self)
-            updateBlock?()
+            updateBlock?(phase)
         }
 
         delegate?.animatorStopped(self)
@@ -97,7 +97,7 @@ public class Animator
         updateAnimationPhases(targetTime)
 
         delegate?.animatorUpdated(self)
-        updateBlock?()
+        updateBlock?(phase)
         
         if targetTime >= _endTime
         {

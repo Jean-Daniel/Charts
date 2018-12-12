@@ -382,18 +382,9 @@ public class ChartViewBase: NSUIView, AnimatorDelegate
   /// - Returns: The Highlight object (contains x-index and DataSet index) of the
   /// selected value at the given touch point inside the Line-, Scatter-, or
   /// CandleStick-Chart.
-  public func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
-  {
-    if _data == nil
-    {
-      Swift.print("Can't select by touch. No data set.")
-      return nil
-    }
-
-    return getHighlight(x: pt.x, y: pt.y)
+  public func getHighlight(at point: CGPoint) -> Highlight? {
+    return nil
   }
-
-  public func getHighlight(x: CGFloat, y: CGFloat) -> Highlight? { return nil }
 
   /// The last value that was highlighted via touch.
   public var lastHighlighted: Highlight?
