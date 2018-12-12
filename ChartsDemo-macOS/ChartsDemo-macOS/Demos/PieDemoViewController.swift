@@ -33,7 +33,6 @@ open class PieDemoViewController: NSViewController
     pieChartView.rotationWithTwoFingers = true
     pieChartView.usesPercentValues = true
     pieChartView.drawsHole = false
-    // pieChartView.rotationEnabled = false
 
     let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
     paragraphStyle.lineBreakMode = .byTruncatingTail

@@ -177,8 +177,6 @@ public class ChartData
   public var formLineDashLengths: [CGFloat]? = nil
 
   /// Set this to true to draw y-values on the chart.
-  ///
-  /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
   public var drawsValues = true
 
   /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.

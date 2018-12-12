@@ -146,14 +146,6 @@ public class PieChartView: ChartViewBase
   {
     return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
   }
-  
-  public override var maxVisibleCount: Int
-  {
-    get
-    {
-      return data?.count ?? 0
-    }
-  }
 
   public override func notifyDataSetChanged()
   {
@@ -372,7 +364,7 @@ public class PieChartView: ChartViewBase
     let offsetLeft = max(minOffset, legendLeft)
     let offsetTop = max(minOffset, legendTop)
     let offsetRight = max(minOffset, legendRight)
-    let offsetBottom = max(minOffset, max(0.0, legendBottom))
+    let offsetBottom = max(minOffset, max(0, legendBottom))
 
     _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
 
@@ -521,7 +513,6 @@ public class PieChartView: ChartViewBase
     _spinAnimator?.progressBlock = nil
     _spinAnimator?.stop()
 
-
     _spinAnimator = Animator()
     _spinAnimator!.progressBlock = {
       if let phase = $0 {
@@ -563,7 +554,7 @@ public class PieChartView: ChartViewBase
 
   private var _velocitySamples = [AngularVelocitySample]()
 
-  internal final func processRotationGestureBegan(location: CGPoint)
+  private final func processRotationGestureBegan(location: CGPoint)
   {
     self.resetVelocity()
 
@@ -577,7 +568,7 @@ public class PieChartView: ChartViewBase
     _rotationGestureStartPoint = location
   }
 
-  internal final func processRotationGestureMoved(location: CGPoint)
+  private final func processRotationGestureMoved(location: CGPoint)
   {
     if dragDecelerationEnabled
     {
@@ -595,16 +586,15 @@ public class PieChartView: ChartViewBase
     }
   }
 
-  internal final func processRotationGestureEnded(location: CGPoint)
+  private final func processRotationGestureEnded(location: CGPoint)
   {
-    if dragDecelerationEnabled
-    {
+    if dragDecelerationEnabled {
       sampleVelocity(touchLocation: location)
       startDeceleration(velocity: calculateVelocity())
     }
   }
 
-  internal final func processRotationGestureCancelled()
+  private final func processRotationGestureCancelled()
   {
     if _isRotating
     {
@@ -829,6 +819,7 @@ public class PieChartView: ChartViewBase
           if let phase = $0 {
             self.rotationAngle = startAngle + rotation * CGFloat(phase)
           } else {
+            os_log(.debug, "deceleration done")
             self._decelerationAnimator = nil
           }
         }
@@ -837,9 +828,7 @@ public class PieChartView: ChartViewBase
     }
   }
 
-  public func stopDeceleration()
-  {
-    os_log(.debug, "stop deceleration")
+  public func stopDeceleration() {
     _decelerationAnimator?.stop()
   }
 
@@ -851,10 +840,8 @@ public class PieChartView: ChartViewBase
 
       let location = recognizer.location(in: self)
 
-      if let high = self.getHighlight(at: location) {
-      self.highlightValue(high, callDelegate: true)
+      self.highlightValue(self.getHighlight(at: location), callDelegate: true)
     }
-  }
   }
 
   #if !os(tvOS)
@@ -869,16 +856,11 @@ public class PieChartView: ChartViewBase
 
     if recognizer.state == .began || recognizer.state == .changed
     {
-      let angle = recognizer.nsuiRotation.RAD2DEG
-
-      self.rotationAngle = _startAngle + angle
+      rotationAngle = _startAngle + recognizer.nsuiRotation.RAD2DEG
     }
     else if recognizer.state == .ended
     {
-      let angle = recognizer.nsuiRotation.RAD2DEG
-
-      self.rotationAngle = _startAngle + angle
-
+      rotationAngle = _startAngle + recognizer.nsuiRotation.RAD2DEG
       startDeceleration(velocity: recognizer.velocity.RAD2DEG)
     }
   }
@@ -890,14 +872,14 @@ public class PieChartView: ChartViewBase
   /// - Returns: An integer array of all the different angles the chart slices
   /// have the angles in the returned array determine how much space (of 360°)
   /// each slice takes
-  public var drawAngles: [CGFloat]
+  var drawAngles: [CGFloat]
   {
     return _drawAngles
   }
 
   /// - Returns: The absolute angles of the different chart slices (where the
   /// slices end)
-  public var absoluteAngles: [CGFloat]
+  var absoluteAngles: [CGFloat]
   {
     return _absoluteAngles
   }
@@ -1067,17 +1049,23 @@ public class PieChartView: ChartViewBase
       return _maxAngle
     }
     set
-      {
+    {
       _maxAngle = newValue.clamped(to: 90...360)
     }
   }
 }
 
 private extension CGPoint {
+
   /// - Returns: The distance between two points
-  func distance(to point: CGPoint) -> CGFloat {
-    let dx = x - point.x
-    let dy = y - point.y
+  func distance(to: CGPoint) -> CGFloat
+  {
+    let dx = x - to.x
+    let dy = y - to.y
     return sqrt(dx * dx + dy * dy)
+  }
+
+  static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+    return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
   }
 }

@@ -27,10 +27,10 @@ public class Animator
     private var _easing: ChartEasingFunctionBlock?
     private let progressBlock: ((Double?) -> Void)
 
-    init(duration: TimeInterval, animationCurve: NSAnimation.Curve, progress: @escaping ((Double?) -> Void), easing: ChartEasingFunctionBlock?) {
+    init(duration: TimeInterval, progress: @escaping ((Double?) -> Void), easing: ChartEasingFunctionBlock?) {
       self.progressBlock = progress
       self._easing = easing
-      super.init(duration: duration, animationCurve: animationCurve)
+      super.init(duration: duration, animationCurve: easing != nil ? .linear : .easeInOut)
     }
 
     required init?(coder: NSCoder) {
@@ -54,8 +54,10 @@ public class Animator
     }
     
     override func stop() {
-      super.stop()
-      progressBlock(nil)
+      if isAnimating {
+        super.stop()
+        progressBlock(nil)
+      }
     }
   }
 
@@ -161,11 +163,8 @@ public class Animator
     _animation = nil
 
     if let block = progressBlock {
-      _animation = Animation(duration: duration, animationCurve: .linear, progress: block, easing: easing)
-      if (easing == nil) {
-        _animation?.animationCurve = .easeInOut
-      }
-      //_animation?.animationBlockingMode = .nonblocking
+      _animation = Animation(duration: duration, progress: block, easing: easing)
+      _animation?.animationBlockingMode = .nonblocking
       _animation?.start()
     }
     #else

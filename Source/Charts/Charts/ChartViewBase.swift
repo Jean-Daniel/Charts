@@ -387,8 +387,8 @@ public class ChartViewBase: NSUIView
   /// selected value at the given touch point inside the Line-, Scatter-, or
   /// CandleStick-Chart.
   public func getHighlight(at point: CGPoint) -> Highlight? {
-    return nil
-  }
+      return nil
+    }
 
   /// The last value that was highlighted via touch.
   public var lastHighlighted: Highlight?
@@ -619,28 +619,8 @@ public class ChartViewBase: NSUIView
     }
     set
     {
-      var val = newValue
-      if val < 0.0
-      {
-        val = 0.0
-      }
-      if val >= 1.0
-      {
-        val = 0.999
-      }
-
-      _dragDecelerationFrictionCoef = val
+      _dragDecelerationFrictionCoef = newValue.clamped(to: 0.0...0.999)
     }
-  }
-
-  /// The maximum distance in screen pixels away from an entry causing it to highlight.
-  /// **default**: 500.0
-  public var maxHighlightDistance: CGFloat = 500.0
-
-  /// the number of maximum visible drawn values on the chart only active when `drawValuesEnabled` is enabled
-  public var maxVisibleCount: Int
-  {
-    return Int(INT_MAX)
   }
 
   // MARK: - Touches
