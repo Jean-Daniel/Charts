@@ -11,7 +11,6 @@
 
 import Foundation
 import CoreGraphics
-import os
 
 #if !os(OSX)
 import UIKit
@@ -812,14 +811,14 @@ public class PieChartView: ChartViewBase
 
         // move from start angle to start angle + rotation
         // at each time t, angle = startAngle + rotation + velocity * coef^t
-        os_log(.debug, "start deceleration (velocity: %f, duration: %fs, angle: %f°)", velocity, duration, rotation)
+        // os_log(.debug, "start deceleration (velocity: %f, duration: %fs, angle: %f°)", velocity, duration, rotation)
 
         _decelerationAnimator = Animator()
         _decelerationAnimator!.progressBlock = {
           if let phase = $0 {
             self.rotationAngle = startAngle + rotation * CGFloat(phase)
           } else {
-            os_log(.debug, "deceleration done")
+            // os_log(.debug, "deceleration done")
             self._decelerationAnimator = nil
           }
         }

@@ -341,7 +341,7 @@ public class ChartViewBase: NSUIView
   }
 
   /// Highlights the value selected by touch gesture.
-  func highlightValue(_ highlight: Highlight?, callDelegate: Bool = false)
+  public func highlightValue(_ highlight: Highlight?, callDelegate: Bool = false)
   {
     var entry: ChartDataEntry?
     var h = highlight
@@ -414,7 +414,7 @@ public class ChartViewBase: NSUIView
     _animator.animate(duration: duration, easing: easing)
   }
 
-  public func animate(duration: TimeInterval, easing: ChartEasingOption = .easeInOutSine)
+  public func animate(duration: TimeInterval, easing: ChartEasingOption)
   {
     _animator.animate(duration: duration, easing: easing)
   }
