@@ -135,8 +135,8 @@ public class ChartViewBase: NSUIView
     self.backgroundColor = NSUIColor.clear
     #endif
 
-    _animator.progressBlock = { [ weak self ] in
-      if let self = self, $0 != nil {
+    _animator.progressBlock = { [ unowned self ] in
+      if $0 != nil {
         self.setNeedsDisplay()
       }
     }
