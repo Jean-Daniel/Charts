@@ -17,7 +17,7 @@ public class ChartData
   private var values: [ChartDataEntry]
 
   public convenience init(values: [ChartDataEntry]?) {
-    self.init(label: "DataSet", values: values)
+    self.init(label: nil, values: values)
   }
 
   public init(label: String? = nil, values: [ChartDataEntry]? = nil) {

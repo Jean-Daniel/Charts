@@ -11,14 +11,14 @@
 
 import Foundation
 
-open class ChartDataEntry
+public struct ChartDataEntry
 {
+
+  public let label: String?
   /// the y value
-  public var value = Double(0.0)
+  public let value : Double
 
-  public var label: String?
-
-  public init(value: Double, label: String) {
+  public init(label: String, value: Double) {
     self.value = value
     self.label = label
   }
