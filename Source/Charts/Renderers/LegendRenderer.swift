@@ -39,7 +39,7 @@ public class LegendRenderer
       var entries: [LegendEntry] = []
 
       // loop for building up the colors and labels used in the legend
-      var clrs: [NSUIColor] = data.colors
+      let clrs: [NSUIColor] = data.colors
       let entryCount = data.count
 
       // if we have a barchart with stacked bars
@@ -95,7 +95,7 @@ public class LegendRenderer
     let labelLineHeight = labelFont.lineHeight
     let formYOffset = labelLineHeight / 2.0
 
-    var entries = legend.entries
+    let entries = legend.entries
 
     let defaultFormSize = legend.formSize
     let formToTextSpace = legend.formToTextSpace
@@ -183,9 +183,9 @@ public class LegendRenderer
     {
     case .horizontal:
 
-      var calculatedLineSizes = legend.calculatedLineSizes
-      var calculatedLabelSizes = legend.calculatedLabelSizes
-      var calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
+      let calculatedLineSizes = legend.calculatedLineSizes
+      let calculatedLabelSizes = legend.calculatedLabelSizes
+      let calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
 
       var posX: CGFloat = originPosX
       var posY: CGFloat
