@@ -104,15 +104,15 @@ public struct ChartColorTemplates
             var g: Int32 = 0
             var b: Int32 = 0
             let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("rgba", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanFloat(&a)
+            _ = scanner.scanString("rgba")
+            _ = scanner.scanCharacters(from: leftParenCharset)
+            r = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            g = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            b = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            a = scanner.scanFloat() ?? 1.0
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
@@ -127,15 +127,15 @@ public struct ChartColorTemplates
             var g: Int32 = 0
             var b: Int32 = 0
             let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("argb", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanFloat(&a)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
+            _ = scanner.scanString("argb")
+            _ = scanner.scanCharacters(from: leftParenCharset)
+            a = scanner.scanFloat() ?? 1.0
+            _ = scanner.scanCharacters(from: commaCharset)
+            r = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            g = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            b = scanner.scanInt32() ?? 0
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
@@ -149,13 +149,13 @@ public struct ChartColorTemplates
             var g: Int32 = 0
             var b: Int32 = 0
             let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("rgb", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
+            _ = scanner.scanString("rgb")
+            _ = scanner.scanCharacters(from: leftParenCharset)
+            r = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            g = scanner.scanInt32() ?? 0
+            _ = scanner.scanCharacters(from: commaCharset)
+            b = scanner.scanInt32() ?? 0
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
