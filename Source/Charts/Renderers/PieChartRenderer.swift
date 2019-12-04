@@ -12,7 +12,9 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
+#if os(macOS)
+import AppKit
+#else
 import UIKit
 #endif
 

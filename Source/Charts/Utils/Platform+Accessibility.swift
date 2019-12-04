@@ -1,5 +1,11 @@
 import Foundation
 
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
+
 #if os(iOS) || os(tvOS)
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
@@ -89,7 +95,7 @@ extension NSUIView
 
 #endif
 
-#if os(OSX)
+#if os(macOS)
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
