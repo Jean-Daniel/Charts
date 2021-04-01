@@ -318,8 +318,8 @@ public class PieChartRenderer
     // get whole the radius
     let radius = chart.radius
     let rotationAngle = chart.rotationAngle
-    var drawAngles = chart.drawAngles
-    var absoluteAngles = chart.absoluteAngles
+    let drawAngles = chart.drawAngles
+    let absoluteAngles = chart.absoluteAngles
 
     let phaseY = animator.phase
 
@@ -336,7 +336,6 @@ public class PieChartRenderer
 
     let drawEntryLabels = chart.drawsEntryLabels
     let usePercentValuesEnabled = chart.usesPercentValues
-    let entryLabelColor = chart.entryLabelColor
 
     var angle: CGFloat = 0.0
     var xIndex = 0
