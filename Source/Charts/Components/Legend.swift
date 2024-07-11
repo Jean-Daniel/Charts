@@ -12,8 +12,10 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
+#if os(OSX)
+import AppKit
+#else
+import UIKit
 #endif
 
 public class Legend: ComponentBase

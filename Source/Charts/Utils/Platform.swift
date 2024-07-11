@@ -228,7 +228,7 @@ func NSUIGraphicsBeginImageContextWithOptions(_ size: CGSize, _ opaque: Bool, _ 
 #endif
 
 #if os(OSX)
-import Cocoa
+import AppKit
 
 public typealias NSUIFont = NSFont
 public typealias NSUIColor = NSColor
