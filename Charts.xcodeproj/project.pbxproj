@@ -502,6 +502,7 @@
 			baseConfigurationReference = 1B5B300621BA9E7200FFBE5D /* release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -510,6 +511,7 @@
 			baseConfigurationReference = 1B5B300521BA9E7200FFBE5D /* debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
