@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -100,18 +100,14 @@
 /* Begin PBXFrameworksBuildPhase section */
 		77997192275C47C45A0A2E9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				C7B150D740255670DEB9F455 /* Charts.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C16A09321DC2DCF289FF0E3B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -292,11 +288,9 @@
 /* Begin PBXHeadersBuildPhase section */
 		B2B2DD73E237562739EE1F83 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				BEFD9518F3A74ACF8FA33308 /* Charts.h in Headers */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
@@ -311,8 +305,6 @@
 				C16A09321DC2DCF289FF0E3B /* Frameworks */,
 			);
 			buildRules = (
-			);
-			dependencies = (
 			);
 			name = Charts;
 			productName = Charts;
@@ -359,7 +351,6 @@
 				};
 			};
 			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */;
-			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -367,6 +358,7 @@
 				Base,
 			);
 			mainGroup = 865A1CF149F52850CAB7F177;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = AB2D554102718F209377399E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -380,26 +372,21 @@
 /* Begin PBXResourcesBuildPhase section */
 		5B102E31AA8399941CC6248D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				00B8BF5901C2D220357B0B2A /* Media.xcassets in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E257C254E738A8AE047C6FB6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				1BC67A1421B9639A00345CAC /* Colors.xcassets in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B5996DB2D9B6F0DB0E9D3F3E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				1B42548521B9834900A7DECA /* ChartDataEntry.swift in Sources */,
 				1B42549621B9845A00A7DECA /* LegendEntry.swift in Sources */,
@@ -422,11 +409,9 @@
 				1B42548721B9836300A7DECA /* DefaultValueFormatter.swift in Sources */,
 				515E286E6C47594D3FFA3DD1 /* ViewPortHandler.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E356A2384A2368AB3D2C7912 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				3B11556EB7DC034E2FC958E4 /* BarChartTests.swift in Sources */,
 				8E1192F7A7152E9DA92C56A9 /* ChartUtilsTests.swift in Sources */,
@@ -436,7 +421,6 @@
 				064989461F5C99C7006E8BB3 /* Snapshot.swift in Sources */,
 				224EFF991FBAAC4700CF9B3B /* EquatableTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -450,7 +434,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0EF2164C35AB4D391B503317 /* Debug */ = {
+		0EF2164C35AB4D391B503317 /* Debug configuration for PBXNativeTarget "Charts" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300221BA9E7200FFBE5D /* framework.xcconfig */;
 			buildSettings = {
@@ -465,7 +449,7 @@
 			};
 			name = Debug;
 		};
-		4DD0BFDA94D4BC68192A1895 /* Debug */ = {
+		4DD0BFDA94D4BC68192A1895 /* Debug configuration for PBXNativeTarget "ChartsTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300321BA9E7200FFBE5D /* bundle.xcconfig */;
 			buildSettings = {
@@ -483,8 +467,16 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,7 +489,7 @@
 			};
 			name = Debug;
 		};
-		A17F60813C38081A2F1803D4 /* Release */ = {
+		A17F60813C38081A2F1803D4 /* Release configuration for PBXProject "Charts" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300621BA9E7200FFBE5D /* release.xcconfig */;
 			buildSettings = {
@@ -506,7 +498,7 @@
 			};
 			name = Release;
 		};
-		C5C79E736CA16C93F421E934 /* Debug */ = {
+		C5C79E736CA16C93F421E934 /* Debug configuration for PBXProject "Charts" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300521BA9E7200FFBE5D /* debug.xcconfig */;
 			buildSettings = {
@@ -515,7 +507,7 @@
 			};
 			name = Debug;
 		};
-		D9365FBCFFEE9FCFC79EC4C7 /* Release */ = {
+		D9365FBCFFEE9FCFC79EC4C7 /* Release configuration for PBXNativeTarget "Charts" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300221BA9E7200FFBE5D /* framework.xcconfig */;
 			buildSettings = {
@@ -530,7 +522,7 @@
 			};
 			name = Release;
 		};
-		FA978B0A385680C0086D4D49 /* Release */ = {
+		FA978B0A385680C0086D4D49 /* Release configuration for PBXNativeTarget "ChartsTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5B300321BA9E7200FFBE5D /* bundle.xcconfig */;
 			buildSettings = {
@@ -548,14 +540,23 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.0;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
@@ -567,28 +568,25 @@
 		493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C5C79E736CA16C93F421E934 /* Debug */,
-				A17F60813C38081A2F1803D4 /* Release */,
+				C5C79E736CA16C93F421E934 /* Debug configuration for PBXProject "Charts" */,
+				A17F60813C38081A2F1803D4 /* Release configuration for PBXProject "Charts" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		E61E9728E2BF9CC4048B13D5 /* Build configuration list for PBXNativeTarget "ChartsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA978B0A385680C0086D4D49 /* Release */,
-				4DD0BFDA94D4BC68192A1895 /* Debug */,
+				FA978B0A385680C0086D4D49 /* Release configuration for PBXNativeTarget "ChartsTests" */,
+				4DD0BFDA94D4BC68192A1895 /* Debug configuration for PBXNativeTarget "ChartsTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		F1D4AA9E26EA32041FC0E3B6 /* Build configuration list for PBXNativeTarget "Charts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D9365FBCFFEE9FCFC79EC4C7 /* Release */,
-				0EF2164C35AB4D391B503317 /* Debug */,
+				D9365FBCFFEE9FCFC79EC4C7 /* Release configuration for PBXNativeTarget "Charts" */,
+				0EF2164C35AB4D391B503317 /* Debug configuration for PBXNativeTarget "Charts" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
