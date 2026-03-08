@@ -1,4 +1,5 @@
 import Foundation
+import UniformTypeIdentifiers
 
 /** This file provides a thin abstraction layer atop of UIKit (iOS, tvOS) and Cocoa (OS X). The two APIs are very much 
  alike, and for the chart library's usage of the APIs it is often sufficient to typealias one to the other. The NSUI*
@@ -500,10 +501,10 @@ func NSUIGraphicsPopContext()
   NSGraphicsContext.restoreGraphicsState()
 }
 
-private func NSUIImageRepresentation(_ image: NSUIImage, type: CFString, options: Dictionary<CFString, AnyObject>? = nil) -> Data? {
+private func NSUIImageRepresentation(_ image: NSUIImage, type: UTType, options: Dictionary<CFString, AnyObject>? = nil) -> Data? {
   guard let cgimg = image.cgImage, let data = CFDataCreateMutable(nil, 0) else { return nil }
 
-  guard let dest = CGImageDestinationCreateWithData(data, type, 1, nil) else { return nil }
+  guard let dest = CGImageDestinationCreateWithData(data, type.identifier as CFString, 1, nil) else { return nil }
   CGImageDestinationAddImage(dest, cgimg, options as CFDictionary?)
   if CGImageDestinationFinalize(dest) {
     return data as Data
@@ -513,14 +514,14 @@ private func NSUIImageRepresentation(_ image: NSUIImage, type: CFString, options
 
 func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
 {
-  return NSUIImageRepresentation(image, type: kUTTypePNG)
+  return NSUIImageRepresentation(image, type: UTType.png)
 }
 
 func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: Double = 0.9) -> Data?
 {
-  return NSUIImageRepresentation(image, type: kUTTypeJPEG, options: [
+  return NSUIImageRepresentation(image, type: UTType.jpeg, options: [
     kCGImageDestinationLossyCompressionQuality: quality as NSNumber
-    ])
+  ])
 }
 
 private var imageContextStack: [CGFloat] = []
